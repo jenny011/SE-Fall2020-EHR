@@ -74,7 +74,7 @@ create table time_slot (
 	n_total int NOT NULL,
 	n_booked int DEFAULT 0 ,
 	primary key( time_slot_id),
-	foreign key (doctor_id) references doctor(doctor_id)
+	foreign key (doctor_id) references doctor(id)
 );
 --Application-Appointment
 create table application (
@@ -89,7 +89,7 @@ create table application (
 	reject_reason text NOT NULL,
 	primary key(appt_id),
 	foreign key(time_slot_id) references time_slot(time_slot_id),
-	foreign key(doctor_id) references doctor(doctor_id),
+	foreign key(doctor_id) references doctor(id),
 	foreign key(approver_id) references nurse(nurse_id),
 	foreign key(patient_id) references patient(patient_id)
 );
