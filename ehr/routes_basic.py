@@ -1,5 +1,5 @@
-from __main__ import app
-from models import *
+from ehr import app
+from ehr.models import *
 
 #???? json.dumps or flask.jsonify ????
 #---------------------Home----------------------
