@@ -3,14 +3,23 @@
 install Flask, Flask_SQLAlchemy (dialect), pymysql (connector)
 ### TODO
 ### The first building block
-1. fill in model.py</br>
-2. register, login queries and app behaviors</br>
-  2.a password encryption</br>
-3. deal with requests from frontend</br>
+
+
+| Tasks          | Author       | Start Date   | Estimated time needed | Status |
+| :------------: | :----------: | :----------: | :-------------------:| :------:|
+|Add large amt of fake data to db|Qing|Oct.24|1 day|On-going|
+|fill in model.py|QIng| Oct.24|1 day|On-going|
+| register, login queries and app behaviors| | |
+| ^ sub_task1: password encryption | | |
+|deal with requests from frontend| | |
+
 ### The second building block
-1. doctor add slot</br>
-2. patient search for doctor, etc.</br>
-3. patient select slot</br>
-4. patient appt application</br>
-5. nurse process appt</br>
-6. nurse create mc</br>
+
+| Tasks          | Author       | Start Date   | Estimated time needed |
+| :------------: | :----------: | :----------: | :-------------------:| 
+|doctor add slot|||
+|patient search for doctor, etc.|||
+|patient select slot|||
+|patient appt application|||
+|nurse process appt|||
+|nurse create mc|||
