@@ -1,13 +1,13 @@
 # SE-Fall2020-EHR
 ## iteration 1 backend scripts
 install Flask, Flask_SQLAlchemy (dialect), pymysql (connector)
-###TODO
-###The first building block
+### TODO
+### The first building block
 1. fill in model.py</br>
 2. register, login queries and app behaviors</br>
   2.a password encryption</br>
 3. deal with requests from frontend</br>
-###The second building block
+### The second building block
 1. doctor add slot</br>
 2. patient search for doctor, etc.</br>
 3. patient select slot</br>
