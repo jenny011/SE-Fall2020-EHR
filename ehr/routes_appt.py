@@ -11,7 +11,7 @@ def doctorTimeslot():
 
 		return jsonify({'name': results[0].name})
 	except:
-		return render_template('login.html', error='login failed')
+		return 
 
 
 @app.route('/appointmentApp', methods=['POST'])

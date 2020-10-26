@@ -12,86 +12,55 @@ def home():
 #-------------------Register--------------------
 #-------------------Register--------------------
 
-@app.route('/registerDoctor', methods=['POST'])
-def registerDoctor():
+@app.route('/register', methods=['POST'])
+def register():
+	role = request.form['role']
+	password = request.form['password']
 	name = request.form['name']
 	email = request.form['email']
 	phone = request.form['phone']
-	address = request.form['address']
-	department_id = request.form['department_id']
-	id = ?
-	newDoctor = Doctor(id, name, email, phone, address, department_id)
+	newUser = None
+	if role == "Doctor":
+		license_id = request.form['license_id']
+		department_id = request.form['department_id']
+		id = ?
+		newUser = Doctor(id, password, name, license_id, email, phone, department_id)
+	elif role == "Nurse":
+		license_id = request.form['license_id']
+		department_id = request.form['department_id']
+		id = ?
+		newUser = Nurse(id, password, name, license_id, email, phone, department_id)
+	elif role == "Patient":
+		national_id = request.form['ID']
+		address = request.form['address']
+		id = ?
+		newUser = Patient(id, password, name, national_id, email, phone, address)
 	try:
-		db.session.add(newDoctor)
+		db.session.add(newUser)
 		db.session.commit()
-		return redirect(url_for('/login'))
+		return jsonify({'result': 'success'})
+		#return redirect(url_for('/login'))
 	except:
 		return sys.exc_info()[0]
-
-@app.route('/registerNurse', methods=['POST'])
-def registerNurse():
-	name = request.form['name']
-	email = request.form['email']
-	phone = request.form['phone']
-	address = request.form['address']
-	department_id = request.form['department_id']
-	id = ?
-	newNurse = Nurse(id, name, email, phone, address, department_id)
-	try:
-		db.session.add(newNurse)
-		db.session.commit()
-		return redirect(url_for('/login'))
-	except:
-		return sys.exc_info()[0]
-
-@app.route('/registerPatient', methods=['POST'])
-def registerPatient():
-	name = request.form['name']
-	national_id = request.form['national_id']
-	email = request.form['email']
-	phone = request.form['phone']
-	address = request.form['address']
-	age = request.form['age']
-	gender = request.form['gender']
-	id = ?
-	newPatient = Patient(id, name, national_id, email, phone, address, age, gender)
-	try:
-		db.session.add(newPatient)
-		db.session.commit()
-		return redirect(url_for('/login'))
-	except:
-		return sys.exc_info()[0]
-
 
 #--------------------Login---------------------
 #--------------------Login---------------------
 
-@app.route('/loginDoctor', methods=['POST'])
-def loginDoctor():
+@app.route('/login', methods=['POST'])
+def login():
+	role = request.form['role']
 	email = request.form['email']
 	password = request.form['password']
 	try:
-		results = Doctor.query().filter_by(email='', password='').one()
-		return jsonify({'name': results[0].name})
-	except:
-		return render_template('login.html', error='login failed')
-
-@app.route('/loginNurse', methods=['POST'])
-def loginNurse():
-	email = request.form['email']
-	password = request.form['password']
-	try:
-		results = Nurse.query().filter_by(email='', password='').one()
-		return jsonify({'name': results[0].name})
-	except:
-		return render_template('login.html', error='login failed')
-
-@app.route('/loginPatient', methods=['POST'])
-def loginPatient():
-	email = request.form['email']
-	password = request.form['password']
-	try:
-		results = Patient.query().filter_by(email='', password='').one()
-		return jsonify({'name': results[0].name})
+		results = None
+		if role == "Doctor":
+			results = Doctor.query().filter_by(email='', password='').one()
+			return jsonify({'name': results[0].name})
+		elif role == "Nurse":
+			results = Nurse.query().filter_by(email='', password='').one()
+			return jsonify({'name': results[0].name})
+		elif role == "Patient":
+			results = Patient.query().filter_by(email='', password='').one()
+			return jsonify({'name': results[0].name})
 	except:
 		return render_template('login.html', error='login failed')

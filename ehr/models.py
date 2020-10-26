@@ -34,9 +34,9 @@ class Doctor(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
 	password = db.Column(db.String(100), nullable=False)
 	name = db.Column(db.String(100), nullable=False)
+	license_id = db.Column(db.Strng(100), nullable=False)
 	email = db.Column(db.String(100), unique=True, nullable=False)
 	phone = db.Column(db.String(20))
-	address = db.Column(db.Text())
 	#foreign key
 	department_id = db.Column(db.String(20), \
 		db.ForeignKey('department.id'), nullable=False)
@@ -49,9 +49,9 @@ class Nurse(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
 	password = db.Column(db.String(100), nullable=False)
 	name = db.Column(db.String(100), nullable=False)
+	license_id = db.Column(db.Strng(100), nullable=False)
 	email = db.Column(db.String(100), unique=True, nullable=False)
 	phone = db.Column(db.String(20))
-	address = db.Column(db.Text())
 	#foreign key
 	department_id = db.Column(db.String(20), \
 		db.ForeignKey('department.id'), nullable=False)
@@ -90,7 +90,7 @@ class Time_slot(db.Model):
 		db.ForeignKey('doctor.id'), nullable=False)
 	#one-to-many relationship
 	applications = db.relationship('Application', backref='time_slot', lazy=True)
-  
+
 
 class Application(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
@@ -161,4 +161,3 @@ class Lab_report(db.Model):
 		db.ForeignKey('nurse.id'), nullable=False)
 	patient_id = db.Column(db.String(20), \
 		db.ForeignKey('patient.id'), nullable=False)
-

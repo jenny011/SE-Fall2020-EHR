@@ -6,10 +6,9 @@ from ehr.models import *
 
 @app.route('/doctorHome', methods=['POST'])
 def doctorHome():
-
+	
 	try:
-		db.session.add(newDoctor)
-		db.session.commit()
+
 		return redirect(url_for('/login'))
 	except:
 		return sys.exc_info()[0]
@@ -17,8 +16,7 @@ def doctorHome():
 @app.route('/nurseHome', methods=['POST'])
 def nurseHome():
 	try:
-		db.session.add(newNurse)
-		db.session.commit()
+
 		return redirect(url_for('/login'))
 	except:
 		return sys.exc_info()[0]
@@ -26,8 +24,7 @@ def nurseHome():
 @app.route('/patientHome', methods=['POST'])
 def patientHome():
 	try:
-		db.session.add(newPatient)
-		db.session.commit()
+
 		return redirect(url_for('/login'))
 	except:
 		return sys.exc_info()[0]
