@@ -4,11 +4,9 @@ from ehr.models import *
 #???? json.dumps or jsonify ????
 #---------------------Home----------------------
 #---------------------Home----------------------
-# used for testing for now
 @app.route('/')
-def test():
-	results = Hospital.query.all()
-	return str(results[0])
+def home():
+	return render_template('WeCare.html')
 
 
 #-------------------Register--------------------
