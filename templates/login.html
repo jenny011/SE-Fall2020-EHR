@@ -46,8 +46,7 @@
 		</div>
 
 
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
-	<script type="module" src="/static/login.js"></script>
+	<script crossorigin="anonymous" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" src="https://lib.baomitu.com/jquery/3.5.1/jquery.js"></script>	<script type="module" src="/static/login.js"></script>
 	<script type="text/javascript">
 		//登录页头登录/注册切换按钮
 		renderFormType();
@@ -143,13 +142,13 @@
 		function concatRegister(role){
 			var temp = '';
 			if(role=='patient'){
-				temp+='<form action="" class="form" id="patient-register-form"><div class="register-input" ><label for="legalName">Legal Name</label><input type="text" id="legalName"></div><div class="register-input"><label for="ID">ID</label><input type="text" id="ID"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone"></div><div class="register-input"><label for="Email">Email</label><input type="text" id="Email"></div><div class="register-input"><label for="username">Username</label><input type="text" id="username"></div><div class="register-input"><label for="password">Password</label><input type="text" id="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister">Register</button></div>';
+				temp+='<form action="" class="form" id="patient-register-form"><div class="register-input" ><label for="legalName">Legal Name</label><input type="text" id="legalName" name="legalName"></div><div class="register-input"><label for="ID">ID</label><input type="text" id="ID"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="text" id="Email" name="email"></div><div class="register-input"><label for="username">Username</label><input type="text" id="username" name="username"></div><div class="register-input"><label for="password">Password</label><input type="text" id="password" name="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()">Register</button></div>';
 			}
 			if(role=='doctor'){
-				temp+='<form action="" class="form" id="doctor-register-form"><div class="register-input" ><label for="legalName">Legal Name</label><input type="text" id="legalName"></div><div class="register-input"><label for="LicenseID">License ID</label><input type="text" id="ID"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone"></div><div class="register-input"><label for="Email">Email</label><input type="text" id="Email"></div><div class="register-input"><label for="username">Username</label><input type="text" id="username"></div><div class="register-input"><label for="password">Password</label><input type="text" id="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister">Register</button></div>';
+				temp+='<form action="" class="form" id="doctor-register-form"><div class="register-input" ><label for="legalName">Legal Name</label><input type="text" id="legalName" name="legalName"></div><div class="register-input"><label for="LicenseID">License ID</label><input type="text" id="ID" name="licenseId"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="text" id="Email" name="email"></div><div class="register-input"><label for="username">Username</label><input type="text" id="username" name="username"></div><div class="register-input"><label for="password">Password</label><input type="text" id="password" name="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()"">Register</button></div>';
 			}
 			if(role=='nurse'){
-				temp+='<form action="" class="form" id="nurse-register-form"><div class="register-input" ><label for="legalName">Legal Name</label><input type="text" id="legalName"></div><div class="register-input"><label for="LicenseID">License ID</label><input type="text" id="ID"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone"></div><div class="register-input"><label for="Email">Email</label><input type="text" id="Email"></div><div class="register-input"><label for="username">Username</label><input type="text" id="username"></div><div class="register-input"><label for="password">Password</label><input type="text" id="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister">Register</button></div>'
+				temp+='<form action="" class="form" id="nurse-register-form"><div class="register-input" ><label for="legalName">Legal Name</label><input type="text" id="legalName" name="legalName"></div><div class="register-input"><label for="LicenseID">License ID</label><input type="text" id="ID" name="licenseId"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone"></div><div class="register-input"><label for="Email">Email</label><input type="text" id="Email" name="email"></div><div class="register-input"><label for="username">Username</label><input type="text" id="username"name="userName"></div><div class="register-input"><label for="password">Password</label><input type="text" id="password" name="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()">Register</button></div>'
 			}
 			
 
@@ -164,6 +163,55 @@
 			temp+='<div id="option-container"><div class="login-option" id="forget-password">forget password</div><div class="login-option" id="forget-username">forget username</div></div>';
 
 			return temp;
+		}
+
+		function register(){
+			//获取注册表单角色
+			registerInfo = [];
+			if($('.form').attr('id')=='doctor-register-form'){
+				console.log('医生注册');
+				var registerInfo = $('.form').serializeArray();
+				registerInfo = jsonify(registerInfo);
+				registerInfo["register-role"]="doctor";
+				// console.log(registerInfo);
+			}
+			if($('.form').attr('id')=='nurse-register-form'){
+				console.log('护士注册');
+				var registerInfo = $('.form').serializeArray();
+				registerInfo = jsonify(registerInfo);
+				registerInfo["register-role"]="nurse";
+				// console.log(registerInfo);
+			}
+			if($('.form').attr('id')=='patient-register-form'){
+				console.log('病人注册');
+				var registerInfo = $('.form').serializeArray();
+				registerInfo = jsonify(registerInfo);
+				registerInfo["register-role"]="patient";
+				// console.log(registerInfo);
+			}
+			console.log(registerInfo);
+
+			//ajax请求
+			jQuery.ajax({
+				url: "http://localhost:5000/WeCare/register",
+				data:registerInfo,
+				success:function(data){
+					console.log(data);
+					
+					goLogin();
+					}				
+				}
+
+			)
+		}
+
+		//表单数据json化 通用函数
+		function jsonify(data){
+			var obj = {};
+			for(var i=0;i<data.length;i++){
+				obj[data[i].name]=data[i].value;
+			}
+			return obj;
 		}
 </script>
 </body>
