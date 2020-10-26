@@ -9,9 +9,9 @@ install Flask, Flask_SQLAlchemy (dialect), pymysql (connector)
 | :------------: | :----------: | :----------: | :-------------------:| :------:|
 |Add large amt of fake data to db|Qing|Oct.24|1 day|On-going|
 |fill in model.py|QIng| Oct.24|1 day|On-going|
-| register, login queries and app behaviors| | |
-| ^ sub_task1: password encryption | | |
-|deal with requests from frontend| | |
+|Try request and respond|Jenny|10/26|1 day|On-going|
+|register, login queries and app behaviors| | |
+| ^ sub_task2: password encryption | | |
 
 ### The second building block
 
