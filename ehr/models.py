@@ -31,10 +31,9 @@ class Department(db.Model):
 
 
 class Doctor(db.Model):
-	id = db.Column(db.String(20), primary_key=True)
+	license_id = db.Column(db.String(20), primary_key=True)
 	password = db.Column(db.String(100), nullable=False)
 	name = db.Column(db.String(100), nullable=False)
-	license_id = db.Column(db.Strng(100), nullable=False)
 	email = db.Column(db.String(100), unique=True, nullable=False)
 	phone = db.Column(db.String(20))
 	#foreign key
@@ -46,10 +45,9 @@ class Doctor(db.Model):
 
 
 class Nurse(db.Model):
-	id = db.Column(db.String(20), primary_key=True)
+	license_id = db.Column(db.String(20), primary_key=True)
 	password = db.Column(db.String(100), nullable=False)
 	name = db.Column(db.String(100), nullable=False)
-	license_id = db.Column(db.Strng(100), nullable=False)
 	email = db.Column(db.String(100), unique=True, nullable=False)
 	phone = db.Column(db.String(20))
 	#foreign key
@@ -65,7 +63,6 @@ class Patient(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
 	password = db.Column(db.String(100), nullable=False)
 	name = db.Column(db.String(100), nullable=False)
-	national_id = db.Column(db.String(100), nullable=False)
 	email = db.Column(db.String(100), unique=True, nullable=False)
 	phone = db.Column(db.String(20))
 	address = db.Column(db.Text())

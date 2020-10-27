@@ -14,34 +14,48 @@ def home():
 
 @app.route('/register', methods=['POST'])
 def register():
-	role = request.form['role']
+	role = request.form['registerRole']
 	password = request.form['password']
-	name = request.form['name']
+	name = request.form['legalName']
 	email = request.form['email']
 	phone = request.form['phone']
-	newUser = None
 	if role == "Doctor":
 		license_id = request.form['license_id']
-		department_id = request.form['department_id']
-		id = ?
-		newUser = Doctor(id, password, name, license_id, email, phone, department_id)
+		try:
+			doctor = Doctor.query().get(license_id)
+			doctor.password = password
+			doctor.name = name
+			doctor.email = email
+			doctor.phone = phone
+			db.session.commit()
+			return jsonify({'result': 'success'})
+			#return redirect(url_for('/login'))
+		except:
+			return sys.exc_info()[0]
 	elif role == "Nurse":
 		license_id = request.form['license_id']
-		department_id = request.form['department_id']
-		id = ?
-		newUser = Nurse(id, password, name, license_id, email, phone, department_id)
+		try:
+			nurse = Nurse.query().get(license_id)
+			nurse.password = password
+			nurse.name = name
+			nurse.email = email
+			nurse.phone = phone
+			db.session.commit()
+			return jsonify({'result': 'success'})
+			#return redirect(url_for('/login'))
+		except:
+			return sys.exc_info()[0]
 	elif role == "Patient":
-		national_id = request.form['ID']
+		id = request.form['ID']
 		address = request.form['address']
-		id = ?
-		newUser = Patient(id, password, name, national_id, email, phone, address)
-	try:
-		db.session.add(newUser)
-		db.session.commit()
-		return jsonify({'result': 'success'})
-		#return redirect(url_for('/login'))
-	except:
-		return sys.exc_info()[0]
+		newPatient = Patient(id, password, name, email, phone, address)
+		try:
+			db.session.add(newPatient)
+			db.session.commit()
+			return jsonify({'result': 'success'})
+			#return redirect(url_for('/login'))
+		except:
+			return sys.exc_info()[0]
 
 #--------------------Login---------------------
 #--------------------Login---------------------
