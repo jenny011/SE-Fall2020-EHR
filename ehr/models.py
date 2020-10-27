@@ -1,6 +1,6 @@
-# from __main__ import db
-from collections import UserList
+from werkzeug.security import check_password_hash, generate_password_hash
 from ehr import db
+
 
 class Hospital(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
@@ -35,6 +35,10 @@ class Department(db.Model):
 			phone: {self.phone}, address: {self.address}, description: {self.description}\
 				hospital_id: {self.hospital_id} >'
 
+	def set_password(self, password):
+		self.password_hash = generate_password_hash(password)
+	def check_password(self, password):
+		return check_password_hash(self.password_hash, password)
 
 class Doctor(db.Model):
 	license_id = db.Column(db.String(20), primary_key=True)
@@ -43,6 +47,7 @@ class Doctor(db.Model):
 	last_name = db.Column(db.String(100), nullable=False)
 	email = db.Column(db.String(100), unique=True, nullable=False)
 	phone = db.Column(db.String(20))
+	password_hash = db.Column(db.String(120))
 	#foreign key
 	department_id = db.Column(db.String(20),\
 		db.ForeignKey('department.id'), nullable=False)
@@ -56,6 +61,11 @@ class Doctor(db.Model):
 		return f'Doctor < license_id: {self.id}, name: {self.first_name + self.last_name}, \
 			phone: {self.phone}, email: {self.email}, address: {self.address}, description: {self.description}\
 				department_id: {self.department_id}, hospital_id: {self.hospital_id} >'
+	
+	def set_password(self, password):
+		self.password_hash = generate_password_hash(password)
+	def check_password(self, password):
+		return check_password_hash(self.password_hash, password)
 
 class Nurse(db.Model):
 	license_id = db.Column(db.String(20), primary_key=True)
@@ -64,6 +74,8 @@ class Nurse(db.Model):
 	last_name = db.Column(db.String(100), nullable=False)
 	email = db.Column(db.String(100), unique=True, nullable=False)
 	phone = db.Column(db.String(20))
+	password_hash = db.Column(db.String(120))
+
 	#foreign key
 	department_id = db.Column(db.String(20), \
 		db.ForeignKey('department.id'), nullable=False)
@@ -77,6 +89,11 @@ class Nurse(db.Model):
 			phone: {self.phone}, email: {self.email}, address: {self.address}, \
 				department_id: {self.department_id}, hospital_id: {self.hospital_id} >'
 
+	def set_password(self, password):
+		self.password_hash = generate_password_hash(password)
+	def check_password(self, password):
+		return check_password_hash(self.password_hash, password)
+
 class Patient(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
 	password = db.Column(db.String(100), nullable=False)
@@ -89,12 +106,17 @@ class Patient(db.Model):
 	gender = db.Column(db.Enum('male', 'female'))
 	blood_type = db.Column(db.String(10))
 	allergies = db.Column(db.Text())
+	password_hash = db.Column(db.String(120))
 	#one-to-many relationship
 	applications = db.relationship('Application', backref='patient', lazy=True)
 	medical_records = db.relationship('Medical_record', backref='patient', lazy=True)
 	lab_reports = db.relationship('Lab_report', backref='patient', lazy=True)
-
-
+	
+	def set_password(self, password):
+		self.password_hash = generate_password_hash(password)
+	def check_password(self, password):
+		return check_password_hash(self.password_hash, password)
+		
 class Time_slot(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
 	slot_date = db.Column(db.DateTime(), nullable=False)
@@ -111,7 +133,7 @@ class Time_slot(db.Model):
 		return f'Time_slot < id: {self.id}, slot_date: {self.slot_date}, \
 			slot_time: {self.slot_time}, n_total: {self.n_total}, n_booked: {self.n_booked}, \
 				doctor_id: {self.doctor_id} >'
-
+		
 class Application(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
 	app_timestamp = db.Column(db.TIMESTAMP())
