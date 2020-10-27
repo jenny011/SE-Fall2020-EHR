@@ -1,6 +1,7 @@
 from ehr import app
 from ehr.models import *
 
+
 #-------------------Homepages--------------------
 #-------------------Homepages--------------------
 
@@ -16,7 +17,6 @@ def doctorHome():
 @app.route('/nurseHome', methods=['POST'])
 def nurseHome():
 	try:
-
 		return redirect(url_for('/login'))
 	except:
 		return sys.exc_info()[0]
@@ -24,7 +24,6 @@ def nurseHome():
 @app.route('/patientHome', methods=['POST'])
 def patientHome():
 	try:
-
 		return redirect(url_for('/login'))
 	except:
 		return sys.exc_info()[0]
