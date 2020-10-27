@@ -34,6 +34,7 @@ class Department(db.Model):
 			phone: {self.phone}, address: {self.address}, description: {self.description}\
 				hospital_id: {self.hospital_id} >'
 
+
 class Doctor(db.Model):
 	license_id = db.Column(db.String(20), primary_key=True)
 	password = db.Column(db.String(100), nullable=False)

@@ -28,8 +28,8 @@ def register():
 			doctor.email = email
 			doctor.phone = phone
 			db.session.commit()
-			return jsonify({'result': 'success'})
-			#return redirect(url_for('/login'))
+			return render_template('doctorHome', data=data)
+			#return jsonify({'result': 'success'})
 		except:
 			return sys.exc_info()[0]
 	elif role == "Nurse":
@@ -41,8 +41,8 @@ def register():
 			nurse.email = email
 			nurse.phone = phone
 			db.session.commit()
-			return jsonify({'result': 'success'})
-			#return redirect(url_for('/login'))
+			return render_template('nurseHome', data=data)
+			#return jsonify({'result': 'success'})
 		except:
 			return sys.exc_info()[0]
 	elif role == "Patient":
@@ -52,8 +52,8 @@ def register():
 		try:
 			db.session.add(newPatient)
 			db.session.commit()
-			return jsonify({'result': 'success'})
-			#return redirect(url_for('/login'))
+			return render_template('patientHome', data=data)
+			#return jsonify({'result': 'success'})
 		except:
 			return sys.exc_info()[0]
 
@@ -63,18 +63,41 @@ def register():
 @app.route('/login', methods=['POST'])
 def login():
 	role = request.form['role']
-	email = request.form['email']
+	id = request.form['id']
 	password = request.form['password']
+	user = None
 	try:
-		results = None
 		if role == "Doctor":
-			results = Doctor.query().filter_by(email='', password='').one()
-			return jsonify({'name': results[0].name})
+			user = Doctor.query().filter_by(id='', password='').one()
 		elif role == "Nurse":
-			results = Nurse.query().filter_by(email='', password='').one()
-			return jsonify({'name': results[0].name})
+			user = Nurse.query().filter_by(id='', password='').one()
 		elif role == "Patient":
-			results = Patient.query().filter_by(email='', password='').one()
-			return jsonify({'name': results[0].name})
+			user = Patient.query().filter_by(id='', password='').one()
+		if user:
+			session['id'] = id
+		return render_template('patientHome', data=data)
 	except:
-		return render_template('login.html', error='login failed')
+		return sys.exc_info()[0]
+		
+
+#--------------------Logout---------------------
+#--------------------Logout---------------------
+
+@app.route('/logout', methods=['POST'])
+def logout():
+	role = request.form['role']
+	id = request.form['id']
+	password = request.form['password']
+	user = None
+	try:
+		if role == "Doctor":
+			user = Doctor.query().filter_by(id='', password='').one()
+		elif role == "Nurse":
+			user = Nurse.query().filter_by(id='', password='').one()
+		elif role == "Patient":
+			user = Patient.query().filter_by(id='', password='').one()
+		if user:
+			session['id'] = id
+		return jsonify({'name': user[0].name})
+	except:
+		return sys.exc_info()[0]
