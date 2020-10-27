@@ -23,7 +23,7 @@ def appointmentApp():
 	try:
 		id =
 		timestamp = datetime.now()
-		newApp = Application(id, timestamp, symptomps, 'pending', None, slot_id, doctor_id, None, patient_id)
+		newApp = Application(id, timestamp, symptoms, 'pending', None, slot_id, doctor_id, None, patient_id)
 		db.session.add(newApp)
 		db.commit()
 		return 'submitted'

@@ -42,7 +42,7 @@ class Doctor(db.Model):
 	email = db.Column(db.String(100), unique=True, nullable=False)
 	phone = db.Column(db.String(20))
 	#foreign key
-	department_id = db.Column(db.String(20), \
+	department_id = db.Column(db.String(20),\
 		db.ForeignKey('department.id'), nullable=False)
 	hospital_id = db.Column(db.String(20),\
 		db.ForeignKey("hospital.id"), nullable=False)
@@ -51,7 +51,7 @@ class Doctor(db.Model):
 	applications = db.relationship('Application', backref='doctor', lazy=True)
 
 	def __repr__(self):
-		return f'Doctor < id: {self.id}, name: {self.name}, \
+		return f'Doctor < license_id: {self.id}, name: {self.name}, \
 			phone: {self.phone}, email: {self.email}, address: {self.address}, description: {self.description}\
 				department_id: {self.department_id}, hospital_id: {self.hospital_id} >'
 
@@ -99,7 +99,7 @@ class Time_slot(db.Model):
 	n_booked = db.Column(db.Integer())
 	#foreign key
 	doctor_id = db.Column(db.String(20), \
-		db.ForeignKey('doctor.id'), nullable=False)
+		db.ForeignKey('doctor.license_id'), nullable=False)
 	#one-to-many relationship
 	applications = db.relationship('Application', backref='time_slot', lazy=True)
 
@@ -118,7 +118,7 @@ class Application(db.Model):
 	time_slot_id = db.Column(db.String(20), \
 		db.ForeignKey('time_slot.id'), nullable=False)
 	doctor_id = db.Column(db.String(20), \
-		db.ForeignKey('doctor.id'), nullable=False)
+		db.ForeignKey('doctor.license_id'), nullable=False)
 	approver_id = db.Column(db.String(20), \
 		db.ForeignKey('nurse.id'), nullable=False)
 	patient_id = db.Column(db.String(20), \
