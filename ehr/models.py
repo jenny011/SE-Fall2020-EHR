@@ -18,7 +18,8 @@ class Hospital(db.Model):
 
 class Department(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
-	name = db.Column(db.String(100), nullable=False)
+	first_name = db.Column(db.String(100), nullable=False)
+	last_name = db.Column(db.String(100), nullable=False)
 	phone = db.Column(db.String(20))
 	address = db.Column(db.Text())
 	description = db.Column(db.Text())
@@ -30,7 +31,7 @@ class Department(db.Model):
 	nurses = db.relationship('Nurse', backref='department', lazy=True)
 
 	def __repr__(self):
-		return f'Department < id: {self.id}, name: {self.name}, \
+		return f'Department < id: {self.id}, name: {self.first_name + self.last_name}, \
 			phone: {self.phone}, address: {self.address}, description: {self.description}\
 				hospital_id: {self.hospital_id} >'
 
@@ -38,7 +39,8 @@ class Department(db.Model):
 class Doctor(db.Model):
 	license_id = db.Column(db.String(20), primary_key=True)
 	password = db.Column(db.String(100), nullable=False)
-	name = db.Column(db.String(100), nullable=False)
+	first_name = db.Column(db.String(100), nullable=False)
+	last_name = db.Column(db.String(100), nullable=False)
 	email = db.Column(db.String(100), unique=True, nullable=False)
 	phone = db.Column(db.String(20))
 	#foreign key
@@ -51,14 +53,15 @@ class Doctor(db.Model):
 	applications = db.relationship('Application', backref='doctor', lazy=True)
 
 	def __repr__(self):
-		return f'Doctor < license_id: {self.id}, name: {self.name}, \
+		return f'Doctor < license_id: {self.id}, name: {self.first_name + self.last_name}, \
 			phone: {self.phone}, email: {self.email}, address: {self.address}, description: {self.description}\
 				department_id: {self.department_id}, hospital_id: {self.hospital_id} >'
 
 class Nurse(db.Model):
 	license_id = db.Column(db.String(20), primary_key=True)
 	password = db.Column(db.String(100), nullable=False)
-	name = db.Column(db.String(100), nullable=False)
+	first_name = db.Column(db.String(100), nullable=False)
+	last_name = db.Column(db.String(100), nullable=False)
 	email = db.Column(db.String(100), unique=True, nullable=False)
 	phone = db.Column(db.String(20))
 	#foreign key
@@ -70,14 +73,15 @@ class Nurse(db.Model):
 	lab_reports = db.relationship('Lab_report', backref='nurse', lazy=True)
 
 	def __repr__(self):
-		return f'Nurse < id: {self.id}, name: {self.name}, \
+		return f'Nurse < id: {self.id}, name: {self.first_name + self.last_name}, \
 			phone: {self.phone}, email: {self.email}, address: {self.address}, \
 				department_id: {self.department_id}, hospital_id: {self.hospital_id} >'
 
 class Patient(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
 	password = db.Column(db.String(100), nullable=False)
-	name = db.Column(db.String(100), nullable=False)
+	first_name = db.Column(db.String(100), nullable=False)
+	last_name = db.Column(db.String(100), nullable=False)
 	email = db.Column(db.String(100), unique=True, nullable=False)
 	phone = db.Column(db.String(20))
 	address = db.Column(db.Text())
