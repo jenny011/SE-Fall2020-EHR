@@ -7,9 +7,9 @@ function renderNotice(data){
 	var date = new Date();
 
 	//console.log(date);
-	arr.push({'id':1,'time':date,'hospital':'医院','dept':'科室','doctor':'医生','state':'未开始'});
-	arr.push({'id':2,'time':date,'hospital':'医院','dept':'科室','doctor':'医生','state':'未开始'});
-	arr.push({'id':3,'time':date,'hospital':'医院','dept':'科室','doctor':'医生','state':'已结束'});
+	arr.push({'id':1,'time':date,'hospital':'hospital','dept':'department','doctor':'doctor','state':'upcoming'});
+	arr.push({'id':2,'time':date,'hospital':'hospital','dept':'department','doctor':'doctor','state':'upcoming'});
+	arr.push({'id':3,'time':date,'hospital':'hospital','dept':'department','doctor':'doctor','state':'finished'});
 
 	//拼接notice
 	for(var i=0;i<arr.length;i++){
@@ -27,7 +27,7 @@ function renderNotice(data){
 }
 //根据预约状态渲染状态 div 颜色
 function renderState(state,id){
-	if(state=='未开始'){
+	if(state=='upcoming'){
 		document.getElementById(id).style.background='#53AD06';
 	}
 	else{
