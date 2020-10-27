@@ -1,4 +1,5 @@
 # from __main__ import db
+from collections import UserList
 from ehr import db
 
 class Hospital(db.Model):
@@ -11,9 +12,8 @@ class Hospital(db.Model):
 	departments = db.relationship('Department', backref='hospital', lazy=True)
 
 	def __repr__(self):
-		return "Hospital < id: {0}, name: {1}, \
-			phone: {2}, address: {3}, description: {4} >"\
-			.format(self.id, self.name, self.phone, self.address, self.description)
+		return f'Hospital < id: {self.id}, name: {self.name}, \
+			phone: {self.phone}, address: {self.address}, description: {self.description} >'
 
 
 class Department(db.Model):
@@ -29,6 +29,10 @@ class Department(db.Model):
 	doctors = db.relationship('Doctor', backref='department', lazy=True)
 	nurses = db.relationship('Nurse', backref='department', lazy=True)
 
+	def __repr__(self):
+		return f'Department < id: {self.id}, name: {self.name}, \
+			phone: {self.phone}, address: {self.address}, description: {self.description}\
+				hospital_id: {self.hospital_id} >'
 
 class Doctor(db.Model):
 	license_id = db.Column(db.String(20), primary_key=True)
@@ -39,10 +43,16 @@ class Doctor(db.Model):
 	#foreign key
 	department_id = db.Column(db.String(20), \
 		db.ForeignKey('department.id'), nullable=False)
+	hospital_id = db.Column(db.String(20),\
+		db.ForeignKey("hospital.id"), nullable=False)
 	#one-to-many relationship
 	time_slots = db.relationship('Time_slot', backref='doctor', lazy=True)
 	applications = db.relationship('Application', backref='doctor', lazy=True)
 
+	def __repr__(self):
+		return f'Doctor < id: {self.id}, name: {self.name}, \
+			phone: {self.phone}, email: {self.email}, address: {self.address}, description: {self.description}\
+				department_id: {self.department_id}, hospital_id: {self.hospital_id} >'
 
 class Nurse(db.Model):
 	license_id = db.Column(db.String(20), primary_key=True)
@@ -58,6 +68,10 @@ class Nurse(db.Model):
 	medical_records = db.relationship('Medical_record', backref='nurse', lazy=True)
 	lab_reports = db.relationship('Lab_report', backref='nurse', lazy=True)
 
+	def __repr__(self):
+		return f'Nurse < id: {self.id}, name: {self.name}, \
+			phone: {self.phone}, email: {self.email}, address: {self.address}, \
+				department_id: {self.department_id}, hospital_id: {self.hospital_id} >'
 
 class Patient(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
@@ -88,6 +102,10 @@ class Time_slot(db.Model):
 	#one-to-many relationship
 	applications = db.relationship('Application', backref='time_slot', lazy=True)
 
+	def __repr__(self):
+		return f'Time_slot < id: {self.id}, slot_date: {self.slot_date}, \
+			slot_time: {self.slot_time}, n_total: {self.n_total}, n_booked: {self.n_booked}, \
+				doctor_id: {self.doctor_id} >'
 
 class Application(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
@@ -104,9 +122,13 @@ class Application(db.Model):
 		db.ForeignKey('nurse.id'), nullable=False)
 	patient_id = db.Column(db.String(20), \
 		db.ForeignKey('patient.id'), nullable=False)
-	#one-to-many relationship
-	medical_records = db.relationship('Medical_record', backref='application', lazy=True)
+	#one-to-one relationship
+	medical_record = db.relationship('Medical_record', backref='application', uselist=False ,lazy=True)
 
+	def __repr__(self):
+		return f'Application < id: {self.id}, app_timestamp: {self.app_timestamp}, \
+			status: {self.status}, time_slot_id: {self.time_slot_id}, approver_id: {self.approver_id}, \
+				doctor_id: {self.doctor_id}, patient_id: {self.patient_id} >'
 
 class Medical_record(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
@@ -114,7 +136,7 @@ class Medical_record(db.Model):
 	body_pressure = db.Column(db.Float(1))
 	heart_rate = db.Column(db.Integer())
 	weight = db.Column(db.Float(1))
-	state = db.Column(db.Enum('conscious', 'coma'))
+	state = db.Column(db.Enum('conscious', 'coma'), default="conscious")
 	#foreign key
 	patient_id = db.Column(db.String(20), \
 		db.ForeignKey('patient.id'), nullable=False)
@@ -126,6 +148,9 @@ class Medical_record(db.Model):
 	lab_reports = db.relationship('Lab_report', backref='medical_record', lazy=True)
 	prescription = db.relationship('Prescription', backref='medical_record', lazy=True)
 
+	def __repr__(self):
+		return f'Medical_record < id: {self.id}, appt_id: {self.appt_id}, \
+			nurse_id: {self.nurse_id}, patient_id: {self.patient_id} >'
 
 class Prescription(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
@@ -136,14 +161,16 @@ class Prescription(db.Model):
 	mc_id = db.Column(db.String(20), \
 		db.ForeignKey('medical_record.id'), nullable=False)
 
+	def __repr__(self):
+		return f'Prescription < id: {self.id}, mc_id: {self.mc_id} >'
 
 class Lab_report_type(db.Model):
-
 	type = db.Column(db.String(50), primary_key=True)
 	description = db.Column(db.Text())
-	#one-to-many relationship
+	#one-to-many relationship, one report type might contains sereval reports.
 	lab_reports = db.relationship('Lab_report', backref='lab_report_type', lazy=True)
-
+	def __repr__(self):
+		return f'Lab_report_type < type: {self.type}, number of lab reports: {len(self.lab_reports)} >'
 
 class Lab_report(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
@@ -158,3 +185,8 @@ class Lab_report(db.Model):
 		db.ForeignKey('nurse.id'), nullable=False)
 	patient_id = db.Column(db.String(20), \
 		db.ForeignKey('patient.id'), nullable=False)
+
+	def __repr__(self):
+		return f'Lab_report < id: {self.id}, (report_)type: {len(self.type)},\
+			mc_id: {self.mc_id}, uploader_id: {self.uploader_id},\
+				patient_id: {self.patient_id} >'

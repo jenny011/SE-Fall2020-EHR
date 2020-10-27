@@ -7,7 +7,7 @@ install Flask, Flask_SQLAlchemy (dialect), pymysql (connector)
 
 | Tasks          | Author       | Start Date   | Estimated time needed | Status |
 | :------------: | :----------: | :----------: | :-------------------:| :------:|
-|Add large amt of fake data to db|Qing|Oct.24|1 day|On-going|
+|Add large amt of fake data to db(https://www.mockaroo.com/)|Qing|Oct.24|1 day|On-going|
 |fill in model.py|QIng| Oct.24|1 day|On-going|
 |request and respond|Jenny|10/26|1 day|Done|
 |register and login|10/27|1 day|On-going|
