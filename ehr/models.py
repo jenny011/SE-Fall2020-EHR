@@ -1,6 +1,20 @@
+from inspect import indentsize
 from werkzeug.security import check_password_hash, generate_password_hash
 from ehr import db
+from flask import session
+from flask_login import UserMixin # UserMixin conains four useful login function 
+								  # [https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-v-user-logins]
+from ehr import login
 
+@login.user_loader
+def load_user(identifier): # haven't decided which identifier to use. ID or Email?
+	role_type = session.get('role_type')
+	if role_type == "Doctor":
+		return Doctor.query.get(identifier) 
+	elif role_type == 'Nurse':
+		return Nurse.query.get(identifier)
+	elif role_type == 'Patient':
+		return Patient.query.get(identifier)
 
 class Hospital(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
