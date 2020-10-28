@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>welcome to WeCare</title>
-	<link rel="stylesheet" href="/static/WC_index.css">
+	<link rel="stylesheet" href="/static/login.css">
 
 </head>
 <body>
@@ -21,16 +21,16 @@
 				<form action="" class='form' id="login-form">
 				<div class="login-input" id='input-name' >
 					<label for="username">User</label>
-					<input type="text" id="login-username">
+					<input type="text" id="login-username" name="username">
 				</div>
 				<div class="login-input" id='login-input-pass'>
 					<label for="password">Password</label>
-					<input type="text" id="password">
+					<input type="text" id="password" name="password">
 
 				</div>
 			</form>
 			<div id="login-btn-wrapper">
-				<button type="button" class="primary-btn" id='doLogin'>Login</button>
+				<button type="button" class="primary-btn" id='doLogin' onclick="login()">Login</button>
 			</div>
 
 			<div id="option-container">
@@ -118,7 +118,10 @@
 		function clearRegisterForm(){
 			$('.form').remove();
 			$('.register-btn-wrapper').remove();
-
+			// $('')
+			if($('.register-msg-container')){
+				$('.register-msg-container').remove();
+			}
 		}
 		//清空表单和忘记密码
 		function clearLoginForm(){
@@ -165,8 +168,27 @@
 			return temp;
 		}
 
+		function login(){
+			onWaitingChangeStyle();
+			var data = $('.form').serializeArray();
+			data=jsonify(data);
+			console.log(data);
+			$.ajax({
+				url:"http://localhost:5000/WeCare/login",
+				data:data,
+				success:function(data){
+					console.log(data);
+					clearLoginForm();
+					$('#login-form-mode-bar').remove();
+					showLoginMessage(data);
+				}
+			})
+		}
+
+
 		function register(){
 			//获取注册表单角色
+			onWaitingChangeStyle();
 			registerInfo = [];
 			if($('.form').attr('id')=='doctor-register-form'){
 				console.log('医生注册');
@@ -197,14 +219,47 @@
 				data:registerInfo,
 				success:function(data){
 					console.log(data);
-					
-					goLogin();
+					showRegisterMessage(data);
+					setTimeout(goLogin,2000);
+					// goLogin();
 					}				
 				}
 
 			)
 		}
 
+		//等待过程中改变表单颜色 
+		function onWaitingChangeStyle(){
+			var labels=document.getElementsByTagName('label');
+			for(var i=0;i<labels.length;i++){
+				labels[i].style.color='grey';
+			}
+		}
+
+		function showRegisterMessage(data){
+			clearRegisterForm();
+			if(data=='success'){
+				var temp ='<div class="register-msg-container"id="register-message-success">'+data+"</div>";
+			}
+			if(data=='failure'){
+
+			}
+
+			$('#login-field').append(temp);
+			
+		}
+
+		function showLoginMessage(data){
+			clearLoginForm();
+			if(data=="success"){
+				var temp ='<div class="login-msg-container" id="success-login-msg">'+data+'</div>';
+			}
+			if(data=='failure'){
+
+			}
+			$('#login-field').append(temp);
+
+		}
 		//表单数据json化 通用函数
 		function jsonify(data){
 			var obj = {};
