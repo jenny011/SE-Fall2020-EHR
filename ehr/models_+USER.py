@@ -97,7 +97,7 @@ class Doctor(db.Model):
 
 
 	def __repr__(self):
-		return f'Doctor < license_id: {self.license_id} >''
+		return f'Doctor < license_id: {self.license_id} >'
 
 
 class Nurse(db.Model):
