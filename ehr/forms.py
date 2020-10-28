@@ -29,6 +29,8 @@ class RegisterForm(FlaskForm):
     phone = StringField(label="Phone")
     submit = SubmitField(label="Register")
 
+    # any function with function name "validation_<field name>"
+    # will run automatically together with the above validator.
     def validate_id_email(self, id, email):
         check_id = User.query.filter_by(id=id)
         if check_id is not None:
