@@ -59,6 +59,8 @@ def register():
 
 #--------------------Login---------------------
 #--------------------Login---------------------
+#login_required
+#authentication
 
 @app.route('/login', methods=['POST'])
 def login():

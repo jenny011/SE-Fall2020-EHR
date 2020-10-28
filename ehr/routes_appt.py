@@ -13,7 +13,6 @@ def doctorTimeslot():
 	except:
 		return 
 
-
 @app.route('/appointmentApp', methods=['POST'])
 def appointmentApp():
 	symptoms = request.form['symptoms']
