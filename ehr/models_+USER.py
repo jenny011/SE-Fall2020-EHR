@@ -1,10 +1,13 @@
 from inspect import indentsize
+from sqlalchemy.sql.schema import ForeignKey
 from werkzeug.security import check_password_hash, generate_password_hash
 from ehr import db
 from flask import session
 from flask_login import UserMixin # UserMixin conains four useful login function 
 								  # [https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-v-user-logins]
 from ehr import login
+import enum
+from sqlalchemy import Enum
 
 @login.user_loader
 def load_user(identifier): # haven't decided which identifier to use. ID or Email?
@@ -54,83 +57,92 @@ class Department(db.Model):
 	def check_password(self, password):
 		return check_password_hash(self.password_hash, password)
 
-class Doctor(db.Model):
-	license_id = db.Column(db.String(20), primary_key=True)
-	password = db.Column(db.String(100), nullable=False)
+# Enum Type example reference :
+# https://stackoverflow.com/questions/58049679/can-i-have-array-enum-column-with-flask-sqlalchemy
+class RoleEnum(enum.Enum):
+	doctor = "doctor"
+	nurse = "nurse"
+	patient = "patient"
+	admin = "admin"
+
+class User(UserMixin, db.Model):
+	id = db.Column(db.String(20), primary_key=True)
 	first_name = db.Column(db.String(100), nullable=False)
 	last_name = db.Column(db.String(100), nullable=False)
+	role = db.Column(db.Enum(RoleEnum), nullable=False) # should we set a default role? default=RoleEnum.patient
+	password_hash = db.Column(db.String(120))
 	email = db.Column(db.String(100), unique=True, nullable=False)
 	phone = db.Column(db.String(20))
-	password_hash = db.Column(db.String(120))
-	#foreign key
-	department_id = db.Column(db.String(20),\
-		db.ForeignKey('department.id'), nullable=False)
-	hospital_id = db.Column(db.String(20),\
-		db.ForeignKey("hospital.id"), nullable=False)
-	#one-to-many relationship
-	time_slots = db.relationship('Time_slot', backref='doctor', lazy=True)
-	applications = db.relationship('Application', backref='doctor', lazy=True)
 
-	def __repr__(self):
-		return f'Doctor < license_id: {self.id}, name: {self.first_name + self.last_name}, \
-			phone: {self.phone}, email: {self.email}, address: {self.address}, description: {self.description}\
-				department_id: {self.department_id}, hospital_id: {self.hospital_id} >'
-	
 	def set_password(self, password):
 		self.password_hash = generate_password_hash(password)
 	def check_password(self, password):
 		return check_password_hash(self.password_hash, password)
 
-class Nurse(db.Model):
-	license_id = db.Column(db.String(20), primary_key=True)
-	password = db.Column(db.String(100), nullable=False)
-	first_name = db.Column(db.String(100), nullable=False)
-	last_name = db.Column(db.String(100), nullable=False)
-	email = db.Column(db.String(100), unique=True, nullable=False)
-	phone = db.Column(db.String(20))
-	password_hash = db.Column(db.String(120))
+class Doctor(db.Model):
 
+	#foreign key
+	license_id = license_id = db.Column(db.String(20),
+							            db.ForeignKey('user.id'), 
+										primary_key=True)
+
+	department_id = db.Column(db.String(20),\
+		db.ForeignKey('department.id'), nullable=False)
+	hospital_id = db.Column(db.String(20),\
+		db.ForeignKey("hospital.id"), nullable=False)
+	
+	#one-to-many relationship
+	time_slots = db.relationship('Time_slot', backref='doctor', lazy=True)
+	applications = db.relationship('Application', backref='doctor', lazy=True)
+
+
+	def __repr__(self):
+		return f'Doctor < license_id: {self.license_id} >''
+
+
+class Nurse(db.Model):
+	
 	#foreign key
 	department_id = db.Column(db.String(20), \
 		db.ForeignKey('department.id'), nullable=False)
+	license_id = db.Column(db.String(20),
+				           db.ForeignKey('user.id'), 
+						   primary_key=True)
 	#one-to-many relationship
 	applications = db.relationship('Application', backref='nurse', lazy=True)
 	medical_records = db.relationship('Medical_record', backref='nurse', lazy=True)
 	lab_reports = db.relationship('Lab_report', backref='nurse', lazy=True)
 
 	def __repr__(self):
-		return f'Nurse < id: {self.id}, name: {self.first_name + self.last_name}, \
-			phone: {self.phone}, email: {self.email}, address: {self.address}, \
-				department_id: {self.department_id}, hospital_id: {self.hospital_id} >'
+		return f'Nurse < id: {self.license_id} >'
 
 	def set_password(self, password):
 		self.password_hash = generate_password_hash(password)
 	def check_password(self, password):
 		return check_password_hash(self.password_hash, password)
 
+class GenderEnum(enum.Enum):
+	male = 'male'
+	female = 'female'
+
 class Patient(db.Model):
-	id = db.Column(db.String(20), primary_key=True)
-	password = db.Column(db.String(100), nullable=False)
-	first_name = db.Column(db.String(100), nullable=False)
-	last_name = db.Column(db.String(100), nullable=False)
-	email = db.Column(db.String(100), unique=True, nullable=False)
-	phone = db.Column(db.String(20))
-	address = db.Column(db.Text())
+
 	age = db.Column(db.SmallInteger())
-	gender = db.Column(db.Enum('male', 'female'))
+	gender = db.Column(db.Enum(GenderEnum))
 	blood_type = db.Column(db.String(10))
 	allergies = db.Column(db.Text())
-	password_hash = db.Column(db.String(120))
+
+	# foreign key
+	id = db.Column(db.String(20), db.ForeignKey('user.id'), primary_key=True)
 	#one-to-many relationship
 	applications = db.relationship('Application', backref='patient', lazy=True)
 	medical_records = db.relationship('Medical_record', backref='patient', lazy=True)
 	lab_reports = db.relationship('Lab_report', backref='patient', lazy=True)
-	
-	def set_password(self, password):
-		self.password_hash = generate_password_hash(password)
-	def check_password(self, password):
-		return check_password_hash(self.password_hash, password)
 		
+
+	def __repr__(self):
+		return f'Patient < id: {self.id} >'
+
 class Time_slot(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
 	slot_date = db.Column(db.DateTime(), nullable=False)

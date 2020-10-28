@@ -8,7 +8,6 @@ from date import datetime
 @app.route('/doctorTimeslot', methods=['GET','POST'])
 def doctorTimeslot():
 	try:
-
 		return jsonify({'name': results[0].name})
 	except:
 		return 
@@ -38,3 +37,7 @@ def applicationProcess():
 		return
 	except:
 		return render_template('applicationProcess.html', error='applicationProcess failed')
+
+@app.route('/selectHospital')
+def selectHospital():
+	
