@@ -1,22 +1,29 @@
-# SE-Fall2020-EHR
-## iteration 1 backend scripts
-install Flask, Flask_SQLAlchemy (dialect), pymysql (connector)
-### TODO
-### The first building block
+# SE-Fall2020-EHR Iteration1
+## How to run
+outside the SE-Fall-2020-EHR folder
+export FLASK_APP=SE-Fall-2020-EHR
+flask run
+## TODO
+### FRONTEND + BACKEND
+match variable names
+### BACKEND
+install Flask, Flask_SQLAlchemy (dialect), pymysql (connector), cryptography, flask-login
+#### The first building block
 
-
-| Tasks          | Author       | Start Date   | Estimated time needed | Status |
+| Tasks          | Author       | Start Date   | End Date (estimated) | Status |
 | :------------: | :----------: | :----------: | :-------------------:| :------:|
-|Add large amt of fake data to db(https://www.mockaroo.com/)|Qing|Oct.24|1 day|Done|
-|fill in model.py|QIng| Oct.24|1 day|Done|
-|request and respond|Jenny|10/26|1 day|Done|
-|register|Jenny|10/27|1 day|On-going|
-| ^ sub_task2: password encryption |Qing|10/28||Done|
+|Add large amt of fake data to db(https://www.mockaroo.com/)|Qing|10/24|10/25|Done|
+|fill in model.py|QIng|10/24|10/15|Done|
+|reform database user+doctor+nurse+patient|Qing, Jenny|10/28|10/29|Done|
+|request and respond|Jenny|10/26|10/27|Done|
+|register|Jenny|10/27|10/29|Done|
+| ^ password encryption |Qing|10/28||Done|
+|login|Qing, Jenny|10/28|10/29|Done|
+|logout|Qing|10/28|10/28|Done|
 |homepages|||||
-|login|Qing|10/28||Done|
-|reform database|Qing|10/28|1 day|On-going|
 
-### The second building block
+
+#### The second building block
 
 | Tasks          | Author       | Start Date   | Estimated time needed |
 | :------------: | :----------: | :----------: | :-------------------:| 

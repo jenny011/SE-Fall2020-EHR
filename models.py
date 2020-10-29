@@ -1,23 +1,12 @@
 from inspect import indentsize
-from sqlalchemy.sql.schema import ForeignKey
+# from sqlalchemy.sql.schema import ForeignKey
 from werkzeug.security import check_password_hash, generate_password_hash
-from ehr import db
-from flask import session
-from flask_login import UserMixin # UserMixin conains four useful login function 
+from ehr import db, login
+from flask_login import UserMixin # UserMixin conains four useful login function
 								  # [https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-v-user-logins]
-from ehr import login
 import enum
 from sqlalchemy import Enum
 
-@login.user_loader
-def load_user(identifier): # haven't decided which identifier to use. ID or Email?
-	role_type = session.get('role_type')
-	if role_type == "Doctor":
-		return Doctor.query.get(identifier) 
-	elif role_type == 'Nurse':
-		return Nurse.query.get(identifier)
-	elif role_type == 'Patient':
-		return Patient.query.get(identifier)
 
 class Hospital(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
@@ -42,7 +31,7 @@ class Department(db.Model):
 	description = db.Column(db.Text())
 	#foreign key
 	hospital_id = db.Column(db.String(20), \
-		db.ForeignKey('hospital.id'), nullable=False)
+		db.ForeignKey('hospital.id'), nullable=False, onupdate="CASCADE")
 	#one-to-many relationship
 	doctors = db.relationship('Doctor', backref='department', lazy=True)
 	nurses = db.relationship('Nurse', backref='department', lazy=True)
@@ -51,11 +40,6 @@ class Department(db.Model):
 		return f'Department < id: {self.id}, name: {self.first_name + self.last_name}, \
 			phone: {self.phone}, address: {self.address}, description: {self.description}\
 				hospital_id: {self.hospital_id} >'
-
-	def set_password(self, password):
-		self.password_hash = generate_password_hash(password)
-	def check_password(self, password):
-		return check_password_hash(self.password_hash, password)
 
 # Enum Type example reference :
 # https://stackoverflow.com/questions/58049679/can-i-have-array-enum-column-with-flask-sqlalchemy
@@ -66,13 +50,18 @@ class RoleEnum(enum.Enum):
 	admin = "admin"
 
 class User(UserMixin, db.Model):
-	id = db.Column(db.String(20), primary_key=True)
+	user_id = db.Column(db.String(20), primary_key=True)
 	first_name = db.Column(db.String(100), nullable=False)
 	last_name = db.Column(db.String(100), nullable=False)
 	role = db.Column(db.Enum(RoleEnum), nullable=False) # should we set a default role? default=RoleEnum.patient
-	password_hash = db.Column(db.String(120))
-	email = db.Column(db.String(100), unique=True, nullable=False)
+	email = db.Column(db.String(100), unique=True)
 	phone = db.Column(db.String(20))
+	password_hash = db.Column(db.String(120), nullable=False)
+
+	#one-to-one relationship
+	doctors = db.relationship('Doctor', backref='user', lazy=True)
+	nurses = db.relationship('Nurse', backref='user', lazy=True)
+	patients = db.relationship('Patient', backref='user', lazy=True)
 
 	def set_password(self, password):
 		self.password_hash = generate_password_hash(password)
@@ -80,17 +69,12 @@ class User(UserMixin, db.Model):
 		return check_password_hash(self.password_hash, password)
 
 class Doctor(db.Model):
-
+	license_id = db.Column(db.String(20), primary_key=True)
 	#foreign key
-	license_id = license_id = db.Column(db.String(20),
-							            db.ForeignKey('user.id'), 
-										primary_key=True)
-
+	user_id = db.Column(db.String(20), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
 	department_id = db.Column(db.String(20),\
-		db.ForeignKey('department.id'), nullable=False)
-	hospital_id = db.Column(db.String(20),\
-		db.ForeignKey("hospital.id"), nullable=False)
-	
+		db.ForeignKey('department.id'), nullable=False, onupdate="CASCADE")
+
 	#one-to-many relationship
 	time_slots = db.relationship('Time_slot', backref='doctor', lazy=True)
 	applications = db.relationship('Application', backref='doctor', lazy=True)
@@ -101,13 +85,12 @@ class Doctor(db.Model):
 
 
 class Nurse(db.Model):
-	
+	license_id = db.Column(db.String(20), primary_key=True)
 	#foreign key
+	user_id = db.Column(db.String(20), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
 	department_id = db.Column(db.String(20), \
-		db.ForeignKey('department.id'), nullable=False)
-	license_id = db.Column(db.String(20),
-				           db.ForeignKey('user.id'), 
-						   primary_key=True)
+		db.ForeignKey('department.id'), nullable=False, onupdate="CASCADE")
+
 	#one-to-many relationship
 	applications = db.relationship('Application', backref='nurse', lazy=True)
 	medical_records = db.relationship('Medical_record', backref='nurse', lazy=True)
@@ -126,19 +109,20 @@ class GenderEnum(enum.Enum):
 	female = 'female'
 
 class Patient(db.Model):
+	national_id = db.Column(db.String(20), primary_key=True)
+	#foreign key
+	user_id = db.Column(db.String(20), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
 
 	age = db.Column(db.SmallInteger())
 	gender = db.Column(db.Enum(GenderEnum))
 	blood_type = db.Column(db.String(10))
 	allergies = db.Column(db.Text())
 
-	# foreign key
-	id = db.Column(db.String(20), db.ForeignKey('user.id'), primary_key=True)
 	#one-to-many relationship
 	applications = db.relationship('Application', backref='patient', lazy=True)
 	medical_records = db.relationship('Medical_record', backref='patient', lazy=True)
 	lab_reports = db.relationship('Lab_report', backref='patient', lazy=True)
-		
+
 
 	def __repr__(self):
 		return f'Patient < id: {self.id} >'
@@ -151,7 +135,7 @@ class Time_slot(db.Model):
 	n_booked = db.Column(db.Integer())
 	#foreign key
 	doctor_id = db.Column(db.String(20), \
-		db.ForeignKey('doctor.license_id'), nullable=False)
+		db.ForeignKey('doctor.user_id'), nullable=False)
 	#one-to-many relationship
 	applications = db.relationship('Application', backref='time_slot', lazy=True)
 
@@ -159,7 +143,7 @@ class Time_slot(db.Model):
 		return f'Time_slot < id: {self.id}, slot_date: {self.slot_date}, \
 			slot_time: {self.slot_time}, n_total: {self.n_total}, n_booked: {self.n_booked}, \
 				doctor_id: {self.doctor_id} >'
-		
+
 class Application(db.Model):
 	id = db.Column(db.String(20), primary_key=True)
 	app_timestamp = db.Column(db.TIMESTAMP())
@@ -170,11 +154,11 @@ class Application(db.Model):
 	time_slot_id = db.Column(db.String(20), \
 		db.ForeignKey('time_slot.id'), nullable=False)
 	doctor_id = db.Column(db.String(20), \
-		db.ForeignKey('doctor.license_id'), nullable=False)
+		db.ForeignKey('doctor.user_id'), nullable=False)
 	approver_id = db.Column(db.String(20), \
-		db.ForeignKey('nurse.id'), nullable=False)
+		db.ForeignKey('nurse.user_id'), nullable=False)
 	patient_id = db.Column(db.String(20), \
-		db.ForeignKey('patient.id'), nullable=False)
+		db.ForeignKey('patient.user_id'), nullable=False)
 	#one-to-one relationship
 	medical_record = db.relationship('Medical_record', backref='application', uselist=False ,lazy=True)
 
@@ -192,11 +176,11 @@ class Medical_record(db.Model):
 	state = db.Column(db.Enum('conscious', 'coma'), default="conscious")
 	#foreign key
 	patient_id = db.Column(db.String(20), \
-		db.ForeignKey('patient.id'), nullable=False)
+		db.ForeignKey('patient.user_id'), nullable=False)
 	appt_id = db.Column(db.String(20), \
 		db.ForeignKey('application.id'), nullable=False)
 	nurse_id = db.Column(db.String(20), \
-		db.ForeignKey('nurse.id'), nullable=False)
+		db.ForeignKey('nurse.user_id'), nullable=False)
 	#one-to-many relationship
 	lab_reports = db.relationship('Lab_report', backref='medical_record', lazy=True)
 	prescription = db.relationship('Prescription', backref='medical_record', lazy=True)
@@ -235,9 +219,9 @@ class Lab_report(db.Model):
 	mc_id = db.Column(db.String(20), \
 		db.ForeignKey('medical_record.id'), nullable=False)
 	uploader_id = db.Column(db.String(20), \
-		db.ForeignKey('nurse.id'), nullable=False)
+		db.ForeignKey('nurse.user_id'), nullable=False)
 	patient_id = db.Column(db.String(20), \
-		db.ForeignKey('patient.id'), nullable=False)
+		db.ForeignKey('patient.user_id'), nullable=False)
 
 	def __repr__(self):
 		return f'Lab_report < id: {self.id}, (report_)type: {len(self.type)},\

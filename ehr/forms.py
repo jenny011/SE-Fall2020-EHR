@@ -5,21 +5,21 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Radio
 from wtforms.validators import DataRequired, Email, ValidationError
 
 class LoginForm(FlaskForm):
-    
-    role = RadioField(label="Role", 
+
+    role = RadioField(label="Role",
                       choices=[('doctor', "I am a doctor"), ('nurse', 'I am a nurse'), ('patient', 'I am a patient')],
                       validators=[DataRequired()])
-    id = StringField(label="ID", 
+    id = StringField(label="ID",
                      validators=[DataRequired()])
     password = PasswordField(label="Password",
                              validators=[DataRequired()])
     submit = SubmitField(label="Sign in")
 
 class RegisterForm(FlaskForm):
-    role = RadioField(label="Role", 
+    role = RadioField(label="Role",
                       choices=[('doctor', "I am a doctor"), ('nurse', 'I am a nurse'), ('patient', 'I am a patient')],
                       validators=[DataRequired()])
-    id = StringField(label="ID", 
+    id = StringField(label="ID",
                      validators=[DataRequired()])
     password = PasswordField(label="Password",
                              validators=[DataRequired()])
