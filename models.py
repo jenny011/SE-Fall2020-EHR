@@ -9,7 +9,7 @@ from sqlalchemy import Enum
 
 
 class Hospital(db.Model):
-	id = db.Column(db.String(20), primary_key=True)
+	id = db.Column(db.String(100), primary_key=True)
 	name = db.Column(db.String(100), nullable=False)
 	phone = db.Column(db.String(20))
 	address = db.Column(db.Text(), nullable=False)
@@ -23,14 +23,14 @@ class Hospital(db.Model):
 
 
 class Department(db.Model):
-	id = db.Column(db.String(20), primary_key=True)
+	id = db.Column(db.String(100), primary_key=True)
 	first_name = db.Column(db.String(100), nullable=False)
 	last_name = db.Column(db.String(100), nullable=False)
 	phone = db.Column(db.String(20))
 	address = db.Column(db.Text())
 	description = db.Column(db.Text())
 	#foreign key
-	hospital_id = db.Column(db.String(20), \
+	hospital_id = db.Column(db.String(100), \
 		db.ForeignKey('hospital.id'), nullable=False, onupdate="CASCADE")
 	#one-to-many relationship
 	doctors = db.relationship('Doctor', backref='department', lazy=True)
@@ -50,13 +50,13 @@ class RoleEnum(enum.Enum):
 	admin = "admin"
 
 class User(UserMixin, db.Model):
-	user_id = db.Column(db.String(20), primary_key=True)
+	user_id = db.Column(db.String(100), primary_key=True)
 	first_name = db.Column(db.String(100), nullable=False)
 	last_name = db.Column(db.String(100), nullable=False)
 	role = db.Column(db.Enum(RoleEnum), nullable=False) # should we set a default role? default=RoleEnum.patient
-	email = db.Column(db.String(100), unique=True)
+	email = db.Column(db.String(100), unique=True, nullable=False)
 	phone = db.Column(db.String(20))
-	password_hash = db.Column(db.String(120), nullable=False)
+	password_hash = db.Column(db.String(100), nullable=False)
 
 	#one-to-one relationship
 	doctors = db.relationship('Doctor', backref='user', lazy=True)
@@ -69,10 +69,10 @@ class User(UserMixin, db.Model):
 		return check_password_hash(self.password_hash, password)
 
 class Doctor(db.Model):
-	license_id = db.Column(db.String(20), primary_key=True)
+	license_id = db.Column(db.String(100), primary_key=True)
 	#foreign key
-	user_id = db.Column(db.String(20), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
-	department_id = db.Column(db.String(20),\
+	user_id = db.Column(db.String(100), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
+	department_id = db.Column(db.String(100),\
 		db.ForeignKey('department.id'), nullable=False, onupdate="CASCADE")
 
 	#one-to-many relationship
@@ -85,10 +85,10 @@ class Doctor(db.Model):
 
 
 class Nurse(db.Model):
-	license_id = db.Column(db.String(20), primary_key=True)
+	license_id = db.Column(db.String(100), primary_key=True)
 	#foreign key
-	user_id = db.Column(db.String(20), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
-	department_id = db.Column(db.String(20), \
+	user_id = db.Column(db.String(100), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
+	department_id = db.Column(db.String(100), \
 		db.ForeignKey('department.id'), nullable=False, onupdate="CASCADE")
 
 	#one-to-many relationship
@@ -109,9 +109,9 @@ class GenderEnum(enum.Enum):
 	female = 'female'
 
 class Patient(db.Model):
-	national_id = db.Column(db.String(20), primary_key=True)
+	national_id = db.Column(db.String(100), primary_key=True)
 	#foreign key
-	user_id = db.Column(db.String(20), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
+	user_id = db.Column(db.String(100), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
 
 	age = db.Column(db.SmallInteger())
 	gender = db.Column(db.Enum(GenderEnum))
@@ -128,13 +128,13 @@ class Patient(db.Model):
 		return f'Patient < id: {self.id} >'
 
 class Time_slot(db.Model):
-	id = db.Column(db.String(20), primary_key=True)
+	id = db.Column(db.String(100), primary_key=True)
 	slot_date = db.Column(db.DateTime(), nullable=False)
 	slot_time = db.Column(db.DateTime(), nullable=False)
 	n_total = db.Column(db.Integer(), nullable=False)
 	n_booked = db.Column(db.Integer())
 	#foreign key
-	doctor_id = db.Column(db.String(20), \
+	doctor_id = db.Column(db.String(100), \
 		db.ForeignKey('doctor.user_id'), nullable=False)
 	#one-to-many relationship
 	applications = db.relationship('Application', backref='time_slot', lazy=True)
@@ -145,19 +145,19 @@ class Time_slot(db.Model):
 				doctor_id: {self.doctor_id} >'
 
 class Application(db.Model):
-	id = db.Column(db.String(20), primary_key=True)
+	id = db.Column(db.String(100), primary_key=True)
 	app_timestamp = db.Column(db.TIMESTAMP())
 	symptomps = db.Column(db.Text())
 	status = db.Column(db.Enum('approved', 'rejected', 'pending', 'finished'), nullable=False)
 	reject_reason = db.Column(db.Text())
 	#foreign key
-	time_slot_id = db.Column(db.String(20), \
+	time_slot_id = db.Column(db.String(100), \
 		db.ForeignKey('time_slot.id'), nullable=False)
-	doctor_id = db.Column(db.String(20), \
+	doctor_id = db.Column(db.String(100), \
 		db.ForeignKey('doctor.user_id'), nullable=False)
-	approver_id = db.Column(db.String(20), \
+	approver_id = db.Column(db.String(100), \
 		db.ForeignKey('nurse.user_id'), nullable=False)
-	patient_id = db.Column(db.String(20), \
+	patient_id = db.Column(db.String(100), \
 		db.ForeignKey('patient.user_id'), nullable=False)
 	#one-to-one relationship
 	medical_record = db.relationship('Medical_record', backref='application', uselist=False ,lazy=True)
@@ -168,18 +168,18 @@ class Application(db.Model):
 				doctor_id: {self.doctor_id}, patient_id: {self.patient_id} >'
 
 class Medical_record(db.Model):
-	id = db.Column(db.String(20), primary_key=True)
+	id = db.Column(db.String(100), primary_key=True)
 	body_temperature = db.Column(db.Float(1))
 	body_pressure = db.Column(db.Float(1))
 	heart_rate = db.Column(db.Integer())
 	weight = db.Column(db.Float(1))
 	state = db.Column(db.Enum('conscious', 'coma'), default="conscious")
 	#foreign key
-	patient_id = db.Column(db.String(20), \
+	patient_id = db.Column(db.String(100), \
 		db.ForeignKey('patient.user_id'), nullable=False)
-	appt_id = db.Column(db.String(20), \
+	appt_id = db.Column(db.String(100), \
 		db.ForeignKey('application.id'), nullable=False)
-	nurse_id = db.Column(db.String(20), \
+	nurse_id = db.Column(db.String(100), \
 		db.ForeignKey('nurse.user_id'), nullable=False)
 	#one-to-many relationship
 	lab_reports = db.relationship('Lab_report', backref='medical_record', lazy=True)
@@ -190,12 +190,12 @@ class Medical_record(db.Model):
 			nurse_id: {self.nurse_id}, patient_id: {self.patient_id} >'
 
 class Prescription(db.Model):
-	id = db.Column(db.String(20), primary_key=True)
+	id = db.Column(db.String(100), primary_key=True)
 	medicine = db.Column(db.Text())
 	dose = db.Column(db.Text())
 	comments = db.Column(db.Text())
 	#foreign key
-	mc_id = db.Column(db.String(20), \
+	mc_id = db.Column(db.String(100), \
 		db.ForeignKey('medical_record.id'), nullable=False)
 
 	def __repr__(self):
@@ -210,17 +210,17 @@ class Lab_report_type(db.Model):
 		return f'Lab_report_type < type: {self.type}, number of lab reports: {len(self.lab_reports)} >'
 
 class Lab_report(db.Model):
-	id = db.Column(db.String(20), primary_key=True)
+	id = db.Column(db.String(100), primary_key=True)
 	file = db.Column(db.LargeBinary())
 	comments = db.Column(db.Text())
 	#foreign key
-	type = db.Column(db.String(20), \
+	type = db.Column(db.String(50), \
 		db.ForeignKey('lab_report_type.type'), nullable=False)
-	mc_id = db.Column(db.String(20), \
+	mc_id = db.Column(db.String(100), \
 		db.ForeignKey('medical_record.id'), nullable=False)
-	uploader_id = db.Column(db.String(20), \
+	uploader_id = db.Column(db.String(100), \
 		db.ForeignKey('nurse.user_id'), nullable=False)
-	patient_id = db.Column(db.String(20), \
+	patient_id = db.Column(db.String(100), \
 		db.ForeignKey('patient.user_id'), nullable=False)
 
 	def __repr__(self):

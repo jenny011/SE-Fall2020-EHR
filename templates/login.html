@@ -59,7 +59,7 @@
 			else{
 				$('#go-register').css({'background':'#2D79D6','color':'white'});
 			}
-			
+
 		}
 
 		function clickDoctor(){
@@ -91,7 +91,7 @@
 				document.getElementById('go-register').style.color="white";
 				//用户选择注册角色
 				//先清空表单
-				clearLoginForm();	
+				clearLoginForm();
 				$('#login-field').append(renderChoice());
 			}
 		}
@@ -145,23 +145,23 @@
 		function concatRegister(role){
 			var temp = '';
 			if(role=='patient'){
-				temp+='<form action="" class="form" id="patient-register-form"><div class="register-input" ><label for="legalName">Legal Name</label><input type="text" id="legalName" name="legalName"></div><div class="register-input"><label for="ID">ID</label><input type="text" id="ID"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="text" id="Email" name="email"></div><div class="register-input"><label for="username">Username</label><input type="text" id="username" name="username"></div><div class="register-input"><label for="password">Password</label><input type="text" id="password" name="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()">Register</button></div>';
+				temp+='<form action="" class="form" id="patient-register-form"><div class="register-input" ><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName"></div><div class="register-input" ><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName"></div><div class="register-input"><label for="National ID">National ID</label><input type="text" id="ID" name="id"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="email" id="Email" name="email"></div><div class="register-input"><label for="password">Password</label><input type="password" id="password" name="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()">Register</button></div>';
 			}
 			if(role=='doctor'){
-				temp+='<form action="" class="form" id="doctor-register-form"><div class="register-input" ><label for="legalName">Legal Name</label><input type="text" id="legalName" name="legalName"></div><div class="register-input"><label for="LicenseID">License ID</label><input type="text" id="ID" name="licenseId"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="text" id="Email" name="email"></div><div class="register-input"><label for="username">Username</label><input type="text" id="username" name="username"></div><div class="register-input"><label for="password">Password</label><input type="text" id="password" name="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()"">Register</button></div>';
+				temp+='<form action="" class="form" id="doctor-register-form"><div class="register-input" ><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName"></div><div class="register-input" ><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName"></div><div class="register-input"><label for="LicenseID">License ID</label><input type="text" id="ID" name="id"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="email" id="Email" name="email"></div><div class="register-input"><label for="password">Password</label><input type="password" id="password" name="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()"">Register</button></div>';
 			}
 			if(role=='nurse'){
-				temp+='<form action="" class="form" id="nurse-register-form"><div class="register-input" ><label for="legalName">Legal Name</label><input type="text" id="legalName" name="legalName"></div><div class="register-input"><label for="LicenseID">License ID</label><input type="text" id="ID" name="licenseId"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone"></div><div class="register-input"><label for="Email">Email</label><input type="text" id="Email" name="email"></div><div class="register-input"><label for="username">Username</label><input type="text" id="username"name="userName"></div><div class="register-input"><label for="password">Password</label><input type="text" id="password" name="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()">Register</button></div>'
+				temp+='<form action="" class="form" id="nurse-register-form"><div class="register-input" ><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName"></div><div class="register-input" ><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName"></div><div class="register-input"><label for="LicenseID">License ID</label><input type="text" id="ID" name="id"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="email" id="Email" name="email"></div><div class="register-input"><label for="password">Password</label><input type="password" id="password" name="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()">Register</button></div>'
 			}
-			
+
 
 			return temp;
 			}
-			
+
 		function concatLogin(){
 			var temp='';
 			temp += '<form action="" class="form" id="login-form"><div class="login-input" id="input-name" ><label for="username">User</label><input type="text" id="login-username"></div><div class="login-input" id="login-input-pass"><label for="password">Password</label><input type="text" id="password"></div></form>';
-			temp+= '<div id="login-btn-wrapper"><button type="button" class="primary-btn" id="doLogin">Login</button></div>';			
+			temp+= '<div id="login-btn-wrapper"><button type="button" class="primary-btn" id="doLogin">Login</button></div>';
 
 			temp+='<div id="option-container"><div class="login-option" id="forget-password">forget password</div><div class="login-option" id="forget-username">forget username</div></div>';
 
@@ -174,7 +174,8 @@
 			data=jsonify(data);
 			console.log(data);
 			$.ajax({
-				url:"http://localhost:5000/WeCare/login",
+				url:"http://localhost:5000/login",
+				type: 'POST',
 				data:data,
 				success:function(data){
 					console.log(data);
@@ -194,41 +195,42 @@
 				console.log('医生注册');
 				var registerInfo = $('.form').serializeArray();
 				registerInfo = jsonify(registerInfo);
-				registerInfo["register-role"]="doctor";
+				registerInfo["role"]="doctor";
 				// console.log(registerInfo);
 			}
 			if($('.form').attr('id')=='nurse-register-form'){
 				console.log('护士注册');
 				var registerInfo = $('.form').serializeArray();
 				registerInfo = jsonify(registerInfo);
-				registerInfo["register-role"]="nurse";
+				registerInfo["role"]="nurse";
 				// console.log(registerInfo);
 			}
 			if($('.form').attr('id')=='patient-register-form'){
 				console.log('病人注册');
 				var registerInfo = $('.form').serializeArray();
 				registerInfo = jsonify(registerInfo);
-				registerInfo["register-role"]="patient";
+				registerInfo["role"]="patient";
 				// console.log(registerInfo);
 			}
 			console.log(registerInfo);
 
 			//ajax请求
 			jQuery.ajax({
-				url: "http://localhost:5000/WeCare/register",
+				url: "http://localhost:5000/register",
+				type: 'POST',
 				data:registerInfo,
 				success:function(data){
 					console.log(data);
 					showRegisterMessage(data);
 					setTimeout(goLogin,2000);
 					// goLogin();
-					}				
+					}
 				}
 
 			)
 		}
 
-		//等待过程中改变表单颜色 
+		//等待过程中改变表单颜色
 		function onWaitingChangeStyle(){
 			var labels=document.getElementsByTagName('label');
 			for(var i=0;i<labels.length;i++){
@@ -246,7 +248,7 @@
 			}
 
 			$('#login-field').append(temp);
-			
+
 		}
 
 		function showLoginMessage(data){
@@ -271,4 +273,3 @@
 </script>
 </body>
 </html>
-
