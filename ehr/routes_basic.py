@@ -16,7 +16,11 @@ def load_user(user_id): # haven't decided which identifier to use. ID or Email?
 #---------------------Home----------------------
 @app.route('/')
 def home():
-	return render_template('login.html')
+	return render_template('WeCare.html')
+
+# @app.route('/goToLogin')
+# def goToLogin():
+# 	return render_template('login.html')
 
 #-------------------Register--------------------
 #-------------------Register--------------------
@@ -59,6 +63,7 @@ def register():
 		return redirect(url_for('login'))
 	except:
 		db.session.rollback()
+		print(sys.exc_info()[0])
 		return sys.exc_info()[0]
 
 
@@ -89,18 +94,21 @@ def register():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
-	if not current_user.is_authenticated:
-		email = request.form['email']
-		password = request.form['password']
-		try:
-			user = User.query.one(id)
-			match = user.check_password(password)
-			if not match:
+	if request.method == 'GET':
+		return render_template('login.html')
+	if request.method == 'POST':
+		if not current_user.is_authenticated:
+			email = request.form['email']
+			password = request.form['password']
+			try:
+				user = User.query.one(id)
+				match = user.check_password(password)
+				if not match:
+					return redirect(url_for('login'))
+				login_user(user)
+			except:
 				return redirect(url_for('login'))
-			login_user(user)
-		except:
-			return redirect(url_for('login'))
-	return redirect(url_for(f'{user.role}+Home'))
+		return redirect(url_for(f'{user.role}+Home'))
 
 	# return render_template('/login.html', form=form)
 

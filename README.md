@@ -1,7 +1,7 @@
 # SE-Fall2020-EHR Iteration1
 ## How to run
-outside the SE-Fall-2020-EHR folder
-export FLASK_APP=SE-Fall-2020-EHR
+outside the ehr folder
+export FLASK_APP=ehr
 flask run
 ## TODO
 ### FRONTEND + BACKEND
@@ -26,7 +26,7 @@ install Flask, Flask_SQLAlchemy (dialect), pymysql (connector), cryptography, fl
 #### The second building block
 
 | Tasks          | Author       | Start Date   | Estimated time needed |
-| :------------: | :----------: | :----------: | :-------------------:| 
+| :------------: | :----------: | :----------: | :-------------------:|
 |doctor add slot|||
 |patient search for doctor, etc.|||
 |patient select slot|||
