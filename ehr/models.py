@@ -68,7 +68,7 @@ class User(UserMixin, db.Model):
 	def check_password(self, password):
 		return check_password_hash(self.password_hash, password)
 
-class Doctor(db.Model):
+class Doctor(UserMixin, db.Model):
 	license_id = db.Column(db.String(20), primary_key=True)
 	#foreign key
 	user_id = db.Column(db.String(20), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
@@ -84,7 +84,7 @@ class Doctor(db.Model):
 		return f'Doctor < license_id: {self.license_id} >'
 
 
-class Nurse(db.Model):
+class Nurse(UserMixin, db.Model):
 	license_id = db.Column(db.String(20), primary_key=True)
 	#foreign key
 	user_id = db.Column(db.String(20), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")

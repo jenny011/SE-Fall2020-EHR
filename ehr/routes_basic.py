@@ -28,7 +28,7 @@ def home():
 @app.route('/register', methods=['POST'])
 def register():
 	if current_user.is_authenticated:
-		return redirect(url_for(f'{user.role}+Home'))
+		return redirect(url_for(f'{current_user.role}+Home'))
 	role = request.form['role']
 	id = request.form['id']
 	first_name = request.form['firstName']
