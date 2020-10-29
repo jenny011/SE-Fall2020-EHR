@@ -1,8 +1,8 @@
 # SE-Fall2020-EHR Iteration1
 ## How to run
-outside the ehr folder
-export FLASK_APP=ehr
-flask run
+outside the SE_Fall2020_EHR folder
+$ export FLASK_APP=SE_Fall2020_EHR
+$ flask run
 ## TODO
 ### FRONTEND + BACKEND
 match variable names
