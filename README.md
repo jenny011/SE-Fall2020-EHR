@@ -1,13 +1,14 @@
 # SE-Fall2020-EHR Iteration1
 ## How to run
-outside the SE_Fall2020_EHR folder
-$ export FLASK_APP=SE_Fall2020_EHR
+INSTALL Flask, Flask_SQLAlchemy (dialect), pymysql (connector), cryptography, flask-login </br>
+outside the SE_Fall2020_EHR folder </br>
+$ export FLASK_APP=SE_Fall2020_EHR </br>
 $ flask run
 ## TODO
 ### FRONTEND + BACKEND
-match variable names
+
 ### BACKEND
-install Flask, Flask_SQLAlchemy (dialect), pymysql (connector), cryptography, flask-login
+
 #### The first building block
 
 | Tasks          | Author       | Start Date   | End Date (estimated) | Status |
@@ -18,8 +19,8 @@ install Flask, Flask_SQLAlchemy (dialect), pymysql (connector), cryptography, fl
 |request and respond|Jenny|10/26|10/27|Done|
 |register|Jenny|10/27|10/29|Done|
 | ^ password encryption |Qing|10/28||Done|
-|login|Qing, Jenny|10/28|10/29|Done|
-|logout|Qing|10/28|10/28|Done|
+|login|Qing, Jenny|10/28|10/29|On-going|
+|logout|Qing|10/28|10/28|On-going|
 |homepages|||||
 
 
