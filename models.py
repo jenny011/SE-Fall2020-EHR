@@ -50,7 +50,8 @@ class RoleEnum(enum.Enum):
 	admin = "admin"
 
 class User(UserMixin, db.Model):
-	user_id = db.Column(db.String(100), primary_key=True)
+	# user_id = db.Column(db.String(100), primary_key=True)
+	id = db.Column(db.String(100), primary_key=True)
 	first_name = db.Column(db.String(100), nullable=False)
 	last_name = db.Column(db.String(100), nullable=False)
 	role = db.Column(db.Enum(RoleEnum), nullable=False) # should we set a default role? default=RoleEnum.patient
@@ -69,9 +70,9 @@ class User(UserMixin, db.Model):
 		return check_password_hash(self.password_hash, password)
 
 class Doctor(db.Model):
-	license_id = db.Column(db.String(100), primary_key=True)
+	id = db.Column(db.String(100), db.ForeignKey('user.id'), primary_key=True, onupdate="CASCADE")
 	#foreign key
-	user_id = db.Column(db.String(100), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
+	# user_id = db.Column(db.String(100), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
 	department_id = db.Column(db.String(100),\
 		db.ForeignKey('department.id'), nullable=False, onupdate="CASCADE")
 
@@ -85,9 +86,9 @@ class Doctor(db.Model):
 
 
 class Nurse(db.Model):
-	license_id = db.Column(db.String(100), primary_key=True)
+	id = db.Column(db.String(100), db.ForeignKey('user.id'), primary_key=True, onupdate="CASCADE")
 	#foreign key
-	user_id = db.Column(db.String(100), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
+	# user_id = db.Column(db.String(100), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
 	department_id = db.Column(db.String(100), \
 		db.ForeignKey('department.id'), nullable=False, onupdate="CASCADE")
 
@@ -109,9 +110,9 @@ class GenderEnum(enum.Enum):
 	female = 'female'
 
 class Patient(db.Model):
-	national_id = db.Column(db.String(100), primary_key=True)
+	id = db.Column(db.String(100), db.ForeignKey('user.id'), primary_key=True, onupdate="CASCADE")
 	#foreign key
-	user_id = db.Column(db.String(100), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
+	# user_id = db.Column(db.String(100), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
 
 	age = db.Column(db.SmallInteger())
 	gender = db.Column(db.Enum(GenderEnum))
@@ -135,7 +136,7 @@ class Time_slot(db.Model):
 	n_booked = db.Column(db.Integer())
 	#foreign key
 	doctor_id = db.Column(db.String(100), \
-		db.ForeignKey('doctor.user_id'), nullable=False)
+		db.ForeignKey('doctor.id'), nullable=False)
 	#one-to-many relationship
 	applications = db.relationship('Application', backref='time_slot', lazy=True)
 
@@ -154,11 +155,11 @@ class Application(db.Model):
 	time_slot_id = db.Column(db.String(100), \
 		db.ForeignKey('time_slot.id'), nullable=False)
 	doctor_id = db.Column(db.String(100), \
-		db.ForeignKey('doctor.user_id'), nullable=False)
+		db.ForeignKey('doctor.id'), nullable=False)
 	approver_id = db.Column(db.String(100), \
-		db.ForeignKey('nurse.user_id'), nullable=False)
+		db.ForeignKey('nurse.id'), nullable=False)
 	patient_id = db.Column(db.String(100), \
-		db.ForeignKey('patient.user_id'), nullable=False)
+		db.ForeignKey('patient.id'), nullable=False)
 	#one-to-one relationship
 	medical_record = db.relationship('Medical_record', backref='application', uselist=False ,lazy=True)
 
@@ -176,11 +177,11 @@ class Medical_record(db.Model):
 	state = db.Column(db.Enum('conscious', 'coma'), default="conscious")
 	#foreign key
 	patient_id = db.Column(db.String(100), \
-		db.ForeignKey('patient.user_id'), nullable=False)
+		db.ForeignKey('patient.id'), nullable=False)
 	appt_id = db.Column(db.String(100), \
 		db.ForeignKey('application.id'), nullable=False)
 	nurse_id = db.Column(db.String(100), \
-		db.ForeignKey('nurse.user_id'), nullable=False)
+		db.ForeignKey('nurse.id'), nullable=False)
 	#one-to-many relationship
 	lab_reports = db.relationship('Lab_report', backref='medical_record', lazy=True)
 	prescription = db.relationship('Prescription', backref='medical_record', lazy=True)
@@ -219,9 +220,9 @@ class Lab_report(db.Model):
 	mc_id = db.Column(db.String(100), \
 		db.ForeignKey('medical_record.id'), nullable=False)
 	uploader_id = db.Column(db.String(100), \
-		db.ForeignKey('nurse.user_id'), nullable=False)
+		db.ForeignKey('nurse.id'), nullable=False)
 	patient_id = db.Column(db.String(100), \
-		db.ForeignKey('patient.user_id'), nullable=False)
+		db.ForeignKey('patient.id'), nullable=False)
 
 	def __repr__(self):
 		return f'Lab_report < id: {self.id}, (report_)type: {len(self.type)},\
