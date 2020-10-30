@@ -24,5 +24,5 @@ if __name__ == '__main__':
 
 # import building blocks
 from SE_Fall2020_EHR import routes_basic, models
-# db.create_all()
-# db.session.commit()
+db.create_all()
+db.session.commit()

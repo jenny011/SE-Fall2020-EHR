@@ -18,20 +18,20 @@
 				<div class="mode" id="go-register" onclick="goRegister()">register</div>
 
 			</div>
-				<form action="" class='form' id="login-form">
+				<form action="/login" class='form' id="login-form" method="POST">
 				<div class="login-input" id='input-name' >
-					<label for="username">User</label>
-					<input type="text" id="login-username" name="username">
+					<label for="id">License ID/National ID</label>
+					<input type="text" id="login-username" name="id">
 				</div>
 				<div class="login-input" id='login-input-pass'>
 					<label for="password">Password</label>
-					<input type="text" id="password" name="password">
-
+					<input type="password" id="password" name="password">
 				</div>
+				<input type="submit" class="primary-btn" id="doLogin" value="Login">
 			</form>
-			<div id="login-btn-wrapper">
+			<!-- <div id="login-btn-wrapper">
 				<button type="button" class="primary-btn" id='doLogin' onclick="login()">Login</button>
-			</div>
+			</div> -->
 
 			<div id="option-container">
 				<div class="login-option" id='forget-password'>
@@ -160,8 +160,8 @@
 
 		function concatLogin(){
 			var temp='';
-			temp += '<form action="" class="form" id="login-form"><div class="login-input" id="input-name" ><label for="username">License ID/National ID</label><input type="text" id="login-username" name="id"></div><div class="login-input" id="login-input-pass"><label for="password">Password</label><input type="password" id="password"></div></form>';
-			temp+= '<div id="login-btn-wrapper"><button type="button" class="primary-btn" id="doLogin">Login</button></div>';
+			temp += '<form action="/login" class="form" id="login-form" method="POST"><div class="login-input" id="input-name" ><label for="id">License ID/National ID</label><input type="text" id="login-username" name="id"></div><div class="login-input" id="login-input-pass"><label for="password">Password</label><input type="password" id="password" name="password"></div><input type="submit" class="primary-btn" id="doLogin" value="Login"></form>';
+			// temp+= '<div id="login-btn-wrapper"><button type="button" class="primary-btn" id="doLogin">Login</button></div>';
 
 			temp+='<div id="option-container"><div class="login-option" id="forget-password">forget password</div><div class="login-option" id="forget-username">forget username</div></div>';
 
