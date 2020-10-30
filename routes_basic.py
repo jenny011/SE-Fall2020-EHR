@@ -7,7 +7,6 @@ from werkzeug.security import check_password_hash, generate_password_hash
 # from ehr.forms import LoginForm, RegisterForm
 from SE_Fall2020_EHR import app, db, login
 from SE_Fall2020_EHR.models import *
-import sys
 
 @login.user_loader
 def load_user(user_id): # haven't decided which identifier to use. ID or Email?

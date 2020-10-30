@@ -54,7 +54,7 @@ class User(UserMixin, db.Model):
 	first_name = db.Column(db.String(100), nullable=False)
 	last_name = db.Column(db.String(100), nullable=False)
 	role = db.Column(db.Enum(RoleEnum), nullable=False) # should we set a default role? default=RoleEnum.patient
-	email = db.Column(db.String(100), unique=True, nullable=False)
+	email = db.Column(db.String(100))
 	phone = db.Column(db.String(20))
 	password_hash = db.Column(db.String(100), nullable=False)
 
