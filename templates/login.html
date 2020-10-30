@@ -20,7 +20,7 @@
 			</div>
 				<form action="" class='form' id="login-form">
 				<div class="login-input" id='input-name' >
-					<label for="username">User</label>
+					<label for="username">License ID/ID</label>
 					<input type="text" id="login-username" name="username">
 				</div>
 				<div class="login-input" id='login-input-pass'>
@@ -177,8 +177,8 @@
 				url:"http://localhost:5000/login",
 				type: 'POST',
 				data:data,
-				success:function(data){
-					console.log(data);
+				success:function(){
+					// console.log(data);
 					clearLoginForm();
 					$('#login-form-mode-bar').remove();
 					showLoginMessage(data);
