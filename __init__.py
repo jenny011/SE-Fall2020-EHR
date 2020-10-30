@@ -6,6 +6,7 @@ import os
 app = Flask(__name__)
 # dialect + connector
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = "secretkey"
 login = LoginManager(app)
 login.login_view = 'login' # force user to login
 login.login_message = "Please login first"
@@ -19,7 +20,6 @@ except:
 
 if __name__ == '__main__':
 	print("starting ehr system...")
-
 	app.run(debug=True)
 
 # import building blocks
