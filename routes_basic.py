@@ -2,7 +2,7 @@ from operator import ne
 from flask import Flask, render_template, redirect, url_for, request, json, jsonify, session
 from flask_login.utils import logout_user
 from flask_login import login_user, logout_user, current_user
-from uuid import uuid4
+# from uuid import uuid4
 from werkzeug.security import check_password_hash, generate_password_hash
 # from ehr.forms import LoginForm, RegisterForm
 from SE_Fall2020_EHR import app, db, login
@@ -28,6 +28,7 @@ def register():
 		patient: register by (national)id
 		doctor/nurse: register by (license)id
 	"""
+	# try:
 	if current_user.is_authenticated:
 		return redirect(url_for(f'{current_user.role}+Home'))
 	role = request.form['role']
@@ -44,7 +45,6 @@ def register():
 	if user:
 		return {"error": 'Already registered!'}
 	# generate random unique user_id and create new user
-	user_id = str(uuid4())
 	user = User(id=id, first_name=first_name, last_name=last_name, role=role, email=email, phone=phone, password_hash=generate_password_hash(password))
 	db.session.add(user)
 	# update corresponding table
@@ -60,9 +60,8 @@ def register():
 	db.session.commit()
 	return redirect(url_for('login'))
 	# except:
-	# 	db.session.rollback()
-	# 	print('error')
-	# 	return "error"
+		# db.session.rollback()
+		# return "error"
 
 
 #--------------------Login---------------------
