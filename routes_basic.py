@@ -17,7 +17,7 @@ def load_user(user_id): # haven't decided which identifier to use. ID or Email?
 #---------------------Home----------------------
 @app.route('/')
 def home():
-	return render_template('WeCare.html')
+	return render_template('index.html')
 
 # @app.route('/goToLogin')
 # def goToLogin():
@@ -29,7 +29,7 @@ def home():
 @app.route('/register', methods=['POST'])
 def register():
 	if current_user.is_authenticated:
-		return redirect(url_for(f'{user.role}+Home'))
+		return redirect(url_for(f'{current_user.role}+Home'))
 	role = request.form['role']
 	first_name = request.form['firstName']
 	last_name = request.form['lastName']
@@ -37,6 +37,8 @@ def register():
 	phone = request.form['phone']
 	email = request.form['email']
 	password = request.form['password']
+	if role != "patient":
+		department = request.form['department']
 	# try:
 		# get pre-registered doctor/nurse
 	if role == "doctor":
@@ -54,11 +56,13 @@ def register():
 	db.session.commit()
 	# update corresponding table
 	if role == "patient":
-		patient = Patient(national_id=id, user_id=user_id)
+		patient = Patient(national_id=id)
 		db.session.add(patient)
 		db.session.commit()
 	elif role == "doctor":
-		doctor.user_id = user_id
+		doctor = Doctor(license_id=id, )
+		db.session.add(patient)
+		db.session.commit()
 	elif role == "nurse":
 		nurse.user_id = user_id
 	return redirect(url_for('login'))
@@ -99,17 +103,18 @@ def login():
 		return render_template('login.html')
 	if request.method == 'POST':
 		if not current_user.is_authenticated:
-			email = request.form['email']
+			id = request.form['id']
 			password = request.form['password']
-			# try:
-			user = User.query.one(id)
-			match = user.check_password(password)
-			if not match:
+			try:
+				user = User.query.one(id)
+				if not user or not user.check_password(password):
+					flash("Unregistered ID or wrong password")
+					return redirect(url_for('login'))
+				login_user(user)
+			except:
+				flash("Unknown error, sorry!")
 				return redirect(url_for('login'))
-			login_user(user)
-			# except:
-				# return redirect(url_for('login'))
-		return redirect(url_for(f'{user.role}+Home'))
+		return redirect(url_for(f'{current_user.role}+Home'))
 
 	# return render_template('/login.html', form=form)
 
@@ -129,7 +134,8 @@ def login():
 #--------------------Logout---------------------
 #--------------------Logout---------------------
 
-@app.route('/logout', methods=['POST'])
+@app.route('/logout', methods=['GET','POST'])
 def logout():
+	print(request.method)
 	logout_user()
 	return redirect(url_for('/'))

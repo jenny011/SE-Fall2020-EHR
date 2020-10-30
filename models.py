@@ -50,7 +50,8 @@ class RoleEnum(enum.Enum):
 	admin = "admin"
 
 class User(UserMixin, db.Model):
-	user_id = db.Column(db.String(100), primary_key=True)
+	# user_id = db.Column(db.String(100), primary_key=True)
+	id = db.Column(db.String(100), primary_key=True)
 	first_name = db.Column(db.String(100), nullable=False)
 	last_name = db.Column(db.String(100), nullable=False)
 	role = db.Column(db.Enum(RoleEnum), nullable=False) # should we set a default role? default=RoleEnum.patient
@@ -69,9 +70,9 @@ class User(UserMixin, db.Model):
 		return check_password_hash(self.password_hash, password)
 
 class Doctor(db.Model):
-	license_id = db.Column(db.String(100), primary_key=True)
+	license_id = db.Column(db.String(100), db.ForeignKey('user.id'), primary_key=True, onupdate="CASCADE")
 	#foreign key
-	user_id = db.Column(db.String(100), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
+	# user_id = db.Column(db.String(100), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
 	department_id = db.Column(db.String(100),\
 		db.ForeignKey('department.id'), nullable=False, onupdate="CASCADE")
 
@@ -85,9 +86,9 @@ class Doctor(db.Model):
 
 
 class Nurse(db.Model):
-	license_id = db.Column(db.String(100), primary_key=True)
+	license_id = db.Column(db.String(100), db.ForeignKey('user.id'), primary_key=True, onupdate="CASCADE")
 	#foreign key
-	user_id = db.Column(db.String(100), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
+	# user_id = db.Column(db.String(100), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
 	department_id = db.Column(db.String(100), \
 		db.ForeignKey('department.id'), nullable=False, onupdate="CASCADE")
 
@@ -109,9 +110,9 @@ class GenderEnum(enum.Enum):
 	female = 'female'
 
 class Patient(db.Model):
-	national_id = db.Column(db.String(100), primary_key=True)
+	national_id = db.Column(db.String(100), db.ForeignKey('user.id'), primary_key=True, onupdate="CASCADE")
 	#foreign key
-	user_id = db.Column(db.String(100), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
+	# user_id = db.Column(db.String(100), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
 
 	age = db.Column(db.SmallInteger())
 	gender = db.Column(db.Enum(GenderEnum))

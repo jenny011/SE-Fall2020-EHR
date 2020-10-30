@@ -9,7 +9,6 @@ from ehr.models import *
 def doctorHome():
 	pass
 	# try:
-	#
 	# 	return redirect(url_for('/login'))
 	# except:
 	# 	return sys.exc_info()[0]
@@ -24,8 +23,7 @@ def nurseHome():
 
 @app.route('/patientHome', methods=['POST'])
 def patientHome():
-	pass
-	# try:
-	# 	return redirect(url_for('/login'))
-	# except:
-	# 	return sys.exc_info()[0]
+	try:
+		return render_template('patientHome.html')
+	except:
+		return "error"
