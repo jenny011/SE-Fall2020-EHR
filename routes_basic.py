@@ -56,7 +56,6 @@ def register():
 		nurse = Nurse(id=id, department_id = department)
 		db.session.add(nurse)
 	db.session.commit()
-	print("I am submitting")
 	return redirect(url_for('login'))
 	# except:
 		# db.session.rollback()
@@ -87,7 +86,7 @@ def login():
 			except:
 				flash("Unknown error, sorry!")
 				return redirect(url_for('login'))
-		print(type(current_user.role))
+				
 		return redirect(url_for(f'{current_user.role.value}Home'))
 
 
