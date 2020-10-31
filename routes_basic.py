@@ -1,10 +1,8 @@
 from operator import ne
-from flask import Flask, render_template, redirect, url_for, request, json, jsonify, session
+from flask import Flask, render_template, redirect, url_for, request, json, jsonify, session, flash
 from flask_login.utils import logout_user
 from flask_login import login_user, logout_user, current_user
-# from uuid import uuid4
 from werkzeug.security import check_password_hash, generate_password_hash
-# from ehr.forms import LoginForm, RegisterForm
 from SE_Fall2020_EHR import app, db, login
 from SE_Fall2020_EHR.models import *
 
@@ -58,6 +56,7 @@ def register():
 		nurse = Nurse(id=id, department_id = department)
 		db.session.add(nurse)
 	db.session.commit()
+	print("I am submitting")
 	return redirect(url_for('login'))
 	# except:
 		# db.session.rollback()
