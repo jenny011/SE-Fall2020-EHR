@@ -9,14 +9,16 @@ from SE_Fall2020_EHR import app, db, login
 from SE_Fall2020_EHR.models import *
 
 @login.user_loader
-def load_user(user_id): # haven't decided which identifier to use. ID or Email?
-	return User.query.get(user_id)
+def load_user(id): # haven't decided which identifier to use. ID or Email?
+	return User.query.get(id)
 
 #???? json.dumps or jsonify ????
 #---------------------Home----------------------
 #---------------------Home----------------------
 @app.route('/')
 def home():
+	if current_user.is_authenticated:
+		return redirect(url_for(f'{current_user.role.value}Home'))
 	return render_template('index.html')
 
 #-------------------Register--------------------
@@ -30,7 +32,7 @@ def register():
 	"""
 	# try:
 	if current_user.is_authenticated:
-		return redirect(url_for(f'{current_user.role}+Home'))
+		return redirect(url_for(f'{current_user.role.value}Home'))
 	role = request.form['role']
 	first_name = request.form['firstName']
 	last_name = request.form['lastName']
@@ -74,6 +76,8 @@ def login():
 		doctor/patient login with: license id + password
 	"""
 	if request.method == 'GET':
+		if current_user.is_authenticated:
+			return redirect(url_for(f'{current_user.role.value}Home'))
 		return render_template('login.html')
 	if request.method == 'POST':
 		if not current_user.is_authenticated:
@@ -88,7 +92,6 @@ def login():
 			except:
 				flash("Unknown error, sorry!")
 				return redirect(url_for('login'))
-		print(type(current_user.role))
 		return redirect(url_for(f'{current_user.role.value}Home'))
 
 
@@ -96,9 +99,8 @@ def login():
 #--------------------Logout---------------------
 #--------------------Logout---------------------
 
-@app.route('/logout', methods=['GET','POST'])
+@app.route('/logout', methods=['GET'])
 def logout():
-	print(request.method)
 	logout_user()
 	return redirect(url_for('home'))
 
@@ -106,6 +108,7 @@ def logout():
 #--------------------home---------------------
 #--------------------home---------------------
 @app.route('/patientHome', methods=['GET'])
+# @login_required
 def patientHome():
 	try:
 		return render_template('patientHome.html')
