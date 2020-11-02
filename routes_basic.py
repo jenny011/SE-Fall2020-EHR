@@ -28,40 +28,39 @@ def register():
 		patient: register by (national)id
 		doctor/nurse: register by (license)id
 	"""
-	# try:
-	if current_user.is_authenticated:
-		return redirect(url_for(f'{current_user.role.value}Home'))
-	role = request.form['role']
-	first_name = request.form['firstName']
-	last_name = request.form['lastName']
-	id = request.form['id']
-	phone = request.form['phone']
-	email = request.form['email']
-	password = request.form['password']
-	if role != "patient":
-		department = request.form['department']
-	# get pre-registered doctor/nurse
-	user = User.query.get(id)
-	if user:
-		return {"error": 'Already registered!'}
-	# generate random unique user_id and create new user
-	user = User(id=id, first_name=first_name, last_name=last_name, role=role, email=email, phone=phone, password_hash=generate_password_hash(password))
-	db.session.add(user)
-	# update corresponding table
-	if role == "patient":
-		patient = Patient(id=id)
-		db.session.add(patient)
-	elif role == "doctor":
-		doctor = Doctor(id=id, department_id = department)
-		db.session.add(doctor)
-	elif role == "nurse":
-		nurse = Nurse(id=id, department_id = department)
-		db.session.add(nurse)
-	db.session.commit()
-	return redirect(url_for('login'))
-	# except:
-		# db.session.rollback()
-		# return "error"
+	try:
+		if current_user.is_authenticated:
+			return redirect(url_for(f'{current_user.role.value}Home'))
+		role = request.form['role']
+		first_name = request.form['firstName']
+		last_name = request.form['lastName']
+		id = request.form['id']
+		phone = request.form['phone']
+		email = request.form['email']
+		password = request.form['password']
+		if role != "patient":
+			department = request.form['department']
+		# user = User.query.get(id)
+		# if user:
+		# 	return ""
+		# generate random unique user_id and create new user
+		user = User(id=id, first_name=first_name, last_name=last_name, role=role, email=email, phone=phone, password_hash=generate_password_hash(password))
+		db.session.add(user)
+		# update corresponding table
+		if role == "patient":
+			patient = Patient(id=id)
+			db.session.add(patient)
+		elif role == "doctor":
+			doctor = Doctor(id=id, department_id = department)
+			db.session.add(doctor)
+		elif role == "nurse":
+			nurse = Nurse(id=id, department_id = department)
+			db.session.add(nurse)
+		db.session.commit()
+		return 0
+	except:
+		db.session.rollback()
+		return 1
 
 
 #--------------------Login---------------------
