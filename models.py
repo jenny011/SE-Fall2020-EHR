@@ -60,9 +60,9 @@ class User(UserMixin, db.Model):
 	password_hash = db.Column(db.String(100), nullable=False)
 
 	#one-to-one relationship
-	doctors = db.relationship('Doctor', backref='user', lazy=True)
-	nurses = db.relationship('Nurse', backref='user', lazy=True)
-	patients = db.relationship('Patient', backref='user', lazy=True)
+	doctors = db.relationship('Doctor', backref='user', lazy=True, cascade="all, delete")
+	nurses = db.relationship('Nurse', backref='user', lazy=True, cascade="all, delete")
+	patients = db.relationship('Patient', backref='user', lazy=True, cascade="all, delete")
 
 	def set_password(self, password):
 		self.password_hash = generate_password_hash(password)
