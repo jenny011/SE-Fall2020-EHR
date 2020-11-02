@@ -85,13 +85,14 @@ def login():
 				user = User.query.get(id)
 				if not user or not user.check_password(password):
 					flash("Unregistered ID or wrong password")
-					return redirect(url_for('login'))
+					return 1
 				login_user(user)
 			except:
 				flash("Unknown error, sorry!")
-				return redirect(url_for('login'))
+				return 1
 
-		return redirect(url_for(f'{current_user.role.value}Home'))
+		return 0
+		# return redirect(url_for(f'{current_user.role.value}Home'))
 
 
 
