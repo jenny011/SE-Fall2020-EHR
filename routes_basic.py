@@ -57,10 +57,10 @@ def register():
 			nurse = Nurse(id=id, department_id = department)
 			db.session.add(nurse)
 		db.session.commit()
-		return 0
+		return "0"
 	except:
 		db.session.rollback()
-		return 1
+		return "1"
 
 
 #--------------------Login---------------------
@@ -92,7 +92,7 @@ def login():
 				# flash("Unknown error, sorry!")
 				return "Unknown error"
 
-		return 0
+		return "0"
 		# return redirect(url_for(f'{current_user.role.value}Home'))
 
 
