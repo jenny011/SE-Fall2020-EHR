@@ -12,10 +12,10 @@ login.login_view = 'login' # force user to login
 login.login_message = "Please login first"
 
 try:
-	app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:1234@localhost/wecare"
+	app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:mysql@8.129.182.214:3306/wecare"
 	db = SQLAlchemy(app)
 except:
-	app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:password@127.0.0.1/wecare"
+	app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:1234@localhost/wecare"
 	db = SQLAlchemy(app)
 
 if __name__ == '__main__':
