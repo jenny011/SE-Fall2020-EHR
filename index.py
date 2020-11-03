@@ -46,5 +46,10 @@ def loginTemplate():
 def hospitalTemplate():
 	return render_template('hospitalListPage.html')
 
+@app.route('/hospitalData')
+def hopitalData():
+	print(request.args['currPage'])
+	print(request.args['pageSize'])
+	return 'OK'
 if __name__ == '__main__':
 	app.run(debug=True)    

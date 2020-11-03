@@ -227,6 +227,7 @@
 
 .hospital-addr{
 	width:11vw;
+	font-size:1rem;
 }
 
 .hospital-card-right{
@@ -235,4 +236,23 @@
 
 .btn-primary{
 	font-size: 1.5vh;
+}
+
+#list-footer{
+	width:100%;
+	height:7vh;
+	background:red;
+	display: flex;
+	flex-direction:row;
+	align-items: center;
+	justify-content: space-around;
+}
+
+#pagecount{
+	margin-right: 72%;
+}
+
+#pagination-container{
+	font-size:1.0vw;
+	margin-top:2vh;
 }
