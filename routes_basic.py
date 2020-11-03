@@ -5,6 +5,7 @@ from flask_login import login_user, logout_user, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 from SE_Fall2020_EHR import app, db, login
 from SE_Fall2020_EHR.models import *
+import math
 
 @login.user_loader
 def load_user(id): # haven't decided which identifier to use. ID or Email?
@@ -28,39 +29,39 @@ def register():
 		patient: register by (national)id
 		doctor/nurse: register by (license)id
 	"""
-	try:
-		if current_user.is_authenticated:
-			return redirect(url_for(f'{current_user.role.value}Home'))
-		role = request.form['role']
-		first_name = request.form['firstName']
-		last_name = request.form['lastName']
-		id = request.form['id']
-		phone = request.form['phone']
-		email = request.form['email']
-		password = request.form['password']
-		if role != "patient":
-			department = request.form['department']
-		# user = User.query.get(id)
-		# if user:
-		# 	return ""
-		# generate random unique user_id and create new user
-		user = User(id=id, first_name=first_name, last_name=last_name, role=role, email=email, phone=phone, password_hash=generate_password_hash(password))
-		db.session.add(user)
-		# update corresponding table
-		if role == "patient":
-			patient = Patient(id=id)
-			db.session.add(patient)
-		elif role == "doctor":
-			doctor = Doctor(id=id, department_id = department)
-			db.session.add(doctor)
-		elif role == "nurse":
-			nurse = Nurse(id=id, department_id = department)
-			db.session.add(nurse)
-		db.session.commit()
-		return "0"
-	except:
-		db.session.rollback()
-		return "1"
+	# try:
+	if current_user.is_authenticated:
+		return redirect(url_for(f'{current_user.role.value}Home'))
+	role = request.form['role']
+	first_name = request.form['firstName']
+	last_name = request.form['lastName']
+	id = request.form['id']
+	phone = request.form['phone']
+	email = request.form['email']
+	password = request.form['password']
+	if role != "patient":
+		department = request.form['department']
+	# user = User.query.get(id)
+	# if user:
+	# 	return ""
+	# generate random unique user_id and create new user
+	user = User(id=id, first_name=first_name, last_name=last_name, role=role, email=email, phone=phone, password_hash=generate_password_hash(password))
+	db.session.add(user)
+	# update corresponding table
+	if role == "patient":
+		patient = Patient(id=id)
+		db.session.add(patient)
+	elif role == "doctor":
+		doctor = Doctor(id=id, department_id = department)
+		db.session.add(doctor)
+	elif role == "nurse":
+		nurse = Nurse(id=id, department_id = department)
+		db.session.add(nurse)
+	db.session.commit()
+	return "0"
+	# except:
+	# 	db.session.rollback()
+	# 	return "1"
 
 
 #--------------------Login---------------------
@@ -108,10 +109,32 @@ def logout():
 
 #--------------------home---------------------
 #--------------------home---------------------
+###TODO
+###login_required not working
+###query语法
+###对应前端变量
+'''
+@input
+currPage: int (0/1 to n)
+pageSize: int
+@return 
+a list of kv: [{hospitalName, hospitalAddr, hospitalID}]
+pageCount: int
+'''
 @app.route('/patientHome', methods=['GET'])
 # @login_required
 def patientHome():
 	try:
+		currPage = int(request.form['currPage'])
+		pageSize = int(request.form['pageSize'])
+		offset = currPage * pageSize
+		# query for hospitals
+		hospitalCount = Hospital.query.count()
+		pageCount = math.ceil(hospitalCount / pageSize)
+		rawHospitals = Hospital.query.all().limit(pageSize).offest(offset)
+		hospitals = []
+		for item in rawHospitals:
+			hospital.append({'hospitalName': item.name, 'hospitalAddr': item.address, 'hospitalID': item.id})
 		return render_template('patientHome.html')
 	except:
 		return "error"
