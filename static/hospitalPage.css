@@ -241,8 +241,8 @@
 #list-footer{
 	width:100%;
 	height:7vh;
-	background:red;
-	display: flex;
+/*	background:red;
+*/	display: flex;
 	flex-direction:row;
 	align-items: center;
 	justify-content: space-around;
