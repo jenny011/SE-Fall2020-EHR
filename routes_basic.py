@@ -1,6 +1,9 @@
 from operator import ne
 from flask import Flask, render_template, redirect, url_for, request, json, jsonify, session, flash, make_response
+<<<<<<< HEAD
 from flask.helpers import make_response
+=======
+>>>>>>> a5b031dc418725faed0e91f6ca02d105f562379e
 from flask_login.utils import logout_user
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -60,6 +63,7 @@ def register():
 		nurse = Nurse(id=id, department_id = department)
 		db.session.add(nurse)
 	db.session.commit()
+<<<<<<< HEAD
 
 	response = make_response(
 		jsonify(
@@ -69,6 +73,9 @@ def register():
 	)
 	return response
 
+=======
+	return make_response(jsonify({"ret":0}), 200)
+>>>>>>> a5b031dc418725faed0e91f6ca02d105f562379e
 	# except:
 	# 	db.session.rollback()
 	# 	return "1"
