@@ -1,5 +1,5 @@
 from operator import ne
-from flask import Flask, render_template, redirect, url_for, request, json, jsonify, session, flash, Response
+from flask import Flask, render_template, redirect, url_for, request, json, jsonify, session, flash, make_response
 from flask_login.utils import logout_user
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -33,7 +33,6 @@ def register():
 	# try:
 	if current_user.is_authenticated:
 		return redirect(url_for(f'{current_user.role.value}Home'))
-	response = Response()
 	role = request.form['role']
 	first_name = request.form['firstName']
 	last_name = request.form['lastName']
@@ -60,8 +59,7 @@ def register():
 		nurse = Nurse(id=id, department_id = department)
 		db.session.add(nurse)
 	db.session.commit()
-	response.ret = 0
-	return response
+	return make_response(jsonify({"ret":0}), 200)
 	# except:
 	# 	db.session.rollback()
 	# 	return "1"
