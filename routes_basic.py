@@ -125,25 +125,25 @@ pageCount: int
 @app.route('/patientHome', methods=['GET'])
 @login_required
 def patientHome():
-	try:
-		# currPage = int(request.form['currPage']) 
-		# pageSize = int(request.form['pageSize']) 
+	# try:
+	# currPage = int(request.form['currPage']) 
+	# pageSize = int(request.form['pageSize']) 
 
-		# temporory data
-		currPage=1
-		pageSize=12
+	# temporory data
+	curr_page=1
+	page_size=12
 
-		offset = (currPage-1) * pageSize + 1
-		# query for hospitals
-		hospitalCount = Hospital.query.count()
-		pageCount = math.ceil(hospitalCount / pageSize)
-		rawHospitals = Hospital.query.all().limit(pageSize).offest(offset)
+	n_offset = (curr_page-1) * page_size + 1
+	# query for hospitals
+	hospital_count = Hospital.query.count()
+	page_count = math.ceil(hospital_count / page_size)
+	rawHospitals = Hospital.query.offset(n_offset).limit(page_count)
+	hospital_ids = [res.id for res in rawHospitals]
+	hospital_names = [res.name for res in rawHospitals]
+	hospital_addresses = [res.address for res in rawHospitals]
+	hospital_phones = [res.phone for res in rawHospitals]
 
-		hospital_ids = [res.id for res in rawHospitals]
-		hospital_names = [res.name for res in rawHospitals]
-		hospital_addresses = [res.address for res in rawHospitals]
-		hospital_phones = [res.phone for res in rawHospitals]
-		
-		return render_template('patientHome.html')
-	except:
-		return "error"
+	data = {"hospitalName": hospital_names, "hospitalAddr": hospital_addresses}
+	return data
+	# except:
+	# 	return "error"
