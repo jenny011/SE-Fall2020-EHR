@@ -93,11 +93,8 @@ def login():
 			except:
 				# flash("Unknown error, sorry!")
 				return "Unknown error"
-		data = {"data": "success"}
-		# return jsonify(data), 200
+
 		return redirect(url_for(f'{current_user.role.value}Home'))
-
-
 
 #--------------------Logout---------------------
 #--------------------Logout---------------------
@@ -112,38 +109,44 @@ def logout():
 #--------------------home---------------------
 ###TODO
 ###login_required not working
-###query语法
 ###对应前端变量
 '''
 @input
 currPage: int (0/1 to n)
 pageSize: int
-@return
+@return 
 a list of kv: [{hospitalName, hospitalAddr, hospitalID}]
 pageCount: int
 '''
-@app.route('/patientHome', methods=['GET'])
-@login_required
+@app.route('/hospitalData', methods=['GET'])
+# @login_required
 def patientHome():
-	try:
-		# currPage = int(request.form['currPage'])
-		# pageSize = int(request.form['pageSize'])
+	# try:
+	# currPage = int(request.form['currPage']) 
+	# pageSize = int(request.form['pageSize']) 
 
-		# temporory data
-		currPage=1
-		pageSize=12
+	# temporory data
+	curr_page=1
+	page_size=12
 
-		offset = (currPage-1) * pageSize + 1
-		# query for hospitals
-		hospitalCount = Hospital.query.count()
-		pageCount = math.ceil(hospitalCount / pageSize)
-		rawHospitals = Hospital.query.all().limit(pageSize).offest(offset)
+	n_offset = (curr_page-1) * page_size + 1
+	# query for hospitals
+	hospital_count = Hospital.query.count()
+	page_count = math.ceil(hospital_count / page_size)
+	rawHospitals = Hospital.query.offset(n_offset).limit(page_count)
+	print(rawHospitals)
+	hospital_ids = [res.id for res in rawHospitals]
+	hospital_names = [res.name for res in rawHospitals]
+	hospital_addresses = [res.address for res in rawHospitals]
+	hospital_phones = [res.phone for res in rawHospitals]
+	# return data
+	return make_response(jsonify(
+		[{"id":hospital_ids[i],
+		  "name": hospital_names[i],
+		  "address": hospital_addresses[i],
+		  "phone": hospital_phones[i]} for i in range(page_count)]), 200)
 
-		hospital_ids = [res.id for res in rawHospitals]
-		hospital_names = [res.name for res in rawHospitals]
-		hospital_addresses = [res.address for res in rawHospitals]
-		hospital_phones = [res.phone for res in rawHospitals]
 
-		return render_template('patientHome.html')
-	except:
-		return "error"
+@app.route('/hospitalListPage',methods=['GET'])
+def GoToHospitalList():
+	return render_template('hospitalListPage.html')
