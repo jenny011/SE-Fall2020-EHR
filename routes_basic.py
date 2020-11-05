@@ -140,12 +140,12 @@ def patientHome():
 	hospital_addresses = [res.address for res in rawHospitals]
 	hospital_phones = [res.phone for res in rawHospitals]
 	# return data
-	return make_response(jsonify({"ret_id":hospital_ids,
-								"ret_name": hospital_names,
-								"ret_address": hospital_addresses,
-								"ret_phone": hospital_phones}), 200)
-	# except:
-	# 	return "error"
+	return make_response(jsonify(
+		[{"id":hospital_ids[i],
+		  "name": hospital_names[i],
+		  "address": hospital_addresses[i],
+		  "phone": hospital_phones[i]} for i in range(page_count)]), 200)
+
 
 @app.route('/hospitalListPage',methods=['GET'])
 def GoToHospitalList():
