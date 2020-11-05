@@ -118,8 +118,8 @@ pageSize: int
 a list of kv: [{hospitalName, hospitalAddr, hospitalID}]
 pageCount: int
 '''
-@app.route('/patientHome', methods=['GET'])
-@login_required
+@app.route('/hospitalData', methods=['GET'])
+# @login_required
 def patientHome():
 	# try:
 	# currPage = int(request.form['currPage']) 
@@ -146,3 +146,7 @@ def patientHome():
 								"ret_phone": hospital_phones}), 200)
 	# except:
 	# 	return "error"
+
+@app.route('/hospitalListPage',methods=['GET'])
+def GoToHospitalList():
+	return render_template('hospitalListPage.html')
