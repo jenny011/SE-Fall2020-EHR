@@ -1,5 +1,6 @@
 from operator import ne
-from flask import Flask, render_template, redirect, url_for, request, json, jsonify, session, flash
+from flask import Flask, render_template, redirect, url_for, request, json, jsonify, session, flash, make_response
+from flask.helpers import make_response
 from flask_login.utils import logout_user
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -59,7 +60,15 @@ def register():
 		nurse = Nurse(id=id, department_id = department)
 		db.session.add(nurse)
 	db.session.commit()
-	return "0"
+
+	response = make_response(
+		jsonify(
+			{"message": '0', }
+		),
+		200,
+	)
+	return response
+
 	# except:
 	# 	db.session.rollback()
 	# 	return "1"
@@ -93,11 +102,8 @@ def login():
 			except:
 				# flash("Unknown error, sorry!")
 				return "Unknown error"
-		data = {"data": "success"}
-		# return jsonify(data), 200
+
 		return redirect(url_for(f'{current_user.role.value}Home'))
-
-
 
 #--------------------Logout---------------------
 #--------------------Logout---------------------
@@ -112,7 +118,6 @@ def logout():
 #--------------------home---------------------
 ###TODO
 ###login_required not working
-###query语法
 ###对应前端变量
 '''
 @input
