@@ -1,7 +1,7 @@
 from operator import ne
 from flask import Flask, render_template, redirect, url_for, request, json, jsonify, session, flash
 from flask_login.utils import logout_user
-from flask_login import login_user, logout_user, current_user
+from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 from SE_Fall2020_EHR import app, db, login
 from SE_Fall2020_EHR.models import *
@@ -15,6 +15,7 @@ def load_user(id): # haven't decided which identifier to use. ID or Email?
 #---------------------Home----------------------
 #---------------------Home----------------------
 @app.route('/')
+@app.route('/index')
 def home():
 	if current_user.is_authenticated:
 		return redirect(url_for(f'{current_user.role.value}Home'))
@@ -92,9 +93,9 @@ def login():
 			except:
 				# flash("Unknown error, sorry!")
 				return "Unknown error"
-
-		return "0"
-		# return redirect(url_for(f'{current_user.role.value}Home'))
+		data = {"data": "success"}
+		# return jsonify(data), 200
+		return redirect(url_for(f'{current_user.role.value}Home'))
 
 
 
@@ -122,19 +123,27 @@ a list of kv: [{hospitalName, hospitalAddr, hospitalID}]
 pageCount: int
 '''
 @app.route('/patientHome', methods=['GET'])
-# @login_required
+@login_required
 def patientHome():
 	try:
-		currPage = int(request.form['currPage'])
-		pageSize = int(request.form['pageSize'])
-		offset = currPage * pageSize
+		# currPage = int(request.form['currPage']) 
+		# pageSize = int(request.form['pageSize']) 
+
+		# temporory data
+		currPage=1
+		pageSize=12
+
+		offset = (currPage-1) * pageSize + 1
 		# query for hospitals
 		hospitalCount = Hospital.query.count()
 		pageCount = math.ceil(hospitalCount / pageSize)
 		rawHospitals = Hospital.query.all().limit(pageSize).offest(offset)
-		hospitals = []
-		for item in rawHospitals:
-			hospital.append({'hospitalName': item.name, 'hospitalAddr': item.address, 'hospitalID': item.id})
+
+		hospital_ids = [res.id for res in rawHospitals]
+		hospital_names = [res.name for res in rawHospitals]
+		hospital_addresses = [res.address for res in rawHospitals]
+		hospital_phones = [res.phone for res in rawHospitals]
+		
 		return render_template('patientHome.html')
 	except:
 		return "error"
