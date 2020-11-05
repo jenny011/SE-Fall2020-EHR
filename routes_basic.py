@@ -1,9 +1,5 @@
 from operator import ne
 from flask import Flask, render_template, redirect, url_for, request, json, jsonify, session, flash, make_response
-<<<<<<< HEAD
-from flask.helpers import make_response
-=======
->>>>>>> a5b031dc418725faed0e91f6ca02d105f562379e
 from flask_login.utils import logout_user
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -63,19 +59,7 @@ def register():
 		nurse = Nurse(id=id, department_id = department)
 		db.session.add(nurse)
 	db.session.commit()
-<<<<<<< HEAD
-
-	response = make_response(
-		jsonify(
-			{"message": '0', }
-		),
-		200,
-	)
-	return response
-
-=======
 	return make_response(jsonify({"ret":0}), 200)
->>>>>>> a5b031dc418725faed0e91f6ca02d105f562379e
 	# except:
 	# 	db.session.rollback()
 	# 	return "1"
@@ -150,12 +134,15 @@ def patientHome():
 	hospital_count = Hospital.query.count()
 	page_count = math.ceil(hospital_count / page_size)
 	rawHospitals = Hospital.query.offset(n_offset).limit(page_count)
+	print(rawHospitals)
 	hospital_ids = [res.id for res in rawHospitals]
 	hospital_names = [res.name for res in rawHospitals]
 	hospital_addresses = [res.address for res in rawHospitals]
 	hospital_phones = [res.phone for res in rawHospitals]
-
-	data = {"hospitalName": hospital_names, "hospitalAddr": hospital_addresses}
-	return data
+	# return data
+	return make_response(jsonify({"ret_id":hospital_ids,
+								"ret_name": hospital_names,
+								"ret_address": hospital_addresses,
+								"ret_phone": hospital_phones}), 200)
 	# except:
 	# 	return "error"
