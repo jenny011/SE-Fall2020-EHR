@@ -60,9 +60,6 @@ def register():
 		db.session.add(nurse)
 	db.session.commit()
 	return make_response(jsonify({"ret":0}), 200)
-	# except:
-	# 	db.session.rollback()
-	# 	return "1"
 
 
 #--------------------Login---------------------

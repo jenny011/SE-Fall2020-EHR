@@ -40,6 +40,7 @@ body{
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	align-items: center;
 	height:75%;
 	width:100%;
 	padding: 2%;
@@ -78,7 +79,13 @@ body{
 }
 
 #login-form{
-	margin-top:-14%;
+/*	margin-top:-14%;
+*/	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	height:30vh;
+	width:100%;
 }
 
 #login-btn-wrapper{
@@ -87,6 +94,13 @@ body{
 	align-items: center;
 	justify-content:center;
 
+}
+
+#input-wrapper{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width:100%;
 }
 
 #doLogin{
@@ -111,7 +125,8 @@ body{
 }
 
 .login-input{
-	margin-left: 10%;
+/*	margin-left: 10%;
+*/	width:100%;
 	display: flex;
 	flex-direction: row;
 	flex-wrap:wrap;
@@ -120,9 +135,10 @@ body{
 }
 
 .register-input{
-	margin-left: 10%;
-	padding-top:2%;
-	display: flex;
+/*	margin-left: 10%;
+*/	width:100%;
+/*	padding-top:2%;
+*/	display: flex;
 	flex-direction: row;
 	flex-wrap:wrap;
 	justify-content: space-between;
@@ -145,14 +161,18 @@ label{
 
 input{
 /*	margin-left:9%;
-*/	margin-right:10%;
-	width:50%;
-	border:0;
+*/	/*margin-right:10%;*/
+/*	width:50%;
+*/	border:0;
 	border-bottom: 1px solid #797979;
 	outline-style: none;
 	transition:border-bottom 1s;
 /*	transition:border-width 0.8s;
 */}
+
+.text-input{
+	width:;
+}
 
 input:hover{
 	border-bottom:1px solid #2D79D6;
@@ -164,11 +184,12 @@ input:focus{
 */}
 
 #option-container{
-	max-width:100%;
+	width:100%;
+
 	height:fit-content;
 	display:flex;
 	flex-direction: row;
-	justify-content: space-between;
+	justify-content: space-around;
 /*	border:1px solid red;
 */	font-size:0.1rem;
 	padding: 2%;
@@ -256,13 +277,13 @@ input:focus{
 
 }
 
-#patient-register-btn-wrapper{
+.register-btn-wrapper{
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content:center;
-	margin-bottom:12%;
-}
+/*	margin-bottom:12%;
+*/}
 
 #doRegister{
 	background:rgb(0,123,255);
@@ -296,4 +317,12 @@ input:focus{
 	color:rgb(0,123,255);
 	margin-top: 41%;
 
+}
+
+.register-form{
+	display:flex;
+	flex-direction: column;
+	align-items:center;
+	width:100%;
+	margin-bottom:5vh;
 }
