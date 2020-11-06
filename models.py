@@ -27,10 +27,8 @@ class Hospital(db.Model):
 
 class Department(db.Model):
 	id = db.Column(db.String(100), primary_key=True)
-	first_name = db.Column(db.String(100), nullable=False)
-	last_name = db.Column(db.String(100), nullable=False)
+	title = db.Column(db.String(100), nullable=False)
 	phone = db.Column(db.String(20))
-	address = db.Column(db.Text())
 	description = db.Column(db.Text())
 	#foreign key
 	hospital_id = db.Column(db.String(100), \
@@ -40,8 +38,8 @@ class Department(db.Model):
 	nurses = db.relationship('Nurse', backref='department', lazy=True)
 
 	def __repr__(self):
-		return f'Department < id: {self.id}, name: {self.first_name + self.last_name}, \
-			phone: {self.phone}, address: {self.address}, description: {self.description}\
+		return f'Department < id: {self.id}, name: {self.title}, \
+			phone: {self.phone}, description: {self.description}\
 				hospital_id: {self.hospital_id} >'
 
 # Enum Type example reference :
