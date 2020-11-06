@@ -21,8 +21,8 @@
 		</nav>
 
 		<nav class="nav nav-pills">
-			<a class="main nav-link active" href="#">Home</a>
-			<a class="main nav-link" href="#">All appointments</a>
+			<a class="nav-main nav-link active disabled" href="#">Home</a>
+			<a class="nav-main nav-link" href="#">All appointments</a>
 			<form class="ml-auto form-inline" action="/nurseSearch" method="POST" style="padding-right: 1em;">
 				<div class="input-group input-group-sm">
 					<input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="search-input" placeholder="department, doctor, patient">
@@ -69,10 +69,10 @@
 		<div id="content-header-wrapper">
 			<nav class="nav nav-tabs" style="border-top-style: solid; border-top-width:1px; border-top-color: grey; padding-top: 1em;">
 				<div class="nav-item">
-					<div class="sub nav-link active" onclick="getPendingApps()">Pending applications</div> <!--/pendingApp-->
+					<div class="nav-table nav-link active disabled" onclick="getPendingApps()">Pending applications</div> <!--/pendingApp-->
 				</div>
 				<div class="nav-item">
-					<div class="sub nav-link" onclick="getTodayAppts()">Today's appointments</div> <!--/todayAppt-->
+					<div class="nav-table nav-link" onclick="getTodayAppts()">Today's appointments</div> <!--/todayAppt-->
 				</div>
 				<form class="ml-auto form-inline" action="/goCreateAppt" method="GET">
 					<div class="form-group">
@@ -93,7 +93,7 @@
 									    Application ID
 									  </button>
 									  <div class="dropdown-menu">
-											<a class="dropdown-item" href="#">ascending</a>
+											<a class="dropdown-item active" href="#">ascending</a>
 									    <a class="dropdown-item" href="#">descending</a>
 									  </div>
 									</div>
@@ -104,10 +104,8 @@
 									    Date
 									  </button>
 									  <div class="dropdown-menu">
-											<a class="dropdown-item" href="#">ascending</a>
+											<a class="dropdown-item active" href="#">ascending</a>
 									    <a class="dropdown-item" href="#">descending</a>
-									    <div class="dropdown-divider"></div>
-									    <a class="dropdown-item" href="#">Separated link</a>
 									  </div>
 									</div>
 								</th>
@@ -117,29 +115,38 @@
 									    Time
 									  </button>
 									  <div class="dropdown-menu">
-											<a class="dropdown-item" href="#">ascending</a>
+											<a class="dropdown-item active" href="#">ascending</a>
 									    <a class="dropdown-item" href="#">descending</a>
-									    <div class="dropdown-divider"></div>
-									    <a class="dropdown-item" href="#">Separated link</a>
 									  </div>
 									</div>
 								</th>
 								<th scope="col">
-									<input type="radio" class="form-check-input" name="orderBy" id="doctor" value="doctor">
-									<label class="form-check-label" for="doctor">Doctor</label>
-									<select class="custom-select-sm" id="inlineFormCustomSelectPref">
-								    <option value="All" selected>Doctor</option>
-								    <option value="A">Alice</option>
-								    <option value="B">Bob</option>
-								    <option value="C">Cat</option>
-								  </select>
+									<div class="dropdown-wrapper">
+									  <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown4">
+									    Doctor
+									  </button>
+									  <div class="dropdown-menu">
+											<a class="dropdown-item active" href="#">ascending</a>
+									    <a class="dropdown-item" href="#">descending</a>
+									    <div class="dropdown-divider"></div>
+									    <a class="dropdown-item" href="#">A</a>
+											<a class="dropdown-item" href="#">B</a>
+											<a class="dropdown-item" href="#">C</a>
+									  </div>
+									</div>
 								</th>
 								<th scope="col">
-									<input type="radio" class="form-check-input" name="orderBy" id="patient" value="patient">
-    							<label class="form-check-label" for="patient">Patient</label>
+									<div class="dropdown-wrapper">
+									  <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown5">
+									    Patient
+									  </button>
+									  <div class="dropdown-menu">
+											<a class="dropdown-item active" href="#">ascending</a>
+									    <a class="dropdown-item" href="#">descending</a>
+									  </div>
+									</div>
 								</th>
 								<th scope="col">Symptoms</th>
-								<th><button class="btn btn-sm btn-outline-primary view">Apply</button></th>
 					    </tr>
 						</form>
 				  </thead>
@@ -247,23 +254,23 @@
 
 		//------------------ styling -------------------
 		// main navigation
-    $(".main").on("click", function(event) {
+    $(".nav-main").on("click", function(event) {
         event.preventDefault();
         var clickedItem = $(this);
-        $(".main").each( function() {
-            $(this).removeClass("active");
+        $(".nav-main").each( function() {
+            $(this).removeClass("active disabled");
         });
-        clickedItem.addClass("active");
+        clickedItem.addClass("active disabled");
     });
 
 		// sub navigation
-		$(".sub").on("click", function(event) {
+		$(".nav-table").on("click", function(event) {
         event.preventDefault();
         var clickedItem = $(this);
-        $(".sub").each( function() {
-            $(this).removeClass("active");
+        $(".nav-table").each( function() {
+            $(this).removeClass("active disabled");
         });
-				clickedItem.addClass("active");
+				clickedItem.addClass("active disabled");
     });
 
 	</script>

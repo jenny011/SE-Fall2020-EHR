@@ -94,7 +94,7 @@ def login():
 				# flash("Unknown error, sorry!")
 				return make_response(jsonify({"ret": "Unknown error"}))
 
-		return make_response(jsonify({"ret":0, "role":current_user.role.value}), 200)
+		return make_response(jsonify({"ret":0, "role":current_user.role.value, "id": current_user.id.value}), 200)
 		#redirect(url_for(f'{current_user.role.value}Home'))
 
 #--------------------Logout---------------------
@@ -122,8 +122,8 @@ def hospitalData():
 	# try:
 	if request.method == "GET":
 		return redirect(url_for('GoToHospitalList'))
-	curr_page = int(request.form['currPage']) 
-	page_size = int(request.form['pageSize']) 
+	curr_page = int(request.form['currPage'])
+	page_size = int(request.form['pageSize'])
 
 	# temporory data
 	# curr_page=1
