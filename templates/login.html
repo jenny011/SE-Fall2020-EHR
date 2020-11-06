@@ -187,7 +187,9 @@
 					clearLoginForm();
 					$('#login-form-mode-bar').remove();
 					showLoginMessage(data);
-					setTimeout(login,1000);
+					if(data['ret']==0){
+						setTimeout(login,1000);
+					}
 				}
 			})
 		}
