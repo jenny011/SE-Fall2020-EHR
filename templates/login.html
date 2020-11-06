@@ -194,13 +194,14 @@
 		}
 
 		function loadHomePage(){
-			$.ajax({
-				url:"http://localhost:5000/loadHomePage",
-				type:'GET',
-				success: function(res){
-					$(this).html(res);
-				}
-			})
+			// $.ajax({
+			// 	url:"http://localhost:5000/loadHomePage",
+			// 	type:'GET',
+			// 	success: function(res){
+			// 		$(this).html(res);
+			// 	}
+			// })
+			window.location.replace("http://localhost:5000/loadHomePage")
 		}
 
 		function register(){
