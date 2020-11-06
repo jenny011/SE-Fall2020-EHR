@@ -69,10 +69,10 @@
 		<div id="content-header-wrapper">
 			<nav class="nav nav-tabs">
 				<div class="nav-item">
-					<div class="nav-table nav-link active disabled" onclick="getPendingApps()">Pending applications</div> <!--/pendingApp-->
+					<div class="content-header nav-table nav-link active disabled" onclick="getPendingApps()">Pending applications</div> <!--/pendingApp-->
 				</div>
 				<div class="nav-item">
-					<div class="nav-table nav-link" onclick="getTodayAppts()">Today's appointments</div> <!--/todayAppt-->
+					<div class="content-header nav-table nav-link" onclick="getTodayAppts()">Today's appointments</div> <!--/todayAppt-->
 				</div>
 				<form class="ml-auto form-inline" action="/goCreateAppt" method="GET">
 					<div class="form-group">
@@ -85,71 +85,69 @@
 			<div class='table' id="info-container">
 				<table style="width:100%;">
 				  <thead>
-						<form class="form-inline" action="#">
-					    <tr>
-					      <th scope="col">
-									<div class="dropdown-wrapper">
-									  <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown1">
-									    Application ID
-									  </button>
-									  <div class="dropdown-menu">
-											<a class="dropdown-item active" href="#">ascending</a>
-									    <a class="dropdown-item" href="#">descending</a>
-									  </div>
-									</div>
-								</th>
-								<th scope="col">
-									<div class="dropdown-wrapper">
-									  <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown2">
-									    Date
-									  </button>
-									  <div class="dropdown-menu">
-											<a class="dropdown-item active" href="#">ascending</a>
-									    <a class="dropdown-item" href="#">descending</a>
-									  </div>
-									</div>
-								</th>
-								<th scope="col">
-									<div class="dropdown-wrapper">
-									  <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown3">
-									    Time
-									  </button>
-									  <div class="dropdown-menu">
-											<a class="dropdown-item active" href="#">ascending</a>
-									    <a class="dropdown-item" href="#">descending</a>
-									  </div>
-									</div>
-								</th>
-								<th scope="col">
-									<div class="dropdown-wrapper">
-									  <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown4">
-									    Doctor
-									  </button>
-									  <div class="dropdown-menu">
-											<a class="dropdown-item active" href="#">ascending</a>
-									    <a class="dropdown-item" href="#">descending</a>
-									    <div class="dropdown-divider"></div>
-									    <a class="dropdown-item" href="#">A</a>
-											<a class="dropdown-item" href="#">B</a>
-											<a class="dropdown-item" href="#">C</a>
-									  </div>
-									</div>
-								</th>
-								<th scope="col">
-									<div class="dropdown-wrapper">
-									  <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown5">
-									    Patient
-									  </button>
-									  <div class="dropdown-menu">
-											<a class="dropdown-item active" href="#">ascending</a>
-									    <a class="dropdown-item" href="#">descending</a>
-									  </div>
-									</div>
-								</th>
-								<th scope="col">Symptoms</th>
-								<th scope="col"></th>
-					    </tr>
-						</form>
+				    <tr>
+				      <th scope="col">
+								<div class="dropdown-wrapper">
+								  <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown1">
+								    Application ID
+								  </button>
+								  <div class="dropdown-menu">
+										<a class="dropdown-item active" href="#">ascending</a>
+								    <a class="dropdown-item" href="#">descending</a>
+								  </div>
+								</div>
+							</th>
+							<th scope="col">
+								<div class="dropdown-wrapper">
+								  <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown2">
+								    Date
+								  </button>
+								  <div class="dropdown-menu">
+										<a class="dropdown-item" href="#">ascending</a>
+								    <a class="dropdown-item" href="#">descending</a>
+								  </div>
+								</div>
+							</th>
+							<th scope="col">
+								<div class="dropdown-wrapper">
+								  <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown3">
+								    Time
+								  </button>
+								  <div class="dropdown-menu">
+										<a class="dropdown-item" href="#">ascending</a>
+								    <a class="dropdown-item" href="#">descending</a>
+								  </div>
+								</div>
+							</th>
+							<th scope="col">
+								<div class="dropdown-wrapper">
+								  <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown4">
+								    Doctor
+								  </button>
+								  <div class="dropdown-menu">
+										<a class="dropdown-item" href="#">ascending</a>
+								    <a class="dropdown-item" href="#">descending</a>
+								    <div class="dropdown-divider"></div>
+								    <a class="dropdown-item" href="#">A</a>
+										<a class="dropdown-item" href="#">B</a>
+										<a class="dropdown-item" href="#">C</a>
+								  </div>
+								</div>
+							</th>
+							<th scope="col">
+								<div class="dropdown-wrapper">
+								  <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown5">
+								    Patient
+								  </button>
+								  <div class="dropdown-menu">
+										<a class="dropdown-item active" href="#">ascending</a>
+								    <a class="dropdown-item" href="#">descending</a>
+								  </div>
+								</div>
+							</th>
+							<th scope="col">Symptoms</th>
+							<th scope="col"></th>
+				    </tr>
 				  </thead>
 				  <tbody>
 			    	<!-- <tr>
@@ -207,11 +205,16 @@
 		}
 
 		// get pending applications
-		function getPendingApps(){
+		function getPendingApps(pageCount){
+			if (!pageCount) {
+				pageCount = parseInt($("#pageCount").text());
+			}
+			console.log(pageCount);
+			// var orderBy = {'field':, 'order':}
 			jQuery.ajax({
 				url: "http://localhost:5000/pendingApp",
-				type: 'GET',
-				data: {'pageSize': 10},
+				type: 'POST',
+				data: {'pageSize': 10, 'pageCount': pageCount, "orderBy": orderBy, "filterBy": filterBy},
 				success: function(data){
 					console.log(data);
 					displayApps(data);
@@ -219,10 +222,14 @@
 			});
 		}
 
-		function getTodayAppts() {
+		function getTodayAppts(pageCount) {
+			if (!pageCount) {
+				pageCount = parseInt($("#pageCount").text());
+			}
+			console.log(pageCount);
 			jQuery.ajax({
 				url: "http://localhost:5000/todayAppt",
-				type: 'GET',
+				type: 'POST',
 				data: {'pageSize': 10},
 				success: function(data){
 					console.log(data);
@@ -233,10 +240,10 @@
 
 		function updateTablePage(nextPage) {
 			// construct json
-			if (1) {
-				getPendingApps();
+			if ($(".content-header.active").text() == "Pending applications") {
+				getPendingApps(nextPage);
 			} else {
-				getTodayAppts();
+				getTodayAppts(nextPage);
 			}
 		}
 
@@ -270,9 +277,7 @@
 				event.preventDefault();
 				var clickedItem = $(this);
 				var i=0;
-        $(this).parent().children().each( function() {
-					console.log(i);
-					i++;
+        $(".dropdown-item").each( function() {
 					if ($(this).hasClass("active")) {
 						$(this).removeClass("active");
 					}
