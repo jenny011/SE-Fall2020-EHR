@@ -20,7 +20,7 @@
 		  </div>
 		</nav>
 
-		<nav class="nav nav-pills">
+		<nav class="nav nav-pills" style="border-bottom-style: solid; border-bottom-width:1px; border-bottom-color: grey;">
 			<a class="nav-main nav-link active disabled" href="#">Home</a>
 			<a class="nav-main nav-link" href="#">All appointments</a>
 			<form class="ml-auto form-inline" action="/nurseSearch" method="POST" style="padding-right: 1em;">
@@ -65,9 +65,9 @@
 			</form>
 		</nav> -->
 
-	<div id="content-wrapper">
+	<div id="content-wrapper" style="padding:0.5em;">
 		<div id="content-header-wrapper">
-			<nav class="nav nav-tabs" style="border-top-style: solid; border-top-width:1px; border-top-color: grey; padding-top: 1em;">
+			<nav class="nav nav-tabs">
 				<div class="nav-item">
 					<div class="nav-table nav-link active disabled" onclick="getPendingApps()">Pending applications</div> <!--/pendingApp-->
 				</div>
@@ -83,7 +83,7 @@
 		</div>
 		<div id="table-container">
 			<div class='table' id="info-container">
-				<table>
+				<table style="width:100%;">
 				  <thead>
 						<form class="form-inline" action="#">
 					    <tr>
@@ -147,6 +147,7 @@
 									</div>
 								</th>
 								<th scope="col">Symptoms</th>
+								<th scope="col"></th>
 					    </tr>
 						</form>
 				  </thead>
@@ -165,22 +166,19 @@
 			</div>
 		</div>
 		<div id="list-footer">
-			<div id="pagecount">pageCount</div>
+			<div id="pageCountLabel">
+				<span>page </span><span id="pageCount">1</span><span> of </span>
+				<span id="totalPageCount">10</span><span> pages</span>
+			</div>
 			<div id="pagination-container"><nav aria-label="...">
 				<ul class="pagination">
-					<li class="page-item disabled"><a class="page-link">Previous</a></li>
-					<li class="page-item"><a class="page-link" href="#">1</a></li>
-					<li class="page-item active"><a class="page-link" href='#'>2</a></li>
-					<li class="page-item"><a class="page-link" href="#">3</a></li>
-					<li class="page-item"><a class="page-link" href="#">Next</a></li>
+					<li class="page-item disabled" id="prev"><a class="page-link" href="#"><</a></li>
+					<li class="page-item" id="next"><a class="page-link" href="#">></a></li>
 				</ul>
 				</nav>
 			</div>
 		</div>
 	</div>
-
-
-
 
 
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -230,26 +228,13 @@
 			});
 		}
 
-		//切换选中的页面按钮
-		function goSelectedPageNum(i,j){
-			// console.log($(i).text());
-			$(i).removeClass("active");
-			$(j).addClass("active");
-
-			$('#currPage').val($('.active').children('a').text());
-
-			//ajax请求
-			var formData = jsonify($('#pagination-counter').serializeArray());
-			$.ajax({
-				data:formData,
-				url:"http://localhost:5000/hospitalData",
-				success:function(data){
-					console.log(data);
-					var temp=[{'hospitalName':'东方医院','hospitalAddr':'someAddress'}];
-					displayApps(data);
-				}
-			})
-
+		function updateTablePage(nextPage) {
+			// construct json
+			if () {
+				getPendingApps();
+			} else {
+				getTodayAppts();
+			}
 		}
 
 		//------------------ styling -------------------
@@ -258,20 +243,61 @@
         event.preventDefault();
         var clickedItem = $(this);
         $(".nav-main").each( function() {
-            $(this).removeClass("active disabled");
+					if ($(this).hasClass("active disabled")) {
+						$(this).removeClass("active disabled");
+					}
         });
         clickedItem.addClass("active disabled");
     });
 
-		// sub navigation
+		// table navigation
 		$(".nav-table").on("click", function(event) {
         event.preventDefault();
         var clickedItem = $(this);
         $(".nav-table").each( function() {
-            $(this).removeClass("active disabled");
+            if ($(this).hasClass("active disabled")) {
+							$(this).removeClass("active disabled");
+						}
         });
 				clickedItem.addClass("active disabled");
     });
+
+		// table filter
+		$(".dropdown-item").on("click", function(event) {
+				event.preventDefault();
+				var clickedItem = $(this);
+				var i=0;
+        $(this).parent().children().each( function() {
+					console.log(i);
+					i++;
+					if ($(this).hasClass("active")) {
+						$(this).removeClass("active");
+					}
+        });
+				clickedItem.addClass("active");
+		})
+
+		// page count
+		$(".page-item").on("click", function(event) {
+				event.preventDefault();
+				var totalPage = parseInt($("#totalPageCount").text());
+				var currentPage = parseInt($("#pageCount").text());
+				var clickedItem = $(this).text();
+				var nextPage = clickedItem == "<" ? currentPage - 1 : currentPage + 1;
+        if (nextPage <= 1) {
+					nextPage = 1;
+					$("#prev").addClass("disabled");
+				} else if (nextPage >= totalPage) {
+					nextPage = 10;
+					$("#next").addClass("disabled");
+				} else {
+					$("#prev").removeClass("disabled");
+					$("#next").removeClass("disabled");
+				}
+				$("#pageCount").text(nextPage);
+
+				updateTablePage(nextPage);
+		})
 
 	</script>
 </body>
