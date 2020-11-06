@@ -18,7 +18,7 @@
 				<div class="mode" id="go-register" onclick="goRegister()">register</div>
 
 			</div>
-				<form action="/login" class='form' id="login-form" method="POST">
+				<form action="" class='form' id="login-form" method="POST">
 					<div id="input-wrapper">
 						<div class="login-input" id='input-name' >
 
@@ -29,14 +29,13 @@
 						<div class="login-input" id='login-input-pass'>
 							<label for="password">Password</label>
 							<input type="password" class='text-input' id="password" name="password">
-						</div>					
+						</div>
 					</div>
 
-				<input type="submit" class="primary-btn" id="doLogin" value="Login">
 			</form>
-			<!-- <div id="login-btn-wrapper">
+			<div id="login-btn-wrapper">
 				<button type="button" class="primary-btn" id='doLogin' onclick="login()">Login</button>
-			</div> -->
+			</div>
 
 			<div id="option-container">
 				<div class="login-option" id='forget-password'>
@@ -165,7 +164,7 @@
 
 		function concatLogin(){
 			var temp='';
-			temp += '<form action="/login" class="form" id="login-form" method="POST"><div class="login-input" id="input-name" ><label for="id">License ID/National ID</label><input type="text" id="login-username" name="id"></div><div class="login-input" id="login-input-pass"><label for="password">Password</label><input type="password" id="password" name="password"></div><input type="submit" class="primary-btn" id="doLogin" value="Login"></form>';
+			temp += '<form action="" class="form" id="login-form" method="POST"><div class="login-input" id="input-name" ><label for="id">License ID/National ID</label><input type="text" id="login-username" name="id"></div><div class="login-input" id="login-input-pass"><label for="password">Password</label><input type="password" id="password" name="password"></form><div class="register-btn-wrapper"id="nurse-register-btn-wrapper"><button type="button" class="primary-btn" id="doLogin" onclick="login()">Register</button></div>';
 			// temp+= '<div id="login-btn-wrapper"><button type="button" class="primary-btn" id="doLogin">Login</button></div>';
 
 			temp+='<div id="option-container"><div class="login-option" id="forget-password">forget password</div><div class="login-option" id="forget-username">forget username</div></div>';
@@ -173,32 +172,34 @@
 			return temp;
 		}
 
-		function loginRequest(){
+		function login(){
 			onWaitingChangeStyle();
-			var data = $('.form').serializeArray();
-			data=jsonify(data);
-			console.log(data);
+			var sendData = $('.form').serializeArray();
+			sendData=jsonify(sendData);
+			//console.log(sendData);
 			$.ajax({
-				url:"http://localhost:5000/loginRequest",
+				url:"http://localhost:5000/login",
 				type: 'POST',
-				data:data,
-				success:function(data){
-					// console.log(data);
+				data: sendData,
+				success: function(res){
+					//console.log(res);
 					clearLoginForm();
 					$('#login-form-mode-bar').remove();
-					showLoginMessage(data);
-					if(data['ret']==0){
-						setTimeout(login,1000);
+					showLoginMessage(res);
+					if(res['ret']==0){
+						setTimeout(loadHomePage,1000);
 					}
 				}
 			})
 		}
 
-		function login(data){
+		function loadHomePage(){
 			$.ajax({
-				url:"http://localhost:5000/login",
-				data:data,
-				type:'POST'
+				url:"http://localhost:5000/loadHomePage",
+				type:'GET',
+				success: function(res){
+					$(this).html(res);
+				}
 			})
 		}
 

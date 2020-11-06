@@ -200,6 +200,9 @@
 						.append($('<td>').text(data[i].doctor))
 						.append($('<td>').text(data[i].patient))
 						.append($('<td>').text(data[i].symptoms));
+				var newTd = $('<td>')
+						.append($('<button class="btn btn-outline-primary">').text("View"));
+				newTr.append(newTd);
 			}
 		}
 
@@ -230,7 +233,7 @@
 
 		function updateTablePage(nextPage) {
 			// construct json
-			if () {
+			if (1) {
 				getPendingApps();
 			} else {
 				getTodayAppts();

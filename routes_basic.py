@@ -18,7 +18,7 @@ import math
 @app.route('/index')
 def home():
 	if current_user.is_authenticated:
-		return redirect(url_for(f'{current_user.role.value}Home'))
+		return redirect(url_for('loadHomePage'))
 	return render_template('index.html')
 
 #-------------------Register--------------------
@@ -32,7 +32,7 @@ def register():
 	"""
 	# try:
 	if current_user.is_authenticated:
-		return redirect(url_for(f'{current_user.role.value}Home'))
+		return redirect(url_for('loadHomePage'))
 	role = request.form['role']
 	first_name = request.form['firstName']
 	last_name = request.form['lastName']
@@ -65,15 +65,15 @@ def register():
 #--------------------Login---------------------
 #--------------------Login---------------------
 
-@app.route('/loginRequest', methods=['GET','POST'])
-def loginRequest():
+@app.route('/login', methods=['GET','POST'])
+def login():
 	"""
 		patient login with: national id + password
 		doctor/patient login with: license id + password
 	"""
 	if request.method == 'GET':
 		if current_user.is_authenticated:
-			return redirect(url_for(f'{current_user.role.value}Home'))
+			return redirect(url_for('loadHomePage'))
 		return render_template('login.html')
 	if request.method == 'POST':
 		if not current_user.is_authenticated:
@@ -90,7 +90,7 @@ def loginRequest():
 			except:
 				# flash("Unknown error, sorry!")
 				return make_response(jsonify({"ret": "Unknown error"}))
-		return make_response(jsonify({"ret":0, "role":current_user.role.value, "id": current_user.id.value}), 200)
+		return make_response(jsonify({"ret":0, "role":current_user.role.value, "id": current_user.id}))
 		#redirect(url_for(f'{current_user.role.value}Home'))
 
 #--------------------Logout---------------------
@@ -104,10 +104,11 @@ def logout():
 
 #--------------------home---------------------
 #--------------------home---------------------
-@app.route('/login', methods=['GET'])
+@app.route('/loadHomePage', methods=['GET'])
 @login_required
-def patientHome():
-	return render_template(f'{current_user.role.value}Home.html')
+def loadHomePage():
+	# return render_template(f'{current_user.role.value}Home.html')
+	return render_template('patientHome.html')
 
 
 #--------------------get hospital list data---------------------
