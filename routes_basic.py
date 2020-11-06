@@ -65,8 +65,8 @@ def register():
 #--------------------Login---------------------
 #--------------------Login---------------------
 
-@app.route('/login', methods=['GET','POST'])
-def login():
+@app.route('/loginRequest', methods=['GET','POST'])
+def loginRequest():
 	"""
 		patient login with: national id + password
 		doctor/patient login with: license id + password
@@ -90,8 +90,7 @@ def login():
 			except:
 				# flash("Unknown error, sorry!")
 				return make_response(jsonify({"ret": "Unknown error"}))
-
-		return make_response(jsonify({"ret":0, "role":current_user.role.value, "id": current_user.id}), 200)
+		return make_response(jsonify({"ret":0, "role":current_user.role.value, "id": current_user.id.value}), 200)
 		#redirect(url_for(f'{current_user.role.value}Home'))
 
 #--------------------Logout---------------------
@@ -105,10 +104,10 @@ def logout():
 
 #--------------------home---------------------
 #--------------------home---------------------
-@app.route('/patientHome', methods=['GET'])
+@app.route('/login', methods=['GET'])
 @login_required
 def patientHome():
-	return render_template('PatientHome.html')
+	return render_template(f'{current_user.role.value}Home.html')
 
 
 #--------------------get hospital list data---------------------

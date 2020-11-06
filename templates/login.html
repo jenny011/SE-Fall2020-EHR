@@ -19,16 +19,19 @@
 
 			</div>
 				<form action="/login" class='form' id="login-form" method="POST">
-				<div class="login-input" id='input-name' >
+					<div id="input-wrapper">
+						<div class="login-input" id='input-name' >
 
-					<label for="id">License ID/ID</label>
-					<input type="text" id="login-username" name="id">
+							<label for="id">License ID/ID</label>
+							<input type="text" class='text-input'id="login-username" name="id">
 
-				</div>
-				<div class="login-input" id='login-input-pass'>
-					<label for="password">Password</label>
-					<input type="password" id="password" name="password">
-				</div>
+						</div>
+						<div class="login-input" id='login-input-pass'>
+							<label for="password">Password</label>
+							<input type="password" class='text-input' id="password" name="password">
+						</div>					
+					</div>
+
 				<input type="submit" class="primary-btn" id="doLogin" value="Login">
 			</form>
 			<!-- <div id="login-btn-wrapper">
@@ -118,7 +121,7 @@
 		}
 
 		function clearRegisterForm(){
-			$('.form').remove();
+			$('.register-form').remove();
 			$('.register-btn-wrapper').remove();
 			// $('')
 			if($('.register-msg-container')){
@@ -147,13 +150,13 @@
 		function concatRegister(role){
 			var temp = '';
 			if(role=='patient'){
-				temp+='<form action="" class="form" id="patient-register-form"><div class="register-input" ><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName"></div><div class="register-input" ><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName"></div><div class="register-input"><label for="National ID">National ID</label><input type="text" id="ID" name="id"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="email" id="Email" name="email"></div><div class="register-input"><label for="password">Password</label><input type="password" id="password" name="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()">Register</button></div>';
+				temp+='<form action="" class="register-form" id="patient-register-form"><div class="register-input" ><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName"></div><div class="register-input" ><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName"></div><div class="register-input"><label for="National ID">National ID</label><input type="text" id="ID" name="id"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="email" id="Email" name="email"></div><div class="register-input"><label for="password">Password</label><input type="password" id="password" name="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()">Register</button></div>';
 			}
 			if(role=='doctor'){
-				temp+='<form action="" class="form" id="doctor-register-form"><div class="register-input" ><label for="departmentID">Department ID</label><input type="text" id="departmentID" name="department"></div><div class="register-input" ><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName"></div><div class="register-input" ><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName"></div><div class="register-input"><label for="LicenseID">License ID</label><input type="text" id="ID" name="id"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="email" id="Email" name="email"></div><div class="register-input"><label for="password">Password</label><input type="password" id="password" name="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()"">Register</button></div>';
+				temp+='<form action="" class="register-form" id="doctor-register-form"><div class="register-input" ><label for="departmentID">Department ID</label><input type="text" id="departmentID" name="department"></div><div class="register-input" ><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName"></div><div class="register-input" ><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName"></div><div class="register-input"><label for="LicenseID">License ID</label><input type="text" id="ID" name="id"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="email" id="Email" name="email"></div><div class="register-input"><label for="password">Password</label><input type="password" id="password" name="password"></div></form><div class="register-btn-wrapper"id="doctor-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()"">Register</button></div>';
 			}
 			if(role=='nurse'){
-				temp+='<form action="" class="form" id="nurse-register-form"><div class="register-input" ><label for="departmentID">Department ID</label><input type="text" id="departmentID" name="department"></div><div class="register-input" ><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName"></div><div class="register-input" ><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName"></div><div class="register-input"><label for="LicenseID">License ID</label><input type="text" id="ID" name="id"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="email" id="Email" name="email"></div><div class="register-input"><label for="password">Password</label><input type="password" id="password" name="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()">Register</button></div>'
+				temp+='<form action="" class="register-form" id="nurse-register-form"><div class="register-input" ><label for="departmentID">Department ID</label><input type="text" id="departmentID" name="department"></div><div class="register-input" ><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName"></div><div class="register-input" ><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName"></div><div class="register-input"><label for="LicenseID">License ID</label><input type="text" id="ID" name="id"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="email" id="Email" name="email"></div><div class="register-input"><label for="password">Password</label><input type="password" id="password" name="password"></div></form><div class="register-btn-wrapper"id="nurse-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()">Register</button></div>'
 			}
 
 
@@ -170,46 +173,56 @@
 			return temp;
 		}
 
-		function login(){
+		function loginRequest(){
 			onWaitingChangeStyle();
 			var data = $('.form').serializeArray();
 			data=jsonify(data);
 			console.log(data);
 			$.ajax({
-				url:"http://localhost:5000/login",
+				url:"http://localhost:5000/loginRequest",
 				type: 'POST',
 				data:data,
-				success:function(){
+				success:function(data){
 					// console.log(data);
 					clearLoginForm();
 					$('#login-form-mode-bar').remove();
 					showLoginMessage(data);
+					if(data['ret']==0){
+						setTimeout(login,1000);
+					}
 				}
 			})
 		}
 
+		function login(data){
+			$.ajax({
+				url:"http://localhost:5000/login",
+				data:data,
+				type:'POST'
+			})
+		}
 
 		function register(){
 			//获取注册表单角色
 			onWaitingChangeStyle();
 			registerInfo = [];
-			if($('.form').attr('id')=='doctor-register-form'){
+			if($('.register-form').attr('id')=='doctor-register-form'){
 				console.log('医生注册');
-				var registerInfo = $('.form').serializeArray();
+				var registerInfo = $('.register-form').serializeArray();
 				registerInfo = jsonify(registerInfo);
 				registerInfo["role"]="doctor";
 				// console.log(registerInfo);
 			}
-			if($('.form').attr('id')=='nurse-register-form'){
+			if($('.register-form').attr('id')=='nurse-register-form'){
 				console.log('护士注册');
-				var registerInfo = $('.form').serializeArray();
+				var registerInfo = $('.register-form').serializeArray();
 				registerInfo = jsonify(registerInfo);
 				registerInfo["role"]="nurse";
 				// console.log(registerInfo);
 			}
-			if($('.form').attr('id')=='patient-register-form'){
+			if($('.register-form').attr('id')=='patient-register-form'){
 				console.log('病人注册');
-				var registerInfo = $('.form').serializeArray();
+				var registerInfo = $('.register-form').serializeArray();
 				registerInfo = jsonify(registerInfo);
 				registerInfo["role"]="patient";
 				// console.log(registerInfo);
@@ -223,8 +236,11 @@
 				data:registerInfo,
 				success:function(data){
 					console.log(data);
-					showRegisterMessage(data);
-					setTimeout(goLogin,2000);
+					if(data['ret']==0){
+						showRegisterMessage(data);
+						setTimeout(goLogin,2000);
+
+					}
 					// goLogin();
 					}
 				}
@@ -242,12 +258,12 @@
 
 		function showRegisterMessage(data){
 			clearRegisterForm();
-			if(data=='success'){
-				var temp ='<div class="register-msg-container"id="register-message-success">'+data+"</div>";
+			if(data['ret']==0){
+				var temp ='<div class="register-msg-container"id="register-message-success">'+'register successfully'+"</div>";
 			}
-			if(data=='failure'){
-
-			}
+			// else{
+			// 	var temp ='<div class="register-msg-container"id="register-message-success">'+'registeration failed'+"</div>";
+			// }
 
 			$('#login-field').append(temp);
 
