@@ -19,16 +19,19 @@
 
 			</div>
 				<form action="/login" class='form' id="login-form" method="POST">
-				<div class="login-input" id='input-name' >
+					<div id="input-wrapper">
+						<div class="login-input" id='input-name' >
 
-					<label for="id">License ID/ID</label>
-					<input type="text" id="login-username" name="id">
+							<label for="id">License ID/ID</label>
+							<input type="text" class='text-input'id="login-username" name="id">
 
-				</div>
-				<div class="login-input" id='login-input-pass'>
-					<label for="password">Password</label>
-					<input type="password" id="password" name="password">
-				</div>
+						</div>
+						<div class="login-input" id='login-input-pass'>
+							<label for="password">Password</label>
+							<input type="password" class='text-input' id="password" name="password">
+						</div>					
+					</div>
+
 				<input type="submit" class="primary-btn" id="doLogin" value="Login">
 			</form>
 			<!-- <div id="login-btn-wrapper">
@@ -118,7 +121,7 @@
 		}
 
 		function clearRegisterForm(){
-			$('.form').remove();
+			$('.register-form').remove();
 			$('.register-btn-wrapper').remove();
 			// $('')
 			if($('.register-msg-container')){
@@ -147,13 +150,13 @@
 		function concatRegister(role){
 			var temp = '';
 			if(role=='patient'){
-				temp+='<form action="" class="form" id="patient-register-form"><div class="register-input" ><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName"></div><div class="register-input" ><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName"></div><div class="register-input"><label for="National ID">National ID</label><input type="text" id="ID" name="id"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="email" id="Email" name="email"></div><div class="register-input"><label for="password">Password</label><input type="password" id="password" name="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()">Register</button></div>';
+				temp+='<form action="" class="register-form" id="patient-register-form"><div class="register-input" ><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName"></div><div class="register-input" ><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName"></div><div class="register-input"><label for="National ID">National ID</label><input type="text" id="ID" name="id"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="email" id="Email" name="email"></div><div class="register-input"><label for="password">Password</label><input type="password" id="password" name="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()">Register</button></div>';
 			}
 			if(role=='doctor'){
-				temp+='<form action="" class="form" id="doctor-register-form"><div class="register-input" ><label for="departmentID">Department ID</label><input type="text" id="departmentID" name="department"></div><div class="register-input" ><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName"></div><div class="register-input" ><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName"></div><div class="register-input"><label for="LicenseID">License ID</label><input type="text" id="ID" name="id"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="email" id="Email" name="email"></div><div class="register-input"><label for="password">Password</label><input type="password" id="password" name="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()"">Register</button></div>';
+				temp+='<form action="" class="register-form" id="doctor-register-form"><div class="register-input" ><label for="departmentID">Department ID</label><input type="text" id="departmentID" name="department"></div><div class="register-input" ><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName"></div><div class="register-input" ><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName"></div><div class="register-input"><label for="LicenseID">License ID</label><input type="text" id="ID" name="id"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="email" id="Email" name="email"></div><div class="register-input"><label for="password">Password</label><input type="password" id="password" name="password"></div></form><div class="register-btn-wrapper"id="doctor-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()"">Register</button></div>';
 			}
 			if(role=='nurse'){
-				temp+='<form action="" class="form" id="nurse-register-form"><div class="register-input" ><label for="departmentID">Department ID</label><input type="text" id="departmentID" name="department"></div><div class="register-input" ><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName"></div><div class="register-input" ><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName"></div><div class="register-input"><label for="LicenseID">License ID</label><input type="text" id="ID" name="id"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="email" id="Email" name="email"></div><div class="register-input"><label for="password">Password</label><input type="password" id="password" name="password"></div></form><div class="register-btn-wrapper"id="patient-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()">Register</button></div>'
+				temp+='<form action="" class="register-form" id="nurse-register-form"><div class="register-input" ><label for="departmentID">Department ID</label><input type="text" id="departmentID" name="department"></div><div class="register-input" ><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName"></div><div class="register-input" ><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName"></div><div class="register-input"><label for="LicenseID">License ID</label><input type="text" id="ID" name="id"></div><div class="register-input"><label for="phone">Phone</label><input type="text" id="phone" name="phone"></div><div class="register-input"><label for="Email">Email</label><input type="email" id="Email" name="email"></div><div class="register-input"><label for="password">Password</label><input type="password" id="password" name="password"></div></form><div class="register-btn-wrapper"id="nurse-register-btn-wrapper"><button type="button" class="primary-btn" id="doRegister" onclick="register()">Register</button></div>'
 			}
 
 
