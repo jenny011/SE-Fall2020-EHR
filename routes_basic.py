@@ -60,9 +60,6 @@ def register():
 		db.session.add(nurse)
 	db.session.commit()
 	return make_response(jsonify({"ret":0}), 200)
-	# except:
-	# 	db.session.rollback()
-	# 	return "1"
 
 
 #--------------------Login---------------------
@@ -94,7 +91,7 @@ def login():
 				# flash("Unknown error, sorry!")
 				return make_response(jsonify({"ret": "Unknown error"}))
 
-		return make_response(jsonify({"ret":0, "role":current_user.role.value, "id": current_user.id.value}), 200)
+		return make_response(jsonify({"ret":0, "role":current_user.role.value, "id": current_user.id}), 200)
 		#redirect(url_for(f'{current_user.role.value}Home'))
 
 #--------------------Logout---------------------
