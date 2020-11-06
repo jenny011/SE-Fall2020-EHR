@@ -86,15 +86,16 @@ def login():
 				user = User.query.get(id)
 				if not user:
 					# flash("Unregistered ID or wrong password")
-					return "Unregistered user"
+					return make_response(jsonify({"ret": "Unregistered user"}))
 				if not user.check_password(password):
-					return "Password incorrect"
+					return make_response(jsonify({"ret": "Incorrect password"}))
 				login_user(user)
 			except:
 				# flash("Unknown error, sorry!")
-				return "Unknown error"
+				return make_response(jsonify({"ret": "Unknown error"}))
 
-		return redirect(url_for(f'{current_user.role.value}Home'))
+		return make_response(jsonify({"ret":0, "role":current_user.role.value}), 200)
+		#redirect(url_for(f'{current_user.role.value}Home'))
 
 #--------------------Logout---------------------
 #--------------------Logout---------------------

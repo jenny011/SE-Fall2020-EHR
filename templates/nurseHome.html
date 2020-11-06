@@ -11,91 +11,124 @@
 	.nav-link:hover{cursor: pointer;}
 </style>
 <body>
-	<nav class="navbar navbar-dark" style="background-color: #2D79D6;">
-	  <span class="navbar-brand mb-0 h1">WeCare</span>
-	  <div class="ml-auto" id="user-link-wrapper">
-		  <a class="navbar-link text-white" href="/public">User</a>
-		  <a class="navbar-link text-white" href="/logout">Logout</a>
-	  </div>
-	</nav>
-
-	<nav class="nav nav-pills">
-		<a class="main nav-link active" href="#">Home</a>
-		<a class="main nav-link" href="#">All appointments</a>
-		<form class="ml-auto form-inline" action="/nurseSearch" method="POST" style="padding-right: 1em;">
-		  <div class="form-group mx-sm-3">
-		    <label for="Search" class="sr-only">Search</label>
-		    <input type="text" class="form-control" id="Search" placeholder="Doctor, patient...">
+	<div id="header-wrapper">
+		<nav class="navbar navbar-dark" style="background-color: #2D79D6;">
+		  <span class="navbar-brand mb-0 h1">WeCare</span>
+		  <div class="ml-auto" id="user-link-wrapper">
+			  <a class="navbar-link text-white" href="/public">User</a>
+			  <a class="navbar-link text-white" href="/logout">Logout</a>
 		  </div>
-		  <button type="submit" class="btn btn-primary">Search</button>
-		</form>
-	</nav>
+		</nav>
 
-	<nav class="nav nav-tabs" style="border-top-style: solid; border-top-width:1px; border-top-color: grey; padding-top: 1em;">
-		<div class="nav-item">
-			<div class="sub nav-link active" onclick="getPendingApps()">Pending applications</div> <!--/pendingApp-->
+		<nav class="nav nav-pills">
+			<a class="main nav-link active" href="#">Home</a>
+			<a class="main nav-link" href="#">All appointments</a>
+			<form class="ml-auto form-inline" action="/nurseSearch" method="POST" style="padding-right: 1em;">
+				<div class="input-group input-group-sm">
+					<input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="search-input" placeholder="department, doctor, patient">
+						<div class="input-group-append">
+						<span class="input-group-text" id="inputGroup-sizing-sm">
+							<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								<path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+								<path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+							</svg>
+						</span>
+					</div>
+				</div>
+			</form>
+		</nav>
+	</div>
+
+		<!-- <nav class="navbar navbar-expand-sm navbar-light" style="padding: 0;">
+			<div class="mr-auto navbar-nav"> -->
+				<!--<a class="main nav-item nav-link active text-white bg-primary" href="#">Home</a>--> <!--/nurseHome-->
+				<!--<a class="main nav-item nav-link text-dark bg-light" href="#">All Appointments</a>--> <!--/nurseAllAppt-->
+			<!-- </div>
+			<form class="ml-auto form-inline" action="/nurseSearch" method="POST" style="padding-right: 1em;">
+				<div class="form-group mx-sm-3">
+					<label for="Search" class="sr-only">Search</label>
+					<input type="text" class="form-control" id="Search" placeholder="Doctor, patient...">
+				</div>
+				<button type="submit" class="btn btn-primary">Search</button>
+			</form>
+		</nav> -->
+
+		<!-- <nav class="navbar navbar-expand-sm navbar-light" style="border-style: solid; border-width:1px; border-color: grey;">
+			<div class="navbar-nav"> -->
+				<!--<a class="sub nav-item nav-link active" href="#">Pending Applications</a>--> <!--/pendingApp-->
+				<!--<a class="sub nav-item nav-link" href="#">Today's Appointments</a>--> <!--/todayAppt-->
+			<!-- </div>
+			<form class="ml-auto form-inline" action="/goCreateAppt" method="GET">
+				<div class="form-group">
+					<button class="btn btn-primary" style="background-color: #2D79D6;" type="submit">Create New Appointment</button>
+				</div>
+			</form>
+		</nav> -->
+
+	<div id="content-wrapper">
+		<div id="content-header-wrapper">
+			<nav class="nav nav-tabs" style="border-top-style: solid; border-top-width:1px; border-top-color: grey; padding-top: 1em;">
+				<div class="nav-item">
+					<div class="sub nav-link active" onclick="getPendingApps()">Pending applications</div> <!--/pendingApp-->
+				</div>
+				<div class="nav-item">
+					<div class="sub nav-link" onclick="getTodayAppts()">Today's appointments</div> <!--/todayAppt-->
+				</div>
+				<form class="ml-auto form-inline" action="/goCreateAppt" method="GET">
+					<div class="form-group">
+						<button class="btn btn-primary" type="submit">Create New Appointment</button>
+					</div>
+				</form>
+			</nav>
 		</div>
-		<div class="nav-item">
-			<div class="sub nav-link" onclick="getTodayAppts()">Today's appointments</div> <!--/todayAppt-->
-		</div>
-		<form class="ml-auto form-inline" action="/goCreateAppt" method="GET">
-			<div class="form-group">
-				<button class="btn btn-primary" type="submit">Create New Appointment</button>
-			</div>
-		</form>
-	</nav>
-
-	<!-- <nav class="navbar navbar-expand-sm navbar-light" style="padding: 0;">
-		<div class="mr-auto navbar-nav"> -->
-			<!--<a class="main nav-item nav-link active text-white bg-primary" href="#">Home</a>--> <!--/nurseHome-->
-			<!--<a class="main nav-item nav-link text-dark bg-light" href="#">All Appointments</a>--> <!--/nurseAllAppt-->
-		<!-- </div>
-		<form class="ml-auto form-inline" action="/nurseSearch" method="POST" style="padding-right: 1em;">
-			<div class="form-group mx-sm-3">
-				<label for="Search" class="sr-only">Search</label>
-				<input type="text" class="form-control" id="Search" placeholder="Doctor, patient...">
-			</div>
-			<button type="submit" class="btn btn-primary">Search</button>
-		</form>
-	</nav> -->
-
-	<!-- <nav class="navbar navbar-expand-sm navbar-light" style="border-style: solid; border-width:1px; border-color: grey;">
-		<div class="navbar-nav"> -->
-			<!--<a class="sub nav-item nav-link active" href="#">Pending Applications</a>--> <!--/pendingApp-->
-			<!--<a class="sub nav-item nav-link" href="#">Today's Appointments</a>--> <!--/todayAppt-->
-		<!-- </div>
-		<form class="ml-auto form-inline" action="/goCreateAppt" method="GET">
-			<div class="form-group">
-				<button class="btn btn-primary" style="background-color: #2D79D6;" type="submit">Create New Appointment</button>
-			</div>
-		</form>
-	</nav> -->
-
-	<div id="content-container">
-
-		<div id="function-container">
-			<div class='function' id="info-container">
-				<table class="table">
+		<div id="table-container">
+			<div class='table' id="info-container">
+				<table>
 				  <thead>
 						<form class="form-inline" action="#">
 					    <tr>
 					      <th scope="col">
-									<input type="radio" class="form-check-input" name="orderBy" id="appID" value="appID">
-    							<label class="form-check-label" for="appID">Applcation ID</label>
+									<div class="dropdown-wrapper">
+									  <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown1">
+									    Application ID
+									  </button>
+									  <div class="dropdown-menu">
+											<a class="dropdown-item" href="#">ascending</a>
+									    <a class="dropdown-item" href="#">descending</a>
+									  </div>
+									</div>
 								</th>
 								<th scope="col">
-									<input type="radio" class="form-check-input" name="orderBy" id="date" value="date">
-    							<label class="form-check-label" for="date">Date</label>
+									<div class="dropdown-wrapper">
+									  <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown2">
+									    Date
+									  </button>
+									  <div class="dropdown-menu">
+											<a class="dropdown-item" href="#">ascending</a>
+									    <a class="dropdown-item" href="#">descending</a>
+									    <div class="dropdown-divider"></div>
+									    <a class="dropdown-item" href="#">Separated link</a>
+									  </div>
+									</div>
 								</th>
 								<th scope="col">
-									<input type="radio" class="form-check-input" name="orderBy" id="time" value="time">
-    							<label class="form-check-label" for="time">Time</label>
+									<div class="dropdown-wrapper">
+									  <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown3">
+									    Time
+									  </button>
+									  <div class="dropdown-menu">
+											<a class="dropdown-item" href="#">ascending</a>
+									    <a class="dropdown-item" href="#">descending</a>
+									    <div class="dropdown-divider"></div>
+									    <a class="dropdown-item" href="#">Separated link</a>
+									  </div>
+									</div>
 								</th>
 								<th scope="col">
 									<input type="radio" class="form-check-input" name="orderBy" id="doctor" value="doctor">
 									<label class="form-check-label" for="doctor">Doctor</label>
 									<select class="custom-select-sm" id="inlineFormCustomSelectPref">
-								    <option value="All" selected>All</option>
+								    <option value="All" selected>Doctor</option>
 								    <option value="A">Alice</option>
 								    <option value="B">Bob</option>
 								    <option value="C">Cat</option>
@@ -124,7 +157,21 @@
 				</table>
 			</div>
 		</div>
+		<div id="list-footer">
+			<div id="pagecount">pageCount</div>
+			<div id="pagination-container"><nav aria-label="...">
+				<ul class="pagination">
+					<li class="page-item disabled"><a class="page-link">Previous</a></li>
+					<li class="page-item"><a class="page-link" href="#">1</a></li>
+					<li class="page-item active"><a class="page-link" href='#'>2</a></li>
+					<li class="page-item"><a class="page-link" href="#">3</a></li>
+					<li class="page-item"><a class="page-link" href="#">Next</a></li>
+				</ul>
+				</nav>
+			</div>
+		</div>
 	</div>
+
 
 
 
@@ -137,6 +184,19 @@
 		displayApps([{'appID': '1', 'date': '2020-11-11', 'time': '11:00', doctor:'A', patient: 'B', symptoms: 'Cough'},{'appID': '2', 'date': '2020-11-12', 'time': '12:00', doctor:'A', patient: 'C', symptoms: '/'}]);
 
 		// on page loaded call getPendingApps()
+		function displayApps(data) {
+			$('tbody').empty();
+			for (let i=0; i < data.length; i++) {
+				var newTr = $('<tr>');
+				newTr.appendTo($('tbody'))
+						.append($('<td>').text(data[i].appID))
+						.append($('<td>').text(data[i].date))
+						.append($('<td>').text(data[i].time))
+						.append($('<td>').text(data[i].doctor))
+						.append($('<td>').text(data[i].patient))
+						.append($('<td>').text(data[i].symptoms));
+			}
+		}
 
 		// get pending applications
 		function getPendingApps(){
@@ -163,18 +223,26 @@
 			});
 		}
 
-		function displayApps(data) {
-			$('tbody').empty();
-			for (let i=0; i < data.length; i++) {
-				var newTr = $('<tr>');
-				newTr.appendTo($('tbody'))
-						.append($('<td>').text(data[i].appID))
-						.append($('<td>').text(data[i].date))
-						.append($('<td>').text(data[i].time))
-						.append($('<td>').text(data[i].doctor))
-						.append($('<td>').text(data[i].patient))
-						.append($('<td>').text(data[i].symptoms));
-			}
+		//切换选中的页面按钮
+		function goSelectedPageNum(i,j){
+			// console.log($(i).text());
+			$(i).removeClass("active");
+			$(j).addClass("active");
+
+			$('#currPage').val($('.active').children('a').text());
+
+			//ajax请求
+			var formData = jsonify($('#pagination-counter').serializeArray());
+			$.ajax({
+				data:formData,
+				url:"http://localhost:5000/hospitalData",
+				success:function(data){
+					console.log(data);
+					var temp=[{'hospitalName':'东方医院','hospitalAddr':'someAddress'}];
+					displayApps(data);
+				}
+			})
+
 		}
 
 		//------------------ styling -------------------
