@@ -7,6 +7,9 @@ from flask_login import UserMixin # UserMixin conains four useful login function
 import enum
 from sqlalchemy import Enum
 
+@login.user_loader
+def load_user(id):
+    return User.query.get(id)
 
 class Hospital(db.Model):
 	id = db.Column(db.String(100), primary_key=True)

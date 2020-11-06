@@ -1,4 +1,4 @@
-from operator import ne
+from operator import methodcaller, ne
 from flask import Flask, render_template, redirect, url_for, request, json, jsonify, session, flash, make_response
 from flask_login.utils import logout_user
 from flask_login import login_user, logout_user, current_user, login_required
@@ -7,9 +7,9 @@ from SE_Fall2020_EHR import app, db, login
 from SE_Fall2020_EHR.models import *
 import math
 
-@login.user_loader
-def load_user(id): # haven't decided which identifier to use. ID or Email?
-	return User.query.get(id)
+# @login.user_loader
+# def load_user(id):
+# 	return User.query.get(id)
 
 #???? json.dumps or jsonify ????
 #---------------------Home----------------------
@@ -107,20 +107,20 @@ def logout():
 
 #--------------------home---------------------
 #--------------------home---------------------
-###TODO
-###login_required not working
-###对应前端变量
-'''
-@input
-currPage: int (0/1 to n)
-pageSize: int
-@return 
-a list of kv: [{hospitalName, hospitalAddr, hospitalID}]
-pageCount: int
-'''
-@app.route('/hospitalData', methods=['GET'])
+@app.route('/patientHome', methods=['GET'])
+@login_required
 def patientHome():
+	return render_template('PatientHome.html')
+
+
+#--------------------get hospital list data---------------------
+#--------------------get hospital list data---------------------
+
+@app.route('/hospitalData', methods=['GET', 'POST'])
+def hospitalData():
 	# try:
+	if request.method == "GET":
+		return redirect(url_for('GoToHospitalList'))
 	curr_page = int(request.form['currPage']) 
 	page_size = int(request.form['pageSize']) 
 
