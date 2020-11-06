@@ -30,36 +30,40 @@ def register():
 		patient: register by (national)id
 		doctor/nurse: register by (license)id
 	"""
-	# try:
+
 	if current_user.is_authenticated:
 		return redirect(url_for('loadHomePage'))
+	id = request.form['id']
+	if User.query.filter_by(id=id).first():
+		make_response(jsonify({'ret': 'You already registered!'}))
 	role = request.form['role']
 	first_name = request.form['firstName']
 	last_name = request.form['lastName']
-	id = request.form['id']
+	
 	phone = request.form['phone']
 	email = request.form['email']
 	password = request.form['password']
 	if role != "patient":
 		department = request.form['department']
-	# user = User.query.get(id)
-	# if user:
-	# 	return ""
-	# generate random unique user_id and create new user
-	user = User(id=id, first_name=first_name, last_name=last_name, role=role, email=email, phone=phone, password_hash=generate_password_hash(password))
-	db.session.add(user)
-	# update corresponding table
-	if role == "patient":
-		patient = Patient(id=id)
-		db.session.add(patient)
-	elif role == "doctor":
-		doctor = Doctor(id=id, department_id = department)
-		db.session.add(doctor)
-	elif role == "nurse":
-		nurse = Nurse(id=id, department_id = department)
-		db.session.add(nurse)
-	db.session.commit()
-	return make_response(jsonify({"ret":0}), 200)
+	
+	user = User(id=id, first_name=first_name, last_name=last_name,\
+			    role=role, email=email, phone=phone, password_hash=generate_password_hash(password))
+	try:
+		db.session.add(user)
+		# update corresponding table
+		if role == "patient":
+			patient = Patient(id=id)
+			db.session.add(patient)
+		elif role == "doctor":
+			doctor = Doctor(id=id, department_id = department)
+			db.session.add(doctor)
+		elif role == "nurse":
+			nurse = Nurse(id=id, department_id = department)
+			db.session.add(nurse)
+		db.session.commit()
+		return make_response(jsonify({"ret":0}), 200)
+	except:
+		return make_response(jsonify({'ret':"error"}))
 
 
 #--------------------Login---------------------
@@ -142,7 +146,6 @@ def hospitalData():
 		  "name": hospital_names[i],
 		  "address": hospital_addresses[i],
 		  "phone": hospital_phones[i]} for i in range(page_count)]), 200)
-
 
 @app.route('/hospitalListPage',methods=['GET'])
 def GoToHospitalList():
