@@ -131,8 +131,8 @@ class Patient(db.Model):
 
 class Time_slot(db.Model):
 	id = db.Column(db.String(100), primary_key=True)
-	slot_date = db.Column(db.DateTime(), nullable=False)
-	slot_time = db.Column(db.DateTime(), nullable=False)
+	slot_date = db.Column(db.Date(), nullable=False)
+	slot_start_time = db.Column(db.Time(), nullable=False)
 	n_total = db.Column(db.Integer(), nullable=False)
 	n_booked = db.Column(db.Integer())
 	#foreign key
@@ -152,6 +152,7 @@ class Application(db.Model):
 	symptomps = db.Column(db.Text())
 	status = db.Column(db.Enum('approved', 'rejected', 'pending', 'finished'), nullable=False)
 	reject_reason = db.Column(db.Text())
+
 	#foreign key
 	time_slot_id = db.Column(db.String(100), \
 		db.ForeignKey('time_slot.id'), nullable=False)
