@@ -189,6 +189,10 @@
 					if(res['ret']==0){
 						setTimeout(loadHomePage,1000);
 					}
+					else{
+						setTimeout("window.location.replace('http://localhost:5000/login')",1000);
+						
+					}
 				}
 			})
 		}
@@ -273,12 +277,14 @@
 
 		function showLoginMessage(data){
 			clearLoginForm();
-			if(data=="success"){
-				var temp ='<div class="login-msg-container" id="success-login-msg">'+data+'</div>';
+			if(data['ret']==0){
+				var temp ='<div class="login-msg-container" id="success-login-msg">'+'welcome back'+'</div>';
 			}
-			if(data=='failure'){
 
+			else{
+				var temp ='<div class="login-msg-container" id="success-login-msg">'+'Error, check your information'+'</div>';
 			}
+
 			$('#login-field').append(temp);
 
 		}
