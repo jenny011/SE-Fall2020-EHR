@@ -119,15 +119,14 @@ a list of kv: [{hospitalName, hospitalAddr, hospitalID}]
 pageCount: int
 '''
 @app.route('/hospitalData', methods=['GET'])
-# @login_required
 def patientHome():
 	# try:
-	# currPage = int(request.form['currPage']) 
-	# pageSize = int(request.form['pageSize']) 
+	curr_page = int(request.form['currPage']) 
+	page_size = int(request.form['pageSize']) 
 
 	# temporory data
-	curr_page=1
-	page_size=12
+	# curr_page=1
+	# page_size=12
 
 	n_offset = (curr_page-1) * page_size + 1
 	# query for hospitals
