@@ -173,46 +173,54 @@
 			return temp;
 		}
 
-		function login(){
+		function loginRequest(){
 			onWaitingChangeStyle();
 			var data = $('.form').serializeArray();
 			data=jsonify(data);
 			console.log(data);
 			$.ajax({
-				url:"http://localhost:5000/login",
+				url:"http://localhost:5000/loginRequest",
 				type: 'POST',
 				data:data,
-				success:function(){
+				success:function(data){
 					// console.log(data);
 					clearLoginForm();
 					$('#login-form-mode-bar').remove();
 					showLoginMessage(data);
+					setTimeout(login,1000);
 				}
 			})
 		}
 
+		function login(data){
+			$.ajax({
+				url:"http://localhost:5000/login",
+				data:data,
+				type:'POST'
+			})
+		}
 
 		function register(){
 			//获取注册表单角色
 			onWaitingChangeStyle();
 			registerInfo = [];
-			if($('.form').attr('id')=='doctor-register-form'){
+			if($('.register-form').attr('id')=='doctor-register-form'){
 				console.log('医生注册');
-				var registerInfo = $('.form').serializeArray();
+				var registerInfo = $('.register-form').serializeArray();
 				registerInfo = jsonify(registerInfo);
 				registerInfo["role"]="doctor";
 				// console.log(registerInfo);
 			}
-			if($('.form').attr('id')=='nurse-register-form'){
+			if($('.register-form').attr('id')=='nurse-register-form'){
 				console.log('护士注册');
-				var registerInfo = $('.form').serializeArray();
+				var registerInfo = $('.register-form').serializeArray();
 				registerInfo = jsonify(registerInfo);
 				registerInfo["role"]="nurse";
 				// console.log(registerInfo);
 			}
-			if($('.form').attr('id')=='patient-register-form'){
+			if($('.register-form').attr('id')=='patient-register-form'){
 				console.log('病人注册');
-				var registerInfo = $('.form').serializeArray();
+				var registerInfo = $('.register-form').serializeArray();
 				registerInfo = jsonify(registerInfo);
 				registerInfo["role"]="patient";
 				// console.log(registerInfo);
@@ -226,8 +234,11 @@
 				data:registerInfo,
 				success:function(data){
 					console.log(data);
-					showRegisterMessage(data);
-					setTimeout(goLogin,2000);
+					if(data['ret']==0){
+						showRegisterMessage(data);
+						setTimeout(goLogin,2000);
+
+					}
 					// goLogin();
 					}
 				}
@@ -245,12 +256,12 @@
 
 		function showRegisterMessage(data){
 			clearRegisterForm();
-			if(data=='success'){
-				var temp ='<div class="register-msg-container"id="register-message-success">'+data+"</div>";
+			if(data['ret']==0){
+				var temp ='<div class="register-msg-container"id="register-message-success">'+'register successfully'+"</div>";
 			}
-			if(data=='failure'){
-
-			}
+			// else{
+			// 	var temp ='<div class="register-msg-container"id="register-message-success">'+'registeration failed'+"</div>";
+			// }
 
 			$('#login-field').append(temp);
 
