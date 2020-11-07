@@ -164,10 +164,7 @@
 
 		function concatLogin(){
 			var temp='';
-			temp += '<form action="" class="form" id="login-form" method="POST"><div class="login-input" id="input-name" ><label for="id">License ID/National ID</label><input type="text" id="login-username" name="id"></div><div class="login-input" id="login-input-pass"><label for="password">Password</label><input type="password" id="password" name="password"></form><div class="register-btn-wrapper"id="nurse-register-btn-wrapper"><button type="button" class="primary-btn" id="doLogin" onclick="login()">Register</button></div>';
-			// temp+= '<div id="login-btn-wrapper"><button type="button" class="primary-btn" id="doLogin">Login</button></div>';
-
-			temp+='<div id="option-container"><div class="login-option" id="forget-password">forget password</div><div class="login-option" id="forget-username">forget username</div></div>';
+			temp += '<form action="" class="form" id="login-form" method="POST"><div id="input-wrapper"><div class="login-input" id="input-name" ><label for="id">License ID/ID</label><input type="text" class="text-input"id="login-username" name="id"></div><div class="login-input" id="login-input-pass"><label for="password">Password</label><input type="password" class="text-input" id="password" name="password"></div></div></form><div id="login-btn-wrapper"><button type="button" class="primary-btn" id="doLogin" onclick="log()">Login</button></div><div id="option-container"><div class="login-option" id="forget-password">forget password</div><div class="login-option" id="forget-username">forget username</div></div>'
 
 			return temp;
 		}
