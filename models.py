@@ -12,7 +12,7 @@ def load_user(id):
     return User.query.get(id)
 
 class Hospital(db.Model):
-	id = db.Column(db.String(100), primary_key=True)
+	id = db.Column(db.Integer(), primary_key=True)
 	name = db.Column(db.String(100), nullable=False)
 	phone = db.Column(db.String(20))
 	address = db.Column(db.Text(), nullable=False)
@@ -26,12 +26,12 @@ class Hospital(db.Model):
 
 
 class Department(db.Model):
-	id = db.Column(db.String(100), primary_key=True)
+	id = db.Column(db.Integer(), primary_key=True)
 	title = db.Column(db.String(100), nullable=False)
 	phone = db.Column(db.String(20))
 	description = db.Column(db.Text())
 	#foreign key
-	hospital_id = db.Column(db.String(100), \
+	hospital_id = db.Column(db.Integer(), \
 		db.ForeignKey('hospital.id'), nullable=False, onupdate="CASCADE")
 	#one-to-many relationship
 	doctors = db.relationship('Doctor', backref='department', lazy=True)
@@ -74,7 +74,7 @@ class Doctor(db.Model):
 	id = db.Column(db.String(100), db.ForeignKey('user.id'), primary_key=True, onupdate="CASCADE")
 	#foreign key
 	# user_id = db.Column(db.String(100), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
-	department_id = db.Column(db.String(100),\
+	department_id = db.Column(db.Integer(),\
 		db.ForeignKey('department.id'), nullable=False, onupdate="CASCADE")
 
 	#one-to-many relationship
@@ -83,14 +83,14 @@ class Doctor(db.Model):
 
 
 	def __repr__(self):
-		return f'Doctor < license_id: {self.license_id} >'
+		return f'Doctor < license_id: {self.id} >'
 
 
 class Nurse(db.Model):
 	id = db.Column(db.String(100), db.ForeignKey('user.id'), primary_key=True, onupdate="CASCADE")
 	#foreign key
 	# user_id = db.Column(db.String(100), db.ForeignKey('user.user_id'), nullable=False, unique=True, onupdate="CASCADE")
-	department_id = db.Column(db.String(100), \
+	department_id = db.Column(db.Integer(), \
 		db.ForeignKey('department.id'), nullable=False, onupdate="CASCADE")
 
 	#one-to-many relationship
@@ -130,7 +130,7 @@ class Patient(db.Model):
 		return f'Patient < id: {self.id} >'
 
 class Time_slot(db.Model):
-	id = db.Column(db.String(100), primary_key=True)
+	id = db.Column(db.Integer(), primary_key=True)
 	slot_date = db.Column(db.Date(), nullable=False)
 	slot_start_time = db.Column(db.Time(), nullable=False)
 	n_total = db.Column(db.Integer(), nullable=False)
@@ -143,18 +143,18 @@ class Time_slot(db.Model):
 
 	def __repr__(self):
 		return f'Time_slot < id: {self.id}, slot_date: {self.slot_date}, \
-			slot_time: {self.slot_time}, n_total: {self.n_total}, n_booked: {self.n_booked}, \
+			slot_time: {self.slot_start_time}, n_total: {self.n_total}, n_booked: {self.n_booked}, \
 				doctor_id: {self.doctor_id} >'
 
 class Application(db.Model):
-	id = db.Column(db.String(100), primary_key=True)
+	id = db.Column(db.Integer(), primary_key=True)
 	app_timestamp = db.Column(db.TIMESTAMP())
 	symptomps = db.Column(db.Text())
 	status = db.Column(db.Enum('approved', 'rejected', 'pending', 'finished'), nullable=False)
 	reject_reason = db.Column(db.Text())
 
 	#foreign key
-	time_slot_id = db.Column(db.String(100), \
+	time_slot_id = db.Column(db.Integer(), \
 		db.ForeignKey('time_slot.id'), nullable=False)
 	doctor_id = db.Column(db.String(100), \
 		db.ForeignKey('doctor.id'), nullable=False)
@@ -171,7 +171,7 @@ class Application(db.Model):
 				doctor_id: {self.doctor_id}, patient_id: {self.patient_id} >'
 
 class Medical_record(db.Model):
-	id = db.Column(db.String(100), primary_key=True)
+	id = db.Column(db.Integer(), primary_key=True)
 	body_temperature = db.Column(db.Float(1))
 	body_pressure = db.Column(db.Float(1))
 	heart_rate = db.Column(db.Integer())
@@ -180,7 +180,7 @@ class Medical_record(db.Model):
 	#foreign key
 	patient_id = db.Column(db.String(100), \
 		db.ForeignKey('patient.id'), nullable=False)
-	appt_id = db.Column(db.String(100), \
+	appt_id = db.Column(db.Integer(), \
 		db.ForeignKey('application.id'), nullable=False)
 	nurse_id = db.Column(db.String(100), \
 		db.ForeignKey('nurse.id'), nullable=False)
@@ -193,12 +193,12 @@ class Medical_record(db.Model):
 			nurse_id: {self.nurse_id}, patient_id: {self.patient_id} >'
 
 class Prescription(db.Model):
-	id = db.Column(db.String(100), primary_key=True)
+	id = db.Column(db.Integer(), primary_key=True)
 	medicine = db.Column(db.Text())
 	dose = db.Column(db.Text())
 	comments = db.Column(db.Text())
 	#foreign key
-	mc_id = db.Column(db.String(100), \
+	mc_id = db.Column(db.Integer(), \
 		db.ForeignKey('medical_record.id'), nullable=False)
 
 	def __repr__(self):
@@ -213,13 +213,13 @@ class Lab_report_type(db.Model):
 		return f'Lab_report_type < type: {self.type}, number of lab reports: {len(self.lab_reports)} >'
 
 class Lab_report(db.Model):
-	id = db.Column(db.String(100), primary_key=True)
+	id = db.Column(db.Integer(), primary_key=True)
 	file = db.Column(db.LargeBinary())
 	comments = db.Column(db.Text())
 	#foreign key
-	type = db.Column(db.String(50), \
+	lr_type = db.Column(db.String(50), \
 		db.ForeignKey('lab_report_type.type'), nullable=False)
-	mc_id = db.Column(db.String(100), \
+	mc_id = db.Column(db.Integer(), \
 		db.ForeignKey('medical_record.id'), nullable=False)
 	uploader_id = db.Column(db.String(100), \
 		db.ForeignKey('nurse.id'), nullable=False)
