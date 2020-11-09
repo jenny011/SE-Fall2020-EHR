@@ -334,8 +334,7 @@
 					});
 					jQuery.ajax({
 						url: "http://localhost:5000/pendingApp",
-						type: 'POST',
-						data: '',
+						type: 'GET',
 						success: function(data){
 							displayApps("pendingApp", data);
 						}
@@ -352,8 +351,7 @@
 					});
 					jQuery.ajax({
 						url: "http://localhost:5000/todayAppt",
-						type: 'POST',
-						data: '',
+						type: 'GET',
 						success: function(data){
 							displayApps("todayAppt", data);
 						}
