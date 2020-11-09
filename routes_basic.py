@@ -30,13 +30,14 @@ def register():
 		patient: register by (national)id
 		doctor/nurse: register by (license)id
 	"""
-
 	if current_user.is_authenticated:
 		return redirect(url_for('loadHomePage'))
 	id = request.form['id']
+	print(User.query.filter_by(id=id).first() != None)
 	if User.query.filter_by(id=id).first() != None:
-		return make_response(jsonify({'ret': 'You already registered!'}))
-
+		# return make_response(jsonify({'ret': 'You already registered!'}))
+		# return redirect(url_for('login'))
+		return "registered"
 	role = request.form['role']
 	first_name = request.form['firstName']
 	last_name = request.form['lastName']
@@ -61,7 +62,7 @@ def register():
 		elif role == "nurse":
 			nurse = Nurse(id=id, department_id = department)
 			db.session.add(nurse)
-			db.session.commit()
+		db.session.commit()
 		return make_response(jsonify({"ret":0}), 200)
 	except:
 		return make_response(jsonify({'ret':"error"}))
