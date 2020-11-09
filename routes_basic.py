@@ -35,9 +35,7 @@ def register():
 	id = request.form['id']
 	print(User.query.filter_by(id=id).first() != None)
 	if User.query.filter_by(id=id).first() != None:
-		# return make_response(jsonify({'ret': 'You already registered!'}))
-		# return redirect(url_for('login'))
-		return "registered"
+		return make_response(jsonify({'ret': 'You already registered!'}))
 	role = request.form['role']
 	first_name = request.form['firstName']
 	last_name = request.form['lastName']
