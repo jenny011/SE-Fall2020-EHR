@@ -20,7 +20,7 @@ except:
 
 if __name__ == '__main__':
 	print("starting ehr system...")
-	app.run(debug=True)
+	app.run(host="127.0.0.1", debug=True)
 
 # import building blocks
 from SE_Fall2020_EHR import routes_basic, models

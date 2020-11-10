@@ -52,8 +52,14 @@ def hopitalData():
 	print(request.args['pageSize'])
 	return 'OK'
 
+<<<<<<< HEAD
 @app.route('/viewDoctor')
 def viewDoctor():
 	return render_template('doctorPage.html')
+=======
+@app.route('/patientDepartment')
+def patient():
+	return render_template('/newDepartmentPage.html')
+>>>>>>> 6195f410c7a10f08017ff5bced139f7ef31f875e
 if __name__ == '__main__':
 	app.run(debug=True)    

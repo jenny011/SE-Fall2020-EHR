@@ -39,13 +39,13 @@ def register():
 	role = request.form['role']
 	first_name = request.form['firstName']
 	last_name = request.form['lastName']
-	
+
 	phone = request.form['phone']
 	email = request.form['email']
 	password = request.form['password']
 	if role != "patient":
 		department = request.form['department']
-	
+
 	user = User(id=id, first_name=first_name, last_name=last_name,\
 			    role=role, email=email, phone=phone, password_hash=generate_password_hash(password))
 	try:
@@ -63,6 +63,7 @@ def register():
 		db.session.commit()
 		return make_response(jsonify({"ret":0}), 200)
 	except:
+		db.session.rollback()
 		return make_response(jsonify({'ret':"error"}))
 
 
