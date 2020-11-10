@@ -1,4 +1,17 @@
-$(document).ready(renderNotice());
+$(document).ready(function(){
+
+	renderNotice();
+})
+
+
+
+
+function goToAppointment(){
+	window.location.replace('http://localhost:5000/hospitalListPage');
+}
+
+
+	
 
 //添加近期预约
 function renderNotice(data){
