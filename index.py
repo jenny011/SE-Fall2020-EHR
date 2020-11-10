@@ -51,5 +51,9 @@ def hopitalData():
 	print(request.args['currPage'])
 	print(request.args['pageSize'])
 	return 'OK'
+
+@app.route('/viewDoctor')
+def viewDoctor():
+	return render_template('doctorPage.html')
 if __name__ == '__main__':
 	app.run(debug=True)    
