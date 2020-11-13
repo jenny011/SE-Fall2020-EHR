@@ -177,7 +177,12 @@ def searchHospital():
 
 @app.route('/nurseHome', methods=['GET'])
 def nurseHome():
-	
+	render_template('nurseHome.html')
+	return redirect(url_for('pendingApp'))
+
+@app.route('/pendingApp', methods=['GET', 'POST'])
+def pendingApp():
+	pass
 
 
 

@@ -212,7 +212,7 @@
 			console.log(pageCount);
 			// var orderBy = {'field':, 'order':}
 			jQuery.ajax({
-				url: "http://localhost:5000/pendingApp",
+				url: "http://127.0.0.1:5000/pendingApp",
 				type: 'POST',
 				data: {'pageSize': 10, 'pageCount': pageCount, "orderBy": orderBy, "filterBy": filterBy},
 				success: function(data){
@@ -228,7 +228,7 @@
 			}
 			console.log(pageCount);
 			jQuery.ajax({
-				url: "http://localhost:5000/todayAppt",
+				url: "http://127.0.0.1:5000/todayAppt",
 				type: 'POST',
 				data: {'pageSize': 10},
 				success: function(data){
