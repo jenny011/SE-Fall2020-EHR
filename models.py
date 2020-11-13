@@ -50,6 +50,7 @@ class RoleEnum(enum.Enum):
 	patient = "patient"
 	admin = "admin"
 
+
 class User(UserMixin, db.Model):
 	# user_id = db.Column(db.String(100), primary_key=True)
 	id = db.Column(db.String(100), primary_key=True)
@@ -69,6 +70,13 @@ class User(UserMixin, db.Model):
 		self.password_hash = generate_password_hash(password)
 	def check_password(self, password):
 		return check_password_hash(self.password_hash, password)
+
+class Admin(db.Model):
+	id = db.Column(db.String(100), db.ForeignKey('user.id'), primary_key=True, onupdate="CASCADE")
+	def __repr__(self):
+		return f'Admin < id: {self.id} >'
+	
+
 
 class Doctor(db.Model):
 	id = db.Column(db.String(100), db.ForeignKey('user.id'), primary_key=True, onupdate="CASCADE")
@@ -146,11 +154,17 @@ class Time_slot(db.Model):
 			slot_time: {self.slot_start_time}, n_total: {self.n_total}, n_booked: {self.n_booked}, \
 				doctor_id: {self.doctor_id} >'
 
+class StatusEnum(enum.Enum):
+	approved = 'approved'
+	rejected = 'rejected'
+	pending = 'pending'
+	finished = 'finished'
+
 class Application(db.Model):
 	id = db.Column(db.Integer(), primary_key=True)
 	app_timestamp = db.Column(db.TIMESTAMP())
-	symptomps = db.Column(db.Text())
-	status = db.Column(db.Enum('approved', 'rejected', 'pending', 'finished'), nullable=False)
+	symptoms = db.Column(db.Text())
+	status = db.Column(db.Enum(StatusEnum), nullable=False)
 	reject_reason = db.Column(db.Text())
 
 	#foreign key

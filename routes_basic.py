@@ -1,11 +1,13 @@
-from operator import methodcaller, ne
+from operator import and_, methodcaller, ne
 from flask import Flask, render_template, redirect, url_for, request, json, jsonify, session, flash, make_response
 from flask_login.utils import logout_user
 from flask_login import login_user, logout_user, current_user, login_required
+from numpy.lib.function_base import select
 from werkzeug.security import check_password_hash, generate_password_hash
 from SE_Fall2020_EHR import app, db, login
 from SE_Fall2020_EHR.models import *
 import math
+import datetime
 
 # @login.user_loader
 # def load_user(id):
@@ -47,7 +49,7 @@ def register():
 		department = request.form['department']
 
 	user = User(id=id, first_name=first_name, last_name=last_name,\
-			    role=role, email=email, phone=phone, password_hash=generate_password_hash(password))
+				role=role, email=email, phone=phone, password_hash=generate_password_hash(password))
 	try:
 		db.session.add(user)
 		# update corresponding table
@@ -177,15 +179,28 @@ def searchHospital():
 
 @app.route('/nurseHome', methods=['GET'])
 def nurseHome():
-	render_template('nurseHome.html')
-	return redirect(url_for('pendingApp'))
+	return render_template('nurseHome_save.html')
+	# return redirect(url_for('pendingApp'))
 
 @app.route('/pendingApp', methods=['GET', 'POST'])
 def pendingApp():
+	if request.method == 'POST':
+		print("Here to get data")
+		pending_appt = Application.query.filter(and_(Application.app_timestamp>=datetime.datetime.now(),
+													Application.status==StatusEnum.pending)).limit(6).all()
+		return make_response(jsonify(
+					[{"appID": pending_appt[i].id,
+					"date": pending_appt[i].app_timestamp,
+					"doctor": pending_appt[i].doctor_id,
+					"patient": pending_appt[i].patient_id,
+					"symptoms": pending_appt[i].symptoms} for i in range(len(pending_appt))]), 200)
+
+@app.route('/todayAppt', methods=['GET', 'POST'])
+def todayAppt():
+	# unclear question. Do you wanna check "my dept." appt?
 	pass
 
-
-
+@app.rount('/viewAppt', methods=['POST'])
+def viewAppt():
+	appid = request.form['appID']
 	
-
-
