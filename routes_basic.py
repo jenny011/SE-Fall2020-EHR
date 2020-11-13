@@ -120,22 +120,16 @@ def loadHomePage():
 #--------------------get hospital list data---------------------
 #--------------------get hospital list data---------------------
 
-@app.route('/hospitalData', methods=['GET', 'POST'])
+@app.route('/hospitalData', methods=['GET','POST'])
 def hospitalData():
 	# try:
 	if request.method == "GET":
-		return redirect(url_for('GoToHospitalList'))
-	curr_page = int(request.form['currPage'])
-	page_size = int(request.form['pageSize'])
+		return redirect(url_for('goToHospitalList'))
+	# curr_page = int(request.form['currPage'])
+	# page_size = int(request.form['pageSize'])
 
-	# temporory data
-	# curr_page=1
-	# page_size=12
+	n_offset, n_tot_records, n_tot_page, page_count = page_helper(Hospital)
 
-	n_offset = (curr_page-1) * page_size + 1
-	# query for hospitals
-	hospital_count = Hospital.query.count()
-	page_count = math.ceil(hospital_count / page_size)
 	rawHospitals = Hospital.query.offset(n_offset).limit(page_count)
 	print(rawHospitals)
 	hospital_ids = [res.id for res in rawHospitals]
@@ -147,8 +141,46 @@ def hospitalData():
 		[{"id":hospital_ids[i],
 		  "name": hospital_names[i],
 		  "address": hospital_addresses[i],
-		  "phone": hospital_phones[i]} for i in range(page_count)]), 200)
+		  "phone": hospital_phones[i],
+		  'n_tot_record': n_tot_records,
+		  'n_tot_page': n_tot_page} for i in range(page_count)]), 200)
+
+def page_helper(db_obj):
+	curr_page = int(request.form['currPage'])
+	page_size = int(request.form['pageSize'])
+
+	n_offset = (curr_page-1) * page_size + 1
+	n_tot_records = db_obj.query.count()
+	n_tot_page = n_tot_records // page_size + 1
+	page_count = math.ceil(n_tot_records / page_size)
+
+	return n_offset, n_tot_records, n_tot_page, page_count
+
 
 @app.route('/hospitalListPage',methods=['GET'])
-def GoToHospitalList():
+def goToHospitalList():
 	return render_template('hospitalListPage.html')
+
+@app.route('/searchHostpital', methods=['GET'])
+def searchHospital():
+
+	n_offset, n_tot_records, n_tot_page, page_count = page_helper(Hospital)
+	rawHospitals = Hospital.query.offset(n_offset).limit(page_count)
+	hospital_ids = [res.id for res in rawHospitals]
+	hospital_names = [res.name for res in rawHospitals]
+	# return data
+	return make_response(jsonify(
+		[{"id":hospital_ids[i],
+		  "name": hospital_names[i],
+		  'n_tot_record': n_tot_records,
+		  'n_tot_page': n_tot_page} for i in range(page_count)]), 200)
+
+@app.route('/nurseHome', methods=['GET'])
+def nurseHome():
+	
+
+
+
+	
+
+
