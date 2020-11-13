@@ -150,7 +150,7 @@
 			if(hospital != ''){
 				console.log(hospital);
 				$.ajax({
-					url:"http://127.0.0.1:5000/searchHospital",
+					url:"http://localhost:5000/searchHospital",
 					data:hospital,
 					success:function(data){
 						console.log(搜索成功);
@@ -176,7 +176,7 @@
 			$.ajax({
 				data:formData,
 				type:'POST',
-				url:"http://127.0.0.1:5000/hospitalData",
+				url:"http://localhost:5000/hospitalData",
 				success:function(data){
 					console.log(data);
 					// var temp=[{'hospitalName':'东方医院','hospitalAddr':'someAddress'}];
@@ -192,7 +192,7 @@
 			$.ajax({
 				data:formData,
 				type:'POST',
-				url:"http://127.0.0.1:5000/hospitalData",
+				url:"http://localhost:5000/hospitalData",
 				success:function(data){
 					console.log(data);
 					// var temp=[{'hospitalName':'东方医院','hospitalAddr':'someAddress'}];
@@ -225,7 +225,7 @@
 		}
 
 		function goToHomePage(){
-			window.location.replace('http://127.0.0.1:5000/loadHomePage');
+			window.location.replace('http://localhost:5000/loadHomePage');
 		}
 
 	</script>

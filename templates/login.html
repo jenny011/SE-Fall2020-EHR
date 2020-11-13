@@ -175,7 +175,7 @@
 			sendData=jsonify(sendData);
 			//console.log(sendData);
 			$.ajax({
-				url:"http://127.0.0.1:5000/login",
+				url:"http://localhost:5000/login",
 				type: 'POST',
 				data: sendData,
 				success: function(res){
@@ -187,7 +187,7 @@
 						setTimeout(loadHomePage,1000);
 					}
 					else{
-						setTimeout("window.location.replace('http://127.0.0.1:5000/login')",1000);
+						setTimeout("window.location.replace('http://localhost:5000/login')",1000);
 						
 					}
 				}
@@ -196,13 +196,13 @@
 
 		function loadHomePage(){
 			// $.ajax({
-			// 	url:"http://127.0.0.1:5000/loadHomePage",
+			// 	url:"http://localhost:5000/loadHomePage",
 			// 	type:'GET',
 			// 	success: function(res){
 			// 		$(this).html(res);
 			// 	}
 			// })
-			window.location.replace("http://127.0.0.1:5000/loadHomePage")
+			window.location.replace("http://localhost:5000/loadHomePage")
 		}
 
 		function register(){
@@ -234,7 +234,7 @@
 
 			//ajax请求
 			jQuery.ajax({
-				url: "http://127.0.0.1:5000/register",
+				url: "http://localhost:5000/register",
 				type: 'POST',
 				data:registerInfo,
 				success:function(data){
