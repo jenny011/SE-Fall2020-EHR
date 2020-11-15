@@ -200,7 +200,12 @@ def todayAppt():
 	# unclear question. Do you wanna check "my dept." appt?
 	pass
 
-@app.rount('/viewAppt', methods=['POST'])
+@app.route('/viewAppt', methods=['POST'])
 def viewAppt():
 	appid = request.form['appID']
-	
+
+@app.route('/availSlot', methods=['POST', 'GET'])
+def availSlot():
+	doctorID = request.form['doctorID']
+	today = datetime.datetime.today()
+	Application.query.filter(Application)
